@@ -1,38 +1,145 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  position: fixed;
+  height: 50px;
+  line-height: 50px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  background: #fff;
+  z-index: 1;
+  /* box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1) */
+}
+
+
+.color-diff {
+  font-size: 30px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  color: #4285F4
+}
+
+.color-difference {
+  font-size: 30px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  color: #3F3D56;
+  margin-left: 1px
+}
+
+.share-button {
+  line-height: 50px;
+}
+
+section {
+  padding-top: 50px;
+  display: flex;
+  height: calc(100vh - 50px);
+  color: #000;
+  justify-content: space-around;
+  align-items: center
+}
+
+.img-svg-real {
+  height: 60vmin
+}
+
+.text-showcase-real {
+  color: #3f3d56;
+  margin-left: 20px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.text-showcase-real h1 {
+  font-size: 40px;
+  font-weight: bold
+}
+
+.text-showcase-real p {
+  font-size: 1.5rem
+}
+
+article {
+
+  padding: 60px;
+  /* background-color: red; */
+
+}
+
+.about {
+  font-family: 'Ubuntu', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+  color: #4285F4;
+  font-size: 20px;
+}
+
+p {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+
+.about-section {
+  display: flex;
+  justify-content: space-around;
   align-items: center;
+}
+
+.about-section div {
+  text-align: center;
+  width: 300px;
+}
+
+.about-section div p {
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  padding-bottom: 3px;
+}
+
+.container_for_div {
+  display: flex;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* opacity: .75; */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  z-index: 2
 }
 
-.App-link {
-  color: #61dafb;
+.Create_user {
+  height: 70vmin;
+  width: 120vmin;
+  border-radius: 10px;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
+  /* padding: 10px; */
+  display: flex;
+
+  background-color: #ffff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.aboutsection_of_me {
+  /* width: 50%; */
+  background-color: #4285F4;
+  flex: 2;
+  border-radius: 10px 0px 0px 10px;
+  padding: 15px;
+  color: #fff;
+}
+
+.login_section {
+  /* width: 50%; */
+  flex: 1;
+  padding: 10px;
+  color: #3F3D56;
+}
+
+ul li {
+  font-size: 16px;
+  font-family: 'Ubuntu', sans-serif;
+  padding: 10px
 }

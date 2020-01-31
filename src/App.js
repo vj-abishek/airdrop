@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react'
+import './App.css'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+const Header = lazy(() => import('./Components/Header'))
+const Section = lazy(() => import('./Components/Section'))
+const Article = lazy(() => import('./Components/Section/Article'))
+const Footer = lazy(() => import('./Components/Footer'))
+const Login = lazy(() => import('./Components/Login/index'))
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+      <div className='App'>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                fontFamily: "'Ubuntu', sans-serif",
+                fontSize: '30px'
+              }}
+            >
+              Loading..
+            </div>
+          }
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <Switch>
+            <Route path='/create_user_name'>
+              <Login />
+            </Route>
+          </Switch>
+          <Header />
+          <Section />
+          <Article />
+          <Footer />
+        </Suspense>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
