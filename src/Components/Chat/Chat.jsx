@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import peer, { name_of_room } from './Peer'
-import { of } from 'rxjs'
+// import { of } from 'rxjs'
 import Success from './Success'
 
 import './Chat.css'
@@ -66,22 +66,13 @@ export default function Chat() {
     peer.on('data', data => {
       // emitter.setMaxListeners()
       // update(JSON.parse(data))
-      let blob = new Blob([data], {
-        type: 'image/png'
-      })
-      console.log(data.type)
-      let url = window.URL.createObjectURL(blob)
-      console.log('URL:', url)
-      // console.log(':data:', data)
-      console.log(blob)
-      let a
-      a = document.createElement('a')
-      a.href = url
-      a.download = 'airdrop'
-      document.body.appendChild(a)
-      a.style = 'display: none'
-
-      a.remove()
+      // console.log(JSON.parse(data))
+      try {
+        update(JSON.parse(data))
+      } catch (error) {
+        console.error(error)
+        console.log(data)
+      }
     })
     return () => {
       peer.on('destroy', () => {
@@ -106,61 +97,24 @@ export default function Chat() {
   const handleFileChange = e => {
     console.log(e.target.files[0])
     let file_data = e.target.files[0]
-    let chunkSize = 1024 * 1024
-    let fileSize = file_data.size
-    let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
-    let chunk = 0
 
-    console.log('file size..', fileSize)
-    console.log('chunks...', chunks)
-    let data_object = {
-      name: localtion.hash === 'init' ? name_of_room[0].split('-') : 'Friend',
-      type: file_data.type
-    }
+    // handle with file file reader
+    const reader = new FileReader()
 
-    while (chunk <= chunks) {
-      var offset = chunk * chunkSize
-      console.log('current chunk..', chunk)
-      console.log('offset...', chunk * chunkSize)
-      console.log('file blob from offset...', offset)
-      // console.log(file_data.slice(offset, offset + chunkSize))
-
-      data_object.chunk = chunk
-      data_object.send = chunk * chunksize
-
-      // peer.send(file_data.slice(offset, offset + chunkSize))
-      let buffer = new Blob([file_data.slice(offset, offset + chunkSize)], {
-        type: file_data.type
-      })
-
-      let base64data
-      let reader = new FileReader()
-
-      reader.readAsDataURL(buffer)
-      reader.onloadend = function() {
-        base64data = reader.result
-        // console.log(base64data)
+    reader.onload = function() {
+      let dataURL = reader.result
+      console.log(dataURL.byteLength)
+      const data = {
+        name: file_data.name,
+        type: file_data.type,
+        file: dataURL
+        // lastModifiedDate: Date.now()
       }
-      peer.send(JSON.stringify(base64data))
-      chunk++
+      console.log(data)
+      peer.send(JSON.stringify(data))
     }
-    //handle with file file reader
-    // const reader = new FileReader()
-    // reader.onload = function() {
-    //   let dataURL = reader.result
-    //   console.log(dataURL.byteLength)
-    //   const data = {
-    //     name: file_data.name,
-    //     type: file_data.type,
-    //     file: dataURL,
-    //     lastModifiedDate: Date.now()
-    //   }
-    // console.log(data)
-    // peer.send(dataURL)
-
-    // reader.readAsArrayBuffer(file_data)
+    reader.readAsDataURL(file_data)
   }
-
   return (
     <div className='container'>
       <div className='chat-container'>
@@ -180,9 +134,9 @@ export default function Chat() {
             message.length > 0 ? (
               message.map((data, i) => {
                 let condition = /^image/gi.test(data.type)
-                console.log(condition)
-                var path = 'airdrop/' + data.type
-                console.log(path)
+                // console.log(condition)
+                // var path = 'airdrop/' + data.type
+                // console.log(path)
                 return condition ? (
                   <div
                     key={i + 'hash' + 1}
@@ -288,3 +242,63 @@ export default function Chat() {
 //   html += '<a href="' + file.url + '" target="_blank" download="' + file.name + '">';
 //   html += '<br><iframe class="inline-iframe" src="' + file.url + '"></iframe></a>';
 // }
+
+//code for chunk files add it later
+
+// let chunkSize = 1024 * 1024
+// let fileSize = file_data.size
+// let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
+// let chunk = 0
+
+// console.log('file size..', fileSize)
+// console.log('chunks...', chunks)
+// let data_object = {
+//   name: localtion.hash === 'init' ? name_of_room[0].split('-') : 'Friend',
+//   type: file_data.type
+// }
+
+// while (chunk <= chunks) {
+//   var offset = chunk * chunkSize
+//   console.log('current chunk..', chunk)
+//   console.log('offset...', chunk * chunkSize)
+//   console.log('file blob from offset...', offset)
+//   // console.log(file_data.slice(offset, offset + chunkSize))
+
+//   data_object.chunk = chunk
+//   data_object.send = chunk * chunksize
+
+//   // peer.send(file_data.slice(offset, offset + chunkSize))
+//   let buffer = new Blob([file_data.slice(offset, offset + chunkSize)], {
+//     type: file_data.type
+//   })
+
+//   let base64data
+//   let reader = new FileReader()
+
+//   reader.readAsDataURL(buffer)
+//   reader.onloadend = function() {
+//     base64data = reader.result
+//     // console.log(base64data)
+//   }
+//   peer.send(JSON.stringify(base64data))
+//   chunk++
+// }
+
+//code at peer.send
+
+// let blob = new Blob([data], {
+//   type: 'image/png'
+// })
+// console.log(data.type)
+// let url = window.URL.createObjectURL(blob)
+// console.log('URL:', url)
+// // console.log(':data:', data)
+// console.log(blob)
+// let a
+// a = document.createElement('a')
+// a.href = url
+// a.download = 'airdrop'
+// document.body.appendChild(a)
+// a.style = 'display: none'
+
+// a.remove()
