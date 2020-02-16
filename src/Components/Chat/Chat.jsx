@@ -145,7 +145,7 @@ export default function Chat() {
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
                       <span style={{ color: '#ababab' }}>{data.type}</span> :
                       {' Sents a file: ' + data.type}
-                      <img width={500} src={data.file} alt={data.type} />
+                      <img width={700} src={data.file} alt={data.type} />
                     </p>
                   </div>
                 ) : (
