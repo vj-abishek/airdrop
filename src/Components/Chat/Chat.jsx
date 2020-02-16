@@ -100,6 +100,9 @@ export default function Chat() {
   }
 
   //handle the eventlistener
+
+  // TODO: MUST CREATE THE FILE SHARING
+
   const handleFileChange = e => {
     console.log(e.target.files[0])
     let file_data = e.target.files[0]
