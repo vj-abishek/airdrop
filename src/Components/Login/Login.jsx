@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useReducer, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-// import { makeStyles } from '@material-ui/core/styles'
+import { setUser } from '../../State/action'
 
-export default function index() {
+function Login() {
+  // eslint-disable-next-line
+  const [socket, dispatch] = useReducer(setUser, '')
+
+  const [state, setState] = useState({ name: '' })
+
+  const createUSer = e => {
+    e.preventDefault()
+
+    let name = state.name
+    console.log(name)
+    dispatch({ type: 'SET_NAME', name })
+  }
   return (
     <div className='container_for_div'>
       <div className='Create_user'>
@@ -39,20 +51,24 @@ export default function index() {
             <li>Step 2: Create a temporary User</li>
             <li>Step 3: Choose the user to whom you want to send the file</li>
           </ul>
-          <form autoComplete='off'>
+          <form autoComplete='off' onSubmit={createUSer}>
             <TextField
               id='outlined-basic'
               label='Choose temporary Name'
               variant='outlined'
-              onChange={v => console.log(v.target.value)}
+              onChange={e => setState({ name: e.target.value })}
+              autoFocus
             />
+            <br />
+            <br />
+
+            <Button variant='contained' color='primary' type='submit'>
+              Create Me
+            </Button>
           </form>
-          <br />
-          <Button variant='contained' color='primary'>
-            Create Me
-          </Button>
         </div>
       </div>
     </div>
   )
 }
+export default Login

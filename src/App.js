@@ -1,15 +1,18 @@
 import React, { lazy, Suspense } from 'react'
 import './App.css'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-const Header = lazy(() => import('./Components/Header'))
-const Section = lazy(() => import('./Components/Section'))
-const Article = lazy(() => import('./Components/Section/Article'))
-const Footer = lazy(() => import('./Components/Footer'))
-const Login = lazy(() => import('./Components/Login/index'))
+// import io from 'socket.io-client'
+import { Router, Switch, Route } from 'react-router-dom'
+import history from './Components/history'
+//lazy load the components
+const Login = lazy(() => import('./Components/Login/Login'))
+const Home = lazy(() => import('./Components/Home/Home'))
+const List = lazy(() => import('./Components/List/List'))
+const Chat = lazy(() => import('./Components/Chat/Chat'))
+const Page404 = lazy(() => import('./Components/404/'))
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div className='App'>
         <Suspense
           fallback={
@@ -28,14 +31,20 @@ function App() {
           }
         >
           <Switch>
+            <Route exact path='/'>
+              <Home />
+            </Route>
             <Route path='/create_user_name'>
               <Login />
             </Route>
+            <Route path='/list'>
+              <List />
+            </Route>
+            <Route path='/Chat'>
+              <Chat />
+            </Route>
+            <Route component={Page404} />
           </Switch>
-          <Header />
-          <Section />
-          <Article />
-          <Footer />
         </Suspense>
       </div>
     </Router>
