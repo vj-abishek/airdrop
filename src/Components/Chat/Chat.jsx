@@ -134,13 +134,7 @@ export default function Chat() {
       original.then(iGotIt => {
         peer.send(JSON.stringify(iGotIt))
       })
-      // let yes_promise = await original
-      // yes_promise.then(iGotIt => {
-      //   console.log(iGotIt)
-      // })
     })
-
-    // console.log('Just raw file:,', bufferArrayuni)
   }
   return (
     <div className='container'>
@@ -161,9 +155,6 @@ export default function Chat() {
             message.length > 0 ? (
               message.map((data, i) => {
                 let condition = /^image/gi.test(data.type)
-                // console.log(condition)
-                // var path = 'airdrop/' + data.type
-                // console.log(path)
 
                 return condition ? (
                   <div
@@ -199,10 +190,6 @@ export default function Chat() {
               Settings everything up, Please wait...
             </p>
           )}
-
-          {/* message &&
-
-           */}
         </div>
         <div className='Message-text-box'>
           <form onSubmit={handleSubmit}>
@@ -269,47 +256,6 @@ export default function Chat() {
 // } else if (file.name.match(/\.js|\.txt|\.sh/gi)) {
 //   html += '<a href="' + file.url + '" target="_blank" download="' + file.name + '">';
 //   html += '<br><iframe class="inline-iframe" src="' + file.url + '"></iframe></a>';
-// }
-
-//code for chunk files add it later
-
-// let chunkSize = 1024 * 1024
-// let fileSize = file_data.size
-// let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
-// let chunk = 0
-
-// console.log('file size..', fileSize)
-// console.log('chunks...', chunks)
-// let data_object = {
-//   name: localtion.hash === 'init' ? name_of_room[0].split('-') : 'Friend',
-//   type: file_data.type
-// }
-
-// while (chunk <= chunks) {
-//   var offset = chunk * chunkSize
-//   console.log('current chunk..', chunk)
-//   console.log('offset...', chunk * chunkSize)
-//   console.log('file blob from offset...', offset)
-//   // console.log(file_data.slice(offset, offset + chunkSize))
-
-//   data_object.chunk = chunk
-//   data_object.send = chunk * chunksize
-
-//   // peer.send(file_data.slice(offset, offset + chunkSize))
-//   let buffer = new Blob([file_data.slice(offset, offset + chunkSize)], {
-//     type: file_data.type
-//   })
-
-//   let base64data
-//   let reader = new FileReader()
-
-//   reader.readAsDataURL(buffer)
-//   reader.onloadend = function() {
-//     base64data = reader.result
-//     // console.log(base64data)
-//   }
-//   peer.send(JSON.stringify(base64data))
-//   chunk++
 // }
 
 //code at peer.send
