@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import peer, { name_of_room } from './Peer'
-// import { of } from 'rxjs'
+import { share_file, bufferArrayuni } from './FileShare/File'
 import Success from './Success'
+import { from } from 'rxjs'
+import { filter, map } from 'rxjs/operators'
 
 import './Chat.css'
 
@@ -64,10 +66,10 @@ export default function Chat() {
     }
     //handle the data recieved from the peer
     peer.on('data', data => {
-      // emitter.setMaxListeners()
-      // update(JSON.parse(data))
       // console.log(JSON.parse(data))
+      // console.log(data)
       try {
+        console.log(JSON.parse(data))
         update(JSON.parse(data))
       } catch (error) {
         console.error(error)
@@ -81,6 +83,8 @@ export default function Chat() {
     }
   }, [message])
 
+  //handle file sending using effect
+
   const handleChange = e => {
     setText({
       text: e.target.value
@@ -92,28 +96,51 @@ export default function Chat() {
 
   //handle the eventlistener
 
-  // TODO: MUST CREATE THE FILE SHARING
+  // FIXME: send the file to peer and join it...
+  //[x] Dismiss first postion and last position.
 
   const handleFileChange = e => {
     console.log(e.target.files[0])
     let file_data = e.target.files[0]
 
     // handle with file file reader
-    const reader = new FileReader()
 
-    reader.onload = function() {
-      let dataURL = reader.result
-      console.log(dataURL.byteLength)
-      const data = {
-        name: file_data.name,
-        type: file_data.type,
-        file: dataURL
-        // lastModifiedDate: Date.now()
-      }
-      console.log(data)
-      peer.send(JSON.stringify(data))
-    }
-    reader.readAsDataURL(file_data)
+    share_file(file_data)
+
+    const BufferToSend = from(bufferArrayuni)
+
+    const modified = BufferToSend.pipe(
+      filter(v => v.initial === false),
+      map(async file => {
+        return new Promise((resolve, reject) => {
+          let content = ''
+          const reader = new FileReader()
+          // Wait till complete
+          reader.onloadend = function(e) {
+            content = e.target.result
+            file.file = content
+            resolve(file)
+          }
+          // Make sure to handle error states
+          reader.onerror = function(e) {
+            reject(e)
+          }
+          reader.readAsDataURL(file.file)
+        })
+      })
+    )
+    modified.subscribe(original => {
+      console.log(original)
+      original.then(iGotIt => {
+        peer.send(JSON.stringify(iGotIt))
+      })
+      // let yes_promise = await original
+      // yes_promise.then(iGotIt => {
+      //   console.log(iGotIt)
+      // })
+    })
+
+    // console.log('Just raw file:,', bufferArrayuni)
   }
   return (
     <div className='container'>
@@ -137,6 +164,7 @@ export default function Chat() {
                 // console.log(condition)
                 // var path = 'airdrop/' + data.type
                 // console.log(path)
+
                 return condition ? (
                   <div
                     key={i + 'hash' + 1}
