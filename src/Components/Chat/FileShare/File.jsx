@@ -23,7 +23,7 @@ export const share_file = file_data => {
     send: chunk * chunkSize,
     chunks: chunks,
     final: false,
-    time: Date.now()
+    fileSize
   }
   bufferArrayuni = [data_object]
 

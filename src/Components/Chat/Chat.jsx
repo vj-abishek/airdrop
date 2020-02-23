@@ -4,6 +4,7 @@ import { share_file, bufferArrayuni } from './FileShare/File'
 import Success from './Success'
 import { from } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
+import formatBytes from '../../Tools/FileConvertor'
 
 import './Chat.css'
 
@@ -27,6 +28,7 @@ export default function Chat() {
       data = {
         name: name[0],
         message: text.text,
+        type: 'text/plain',
         sentAt: Date.now()
       }
     } else {
@@ -69,8 +71,29 @@ export default function Chat() {
       // console.log(JSON.parse(data))
       // console.log(data)
       try {
-        console.log(JSON.parse(data))
-        update(JSON.parse(data))
+        let parsed = JSON.parse(data)
+        let fileBlob
+        if (parsed.initial) {
+          parsed.type = 'text/plain'
+          let size = formatBytes(parsed.fileSize)
+          parsed.message = `Send's a photo with file size ${size}`
+          console.log(parsed)
+          update(parsed)
+        } else if (parsed.type === 'text/plain') {
+          update(parsed)
+        } else {
+          if (parsed.send === 0) {
+            console.log(parsed)
+            update(parsed)
+            fileBlob += parsed.file
+          } else if (parsed.send > 0 && !parsed.final) {
+            let splitData = parsed.file.split(`data:${data.type};base64,`)
+            console.log(splitData)
+            fileBlob += splitData
+          } else {
+            console.log(fileBlob)
+          }
+        }
       } catch (error) {
         console.error(error)
         console.log(data)
@@ -106,7 +129,7 @@ export default function Chat() {
     // handle with file file reader
 
     share_file(file_data)
-
+    peer.send(JSON.stringify(bufferArrayuni[0]))
     const BufferToSend = from(bufferArrayuni)
 
     const modified = BufferToSend.pipe(
@@ -162,9 +185,12 @@ export default function Chat() {
                     style={{ display: 'flex', flexDirection: 'column' }}
                   >
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
-                      <span style={{ color: '#ababab' }}>{data.type}</span> :
-                      {' Sents a file: ' + data.type}
-                      <img width={700} src={data.file} alt={data.type} />
+                      <img
+                        width={300}
+                        height={300}
+                        src={data.file}
+                        alt={data.type}
+                      />
                     </p>
                   </div>
                 ) : (
