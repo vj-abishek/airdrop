@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import peer, { name_of_room } from './Peer'
-import { share_file, bufferArrayuni } from './FileShare/File'
+import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
-import { from } from 'rxjs'
+import { from, of } from 'rxjs'
+import { combaine } from './FileShare/Combine'
 import { filter, map } from 'rxjs/operators'
-import formatBytes from '../../Tools/FileConvertor'
 
 import './Chat.css'
 
@@ -13,10 +13,14 @@ export default function Chat() {
   const [text, setText] = useState('')
   const [connected, setConnected] = useState(false)
   const [message, setMessage] = useState([])
+  const [refFile, setReffile] = useState({
+    file: ''
+  })
 
   //declare the variable
   const inputVariable = useRef()
   const file = useRef()
+  const messageContainer = useRef()
 
   //handle Submit
   const handleSubmit = e => {
@@ -39,64 +43,114 @@ export default function Chat() {
         sentAt: Date.now()
       }
     }
+
     setMessage([...message, data])
     inputVariable.current.value = ''
 
     //sent the data to other peer
     peer.send(JSON.stringify(data))
+    try {
+      window.element = messageContainer.current
+      console.log('elem')
+      messageContainer.current.scrollIntoView({
+        behavior: 'smooth'
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
+    const update = data => {
+      setMessage([...message, data])
+      // console.log('Please work for now', message)
+    }
     //handle when peer is conneted
     peer.on('connect', () => {
       if (!connected) {
         setConnected(true)
       }
     })
+    peer.on('disconnect', () => {
+      let error = {
+        name: 'Robot',
+        message: 'An error occured. Cannot connect to other peer :(',
+        time: Date.now()
+      }
+      update(error)
+    })
     return () => {
       peer.on('destroy', () => {
+        let error = {
+          name: 'Robot',
+          message: 'An error occured. Cannot connect to other peer :(',
+          time: Date.now()
+        }
+        update(error)
         peer.close()
       })
     }
-  }, [connected])
+  }, [connected, message])
 
   useEffect(() => {
-    //update the state of message
+    //global functons for this effect
     const update = data => {
       setMessage([...message, data])
       // console.log('Please work for now', message)
     }
+
     //handle the data recieved from the peer
     peer.on('data', data => {
       // console.log(JSON.parse(data))
-      // console.log(data)
+      let parsed = JSON.parse(data)
       try {
-        let parsed = JSON.parse(data)
-        let fileBlob
-        if (parsed.initial) {
-          parsed.type = 'text/plain'
-          let size = formatBytes(parsed.fileSize)
-          parsed.message = `Send's a photo with file size ${size}`
-          console.log(parsed)
+        if (parsed.type === 'text/plain') {
           update(parsed)
-        } else if (parsed.type === 'text/plain') {
-          update(parsed)
-        } else {
-          if (parsed.send === 0) {
-            console.log(parsed)
-            update(parsed)
-            fileBlob += parsed.file
-          } else if (parsed.send > 0 && !parsed.final) {
-            let splitData = parsed.file.split(`data:${data.type};base64,`)
-            console.log(splitData)
-            fileBlob += splitData
-          } else {
-            console.log(fileBlob)
+          let elem = document.querySelector('#messageHE')
+          window.textDemo = 'Hello world'
+          window.element = elem
+          try {
+            // console.log(elem)
+            messageContainer.current.scrollIntoView({
+              behavior: 'smooth'
+            })
+          } catch (error) {
+            console.error(error)
           }
+        } else {
+          if (parsed.initial || parsed.custom) {
+            update(combaine(parsed))
+          }
+          const base64_data = of(parsed)
+          let array = ''
+          const modified = base64_data.pipe(
+            // takeWhile(v => v.final === true),
+            filter(val => val.initial === false),
+            map(file => {
+              setReffile({
+                file: file.file
+              })
+              // console.log('reference from the state', refFile)
+              array += refFile.file
+              file.realFile = array
+              return file
+            })
+          )
+          modified.subscribe(file => {
+            if (file.final) {
+              update(file)
+            }
+          })
         }
       } catch (error) {
         console.error(error)
-        console.log(data)
+        let news = {
+          name: 'Robot',
+          message: `An error occured While recieving a message. ${error}`,
+          time: Date.now()
+        }
+        update(news)
+        console.log(parsed)
       }
     })
     return () => {
@@ -104,7 +158,7 @@ export default function Chat() {
         peer.close()
       })
     }
-  }, [message])
+  }, [message, refFile])
 
   //handle file sending using effect
 
@@ -130,6 +184,7 @@ export default function Chat() {
 
     share_file(file_data)
     peer.send(JSON.stringify(bufferArrayuni[0]))
+    console.log(bufferArrayuni[0])
     const BufferToSend = from(bufferArrayuni)
 
     const modified = BufferToSend.pipe(
@@ -153,8 +208,8 @@ export default function Chat() {
       })
     )
     modified.subscribe(original => {
-      console.log(original)
       original.then(iGotIt => {
+        console.log(iGotIt)
         peer.send(JSON.stringify(iGotIt))
       })
     })
@@ -181,20 +236,21 @@ export default function Chat() {
 
                 return condition ? (
                   <div
-                    key={i + 'hash' + 1}
+                    key={i + 'Filehash' + 1}
                     style={{ display: 'flex', flexDirection: 'column' }}
+                    ref={messageContainer}
                   >
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
                       <img
                         width={300}
                         height={300}
-                        src={data.file}
+                        src={data.realFile}
                         alt={data.type}
                       />
                     </p>
                   </div>
                 ) : (
-                  <div key={i + 'hash' + 1}>
+                  <div key={i + 'Messagehash' + 1} ref={messageContainer}>
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
                       <span style={{ color: '#ababab' }}>{data.name}</span> :{' '}
                       {data.message}

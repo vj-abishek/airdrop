@@ -8,7 +8,7 @@ let er = window.location.search
 let name_of_room = er.split('?chat=')
 
 export const share_file = file_data => {
-  let chunkSize = 1024 * 1024
+  let chunkSize = 100000
   let fileSize = file_data.size
   let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
   let chunk = 0
@@ -23,6 +23,7 @@ export const share_file = file_data => {
     send: chunk * chunkSize,
     chunks: chunks,
     final: false,
+    chunk,
     fileSize
   }
   bufferArrayuni = [data_object]
@@ -48,6 +49,7 @@ export const share_file = file_data => {
       chunk: chunk,
       send: chunk * chunkSize,
       file: buffer,
+      chunks: chunks,
       initial: false,
       time: Date.now(),
       final: buffer.size === 0 ? true : false
