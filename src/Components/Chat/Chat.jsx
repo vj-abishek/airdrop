@@ -49,6 +49,8 @@ export default function Chat() {
 
     //sent the data to other peer
     peer.send(JSON.stringify(data))
+
+    //FIXME:Must fix the scrolling issue
     try {
       window.element = messageContainer.current
       console.log('elem')
