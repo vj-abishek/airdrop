@@ -8,7 +8,7 @@ const Login = lazy(() => import('./Components/Login/Login'))
 const Home = lazy(() => import('./Components/Home/Home'))
 const List = lazy(() => import('./Components/List/List'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
-const Page404 = lazy(() => import('./Components/404/'))
+const Page404 = lazy(() => import('./Components/404/FNF'))
 
 function App() {
   return (

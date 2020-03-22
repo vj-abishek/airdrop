@@ -1,7 +1,8 @@
 import React from 'react'
 import error from '../../img/download.png'
 
-export default function index() {
+export default function FNf(some) {
+  console.log(some)
   return (
     <div
       style={{

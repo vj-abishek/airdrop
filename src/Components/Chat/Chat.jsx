@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import peer, { name_of_room } from './Peer'
 import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
-import { from, of } from 'rxjs'
-import { combaine } from './FileShare/Combine'
+import { from } from 'rxjs'
+// import { combaine } from './FileShare/Combine'
 import { filter, map } from 'rxjs/operators'
+// import { Ripme, recievedFile } from './FileShare/PromiseFile'
 
 import './Chat.css'
 
@@ -13,9 +14,9 @@ export default function Chat() {
   const [text, setText] = useState('')
   const [connected, setConnected] = useState(false)
   const [message, setMessage] = useState([])
-  const [refFile, setReffile] = useState({
-    file: ''
-  })
+  // const [refFile, setReffile] = useState({
+  // file: ''
+  // })
 
   //declare the variable
   const inputVariable = useRef()
@@ -58,7 +59,7 @@ export default function Chat() {
         behavior: 'smooth'
       })
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
   }
 
@@ -86,81 +87,51 @@ export default function Chat() {
         let error = {
           name: 'Robot',
           message: 'An error occured. Cannot connect to other peer :(',
-          time: Date.now()
+          time: Date.now(),
+          type: 'text/plain'
         }
         update(error)
+        peer.send(JSON.parse(error))
         peer.close()
       })
     }
   }, [connected, message])
 
   useEffect(() => {
-    //global functons for this effect
-    const update = data => {
-      setMessage([...message, data])
-      // console.log('Please work for now', message)
-    }
-
-    //handle the data recieved from the peer
-    peer.on('data', data => {
-      // console.log(JSON.parse(data))
-      let parsed = JSON.parse(data)
-      try {
-        if (parsed.type === 'text/plain') {
-          update(parsed)
-          let elem = document.querySelector('#messageHE')
-          window.textDemo = 'Hello world'
-          window.element = elem
-          try {
-            // console.log(elem)
-            messageContainer.current.scrollIntoView({
-              behavior: 'smooth'
-            })
-          } catch (error) {
-            console.error(error)
-          }
-        } else {
-          if (parsed.initial || parsed.custom) {
-            update(combaine(parsed))
-          }
-          const base64_data = of(parsed)
-          let array = ''
-          const modified = base64_data.pipe(
-            // takeWhile(v => v.final === true),
-            filter(val => val.initial === false),
-            map(file => {
-              setReffile({
-                file: file.file
-              })
-              // console.log('reference from the state', refFile)
-              array += refFile.file
-              file.realFile = array
-              return file
-            })
-          )
-          modified.subscribe(file => {
-            if (file.final) {
-              update(file)
-            }
-          })
-        }
-      } catch (error) {
-        console.error(error)
-        let news = {
-          name: 'Robot',
-          message: `An error occured While recieving a message. ${error}`,
-          time: Date.now()
-        }
-        update(news)
-        console.log(parsed)
-      }
-    })
-    return () => {
-      peer.on('destroy', () => {
-        peer.close()
-      })
-    }
-  }, [message, refFile])
+    // const update = data => {
+    //   setMessage([...message, data])
+    //   // console.log('Please work for now', message)
+    // }
+    // peer.on('data', data => {
+    //   //TODO:Hadling files that are recievied ⌛
+    //   let parsed = JSON.parse(data)
+    //   try {
+    //     if (parsed.type === 'text/plain') {
+    //       update(parsed)
+    //       console.log(parsed)
+    //       try {
+    //         // console.log(elem)
+    //         messageContainer.current.scrollIntoView({
+    //           behavior: 'smooth'
+    //         })
+    //       } catch (error) {
+    //         // console.log('Do nothing')
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error(error)
+    //     let news = {
+    //       name: 'Robot',
+    //       message: `An error occured While recieving a message. ${error}`,
+    //       time: Date.now(),
+    //       type: 'text/plain'
+    //     }
+    //     update(news)
+    //     peer.send(JSON.parse(error))
+    //     // console.log(parsed)
+    //   }
+    // })
+  }, [message])
 
   //handle file sending using effect
 
@@ -174,10 +145,6 @@ export default function Chat() {
   }
 
   //handle the eventlistener
-
-  // FIXME: send the file to peer and join it...
-  //[x] Dismiss first postion and last position.
-
   const handleFileChange = e => {
     console.log(e.target.files[0])
     let file_data = e.target.files[0]
@@ -216,6 +183,7 @@ export default function Chat() {
       })
     })
   }
+
   return (
     <div className='container'>
       <div className='chat-container'>
@@ -246,7 +214,7 @@ export default function Chat() {
                       <img
                         width={300}
                         height={300}
-                        src={data.realFile}
+                        src={`data:image/png;base64,${data.realFile}`}
                         alt={data.type}
                       />
                     </p>
@@ -360,3 +328,44 @@ export default function Chat() {
 // a.style = 'display: none'
 
 // a.remove()
+
+//FIXME: fix this code
+
+// if (parsed.initial || parsed.custom) {
+//   update(combaine(parsed))
+// }
+// const base64_data = of(parsed)
+// let array = ''
+// const modified = base64_data.pipe(
+//   // takeWhile(v => v.final === true),
+//   filter(val => val.initial === false),
+//   map(file => {
+//     let refile = file.file.split('data:image/png;base64,')
+//     setReffile({
+//       file: refile[1]
+//     })
+
+//     console.log(refile[1])
+//     if (refile[1] !== undefined) {
+//       array += refFile.file
+//       file.realFile = array
+//     }
+
+//     return file
+//   })
+// )
+// modified.subscribe(file => {
+//   if (file.final) {
+//     // let blob = new Blob([file.realFile], {
+//     //   type: file.type
+//     // })
+
+//     // let url = window.URL.createObjectURL(blob)
+//     // console.log('URL REady:', url)
+//     // file.url = url
+//     update(file)
+//     //reset the things
+
+//     // console.log('Running this by the way')
+//   }
+// })
