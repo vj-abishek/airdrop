@@ -27,4 +27,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Learn More
 
-[website Link](https://airdrop.netlify.com)
+[Demo](https://airdrop.netlify.com)
