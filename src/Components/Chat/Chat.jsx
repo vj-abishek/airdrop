@@ -2,50 +2,55 @@ import React, { useState, useEffect, useRef } from 'react'
 import peer, { name_of_room } from './Peer'
 import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
+import { v4 as uuid } from 'uuid'
+import chunks from 'chunk-stream'
+
 import { from } from 'rxjs'
 // import { combaine } from './FileShare/Combine'
-import { filter, map } from 'rxjs/operators'
+// import { filter, map } from 'rxjs/operators'
 // import { Ripme, recievedFile } from './FileShare/PromiseFile'
 
 import './Chat.css'
+import socket from '../Functions/Users'
+
+const chunkStream = chunks(16000)
+chunkStream.pipe(peer)
 
 export default function Chat() {
   //handle state
   const [text, setText] = useState('')
   const [connected, setConnected] = useState(false)
   const [message, setMessage] = useState([])
-  // const [refFile, setReffile] = useState({
-  // file: ''
-  // })
 
-  //declare the variable
   const inputVariable = useRef()
   const file = useRef()
   const messageContainer = useRef()
 
   //handle Submit
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     let data = {},
       name
     if (window.location.hash === '#init') {
       name = name_of_room[1].split('-')
       data = {
+        id: uuid(),
         name: name[0],
         message: text.text,
         type: 'text/plain',
-        sentAt: Date.now()
+        sentAt: Date.now(),
       }
     } else {
       data = {
+        id: uuid(),
         name: 'Friend',
         message: text.text,
         type: 'text/plain',
-        sentAt: Date.now()
+        sentAt: Date.now(),
       }
     }
 
-    setMessage([...message, data])
+    setMessage((old) => [...old, data])
     inputVariable.current.value = ''
 
     //sent the data to other peer
@@ -56,7 +61,7 @@ export default function Chat() {
       window.element = messageContainer.current
       console.log('elem')
       messageContainer.current.scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     } catch (error) {
       console.log(error)
@@ -64,80 +69,122 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    const update = data => {
-      setMessage([...message, data])
-      // console.log('Please work for now', message)
-    }
+    // const update = (data) => {
+    //   setMessage([...message, data])
+    //   // console.log('Please work for now', message)
+    // }
     //handle when peer is conneted
     peer.on('connect', () => {
       if (!connected) {
         setConnected(true)
       }
     })
-    peer.on('disconnect', () => {
-      let error = {
-        name: 'Robot',
-        message: 'An error occured. Cannot connect to other peer :(',
-        time: Date.now()
+    // peer.on('disconnect', () => {
+    //   let error = {
+    //     name: 'Robot',
+    //     message: 'An error occured. Cannot connect to other peer :(',
+    //     time: Date.now(),
+    //   }
+    //   update(error)
+    // })
+    // return () => {
+    //   console.log('Component unmounted from 1st useEffect')
+    //   peer.on('destroy', () => {
+    //     let error = {
+    //       name: 'Robot',
+    //       message: 'An error occured. Cannot connect to other peer :(',
+    //       time: Date.now(),
+    //       type: 'text/plain',
+    //     }
+    //     update(error)
+    //     peer.send(JSON.parse(error))
+    //     peer.close()
+    //   })
+    // }
+  }, [connected])
+
+  socket.on('file', (data) => {
+    console.log(data)
+  })
+  useEffect(() => {
+    const update = (newData) => {
+      setMessage([...message, newData])
+      // console.log('Please work for now', message)
+    }
+    peer.on('data', (data) => {
+      //TODO:Hadling files that are recievied ⌛
+      console.log(data)
+
+      try {
+        let parsed = JSON.parse(data)
+        if (parsed.type === 'text/plain') {
+          update(parsed)
+          console.log(parsed)
+          try {
+            // console.log(elem)
+            messageContainer.current.scrollIntoView({
+              behavior: 'smooth',
+            })
+          } catch (error) {
+            // console.log('Do nothing')
+            console.log('An error')
+          }
+        }
+      } catch (err) {
+        let array = []
+        array = [...array, data]
+        console.log(array)
+        let buffer = new Blob(array, {
+          type: 'image/jpeg',
+        })
+        let url = window.URL.createObjectURL(buffer)
+        console.log('URL:', url)
+        let a
+        a = document.createElement('a')
+        a.href = url
+        a.download = `airdrop`
+        document.body.appendChild(a)
+        a.style = 'display: none'
+        a.click()
       }
-      update(error)
+
+      // try {
+
+      //   }
+      // } catch (error) {
+      //   console.log('An error')
+
+      //   let news = {
+      //     name: 'Robot',
+      //     message: `An error occured While recieving a message. ${error}`,
+      //     time: Date.now(),
+      //     type: 'text/plain',
+      //   }
+      //   update(news)
+      //   peer.send(JSON.parse(error))
+      //   // console.log(parsed)
+      // }
     })
     return () => {
+      console.log('Component unmounted from 1st useEffect')
       peer.on('destroy', () => {
         let error = {
           name: 'Robot',
           message: 'An error occured. Cannot connect to other peer :(',
           time: Date.now(),
-          type: 'text/plain'
+          type: 'text/plain',
         }
         update(error)
         peer.send(JSON.parse(error))
-        peer.close()
       })
     }
-  }, [connected, message])
-
-  useEffect(() => {
-    // const update = data => {
-    //   setMessage([...message, data])
-    //   // console.log('Please work for now', message)
-    // }
-    // peer.on('data', data => {
-    //   //TODO:Hadling files that are recievied ⌛
-    //   let parsed = JSON.parse(data)
-    //   try {
-    //     if (parsed.type === 'text/plain') {
-    //       update(parsed)
-    //       console.log(parsed)
-    //       try {
-    //         // console.log(elem)
-    //         messageContainer.current.scrollIntoView({
-    //           behavior: 'smooth'
-    //         })
-    //       } catch (error) {
-    //         // console.log('Do nothing')
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error(error)
-    //     let news = {
-    //       name: 'Robot',
-    //       message: `An error occured While recieving a message. ${error}`,
-    //       time: Date.now(),
-    //       type: 'text/plain'
-    //     }
-    //     update(news)
-    //     peer.send(JSON.parse(error))
-    //     // console.log(parsed)
-    //   }
-    // })
   }, [message])
 
   //handle file sending using effect
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setText({
-      text: e.target.value
+      text: e.target.value,
     })
   }
   const handleFile = () => {
@@ -145,43 +192,30 @@ export default function Chat() {
   }
 
   //handle the eventlistener
-  const handleFileChange = e => {
+  const handleFileChange = async (e) => {
     console.log(e.target.files[0])
     let file_data = e.target.files[0]
 
+    // chunkStream.write(demo)
     // handle with file file reader
 
-    share_file(file_data)
+    let share = await share_file(file_data)
     peer.send(JSON.stringify(bufferArrayuni[0]))
-    console.log(bufferArrayuni[0])
-    const BufferToSend = from(bufferArrayuni)
+    console.log('Raw Data from the chunk', share)
+    if (share.slice(-1)[0].byteLength === 0) {
+      // console.log('File:,', new Uint8Array(share))
 
-    const modified = BufferToSend.pipe(
-      filter(v => v.initial === false),
-      map(async file => {
-        return new Promise((resolve, reject) => {
-          let content = ''
-          const reader = new FileReader()
-          // Wait till complete
-          reader.onloadend = function(e) {
-            content = e.target.result
-            file.file = content
-            resolve(file)
-          }
-          // Make sure to handle error states
-          reader.onerror = function(e) {
-            reject(e)
-          }
-          reader.readAsDataURL(file.file)
-        })
+      console.log('Buffer file::', new Buffer.from(share))
+      const stream = from(share)
+      stream.subscribe((data) => {
+        console.log('Sending the file: and the file is:', new Buffer.from(data))
+        peer.write(new Buffer(data))
       })
-    )
-    modified.subscribe(original => {
-      original.then(iGotIt => {
-        console.log(iGotIt)
-        peer.send(JSON.stringify(iGotIt))
-      })
-    })
+
+      //
+    } else {
+      console.log('Cant send')
+    }
   }
 
   return (
@@ -193,7 +227,7 @@ export default function Chat() {
             height: '30px',
             padding: '10px',
             background: '#181717',
-            color: '#fff'
+            color: '#fff',
           }}
         >
           Room No:- {name_of_room[1]}
@@ -220,7 +254,7 @@ export default function Chat() {
                     </p>
                   </div>
                 ) : (
-                  <div key={i + 'Messagehash' + 1} ref={messageContainer}>
+                  <div key={data.id} ref={messageContainer}>
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
                       <span style={{ color: '#ababab' }}>{data.name}</span> :{' '}
                       {data.message}
@@ -236,7 +270,7 @@ export default function Chat() {
               style={{
                 color: '#fff',
                 textAlign: 'center',
-                verticalAlign: 'center'
+                verticalAlign: 'center',
               }}
             >
               Settings everything up, Please wait...
@@ -255,7 +289,7 @@ export default function Chat() {
                     padding: '3px 10px 3px 24px',
                     borderRadius: '40px 0 0 40px',
                     outline: 'none',
-                    border: '0px'
+                    border: '0px',
                   }}
                   ref={inputVariable}
                   type='text'
@@ -368,4 +402,21 @@ export default function Chat() {
 
 //     // console.log('Running this by the way')
 //   }
+// })
+
+// console.log(FileArray)
+// const BufferToSend = from(File)
+
+// const modified = BufferToSend.pipe(
+//   filter(v => v.initial === false),
+//   takeWhile(F),
+//   map(async file => {
+//     console.log(file  )
+//   })
+// )
+// modified.subscribe(original => {
+//   original.then(iGotIt => {
+//     console.log(iGotIt)
+//     peer.send(JSON.stringify(iGotIt))
+//   })
 // })
