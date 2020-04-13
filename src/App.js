@@ -9,6 +9,7 @@ const Home = lazy(() => import('./Components/Home/Home'))
 const List = lazy(() => import('./Components/List/List'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
+const Test = lazy(() => import('./Components/Test/Test'))
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
                 alignItems: 'center',
                 height: '100vh',
                 fontFamily: "'Ubuntu', sans-serif",
-                fontSize: '30px'
+                fontSize: '30px',
               }}
             >
               Loading..
@@ -42,6 +43,9 @@ function App() {
             </Route>
             <Route path='/Chat'>
               <Chat />
+            </Route>
+            <Route path='/Test'>
+              <Test />
             </Route>
             <Route component={Page404} />
           </Switch>
