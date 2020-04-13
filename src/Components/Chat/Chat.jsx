@@ -64,7 +64,7 @@ export default function Chat() {
         behavior: 'smooth',
       })
     } catch (error) {
-      console.log(error)
+      console.log('error')
     }
   }
 
@@ -106,27 +106,28 @@ export default function Chat() {
   socket.on('file', (data) => {
     console.log(data)
   })
-  useEffect(() => {
-    const update = (newData) => {
-      setMessage([...message, newData])
-      // console.log('Please work for now', message)
-    }
-    peer.on('data', (data) => {
-      //TODO:Hadling files that are recievied ⌛
-      console.log(data)
 
+  //handle Incoming Message
+
+  useEffect(() => {
+    const handleIncomingMessage = (data) => {
+      //TODO:Hadling files that are recievied ⌛
+
+      const update = (newData) => {
+        setMessage([...message, newData])
+      }
+
+      //parse the data and update
       try {
         let parsed = JSON.parse(data)
         if (parsed.type === 'text/plain') {
           update(parsed)
-          console.log(parsed)
+          console.log('parsed ')
           try {
-            // console.log(elem)
             messageContainer.current.scrollIntoView({
               behavior: 'smooth',
             })
           } catch (error) {
-            // console.log('Do nothing')
             console.log('An error')
           }
         }
@@ -147,37 +148,13 @@ export default function Chat() {
         a.style = 'display: none'
         a.click()
       }
-
-      // try {
-
-      //   }
-      // } catch (error) {
-      //   console.log('An error')
-
-      //   let news = {
-      //     name: 'Robot',
-      //     message: `An error occured While recieving a message. ${error}`,
-      //     time: Date.now(),
-      //     type: 'text/plain',
-      //   }
-      //   update(news)
-      //   peer.send(JSON.parse(error))
-      //   // console.log(parsed)
-      // }
-    })
-    return () => {
-      console.log('Component unmounted from 1st useEffect')
-      peer.on('destroy', () => {
-        let error = {
-          name: 'Robot',
-          message: 'An error occured. Cannot connect to other peer :(',
-          time: Date.now(),
-          type: 'text/plain',
-        }
-        update(error)
-        peer.send(JSON.parse(error))
-      })
     }
+
+    peer.on('data', handleIncomingMessage)
+
+    //cleanup the data
+    //TODO:finally working!!
+    return () => peer.off('data', handleIncomingMessage)
   }, [message])
 
   //handle file sending using effect

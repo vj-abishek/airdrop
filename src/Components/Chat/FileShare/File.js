@@ -1,5 +1,5 @@
-export let bufferArrayuni = [],
-  FileArray = []
+export let bufferArrayuni = []
+
 //FIXME: and TODO: This file is for generating chunks based on the file provided!!.
 
 let er = window.location.search
@@ -8,6 +8,7 @@ let er = window.location.search
 let name_of_room = er.split('?chat=')
 
 export const share_file = async (file_data) => {
+  let FileArray = []
   let chunkSize = 100000
   let fileSize = file_data.size
   let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
