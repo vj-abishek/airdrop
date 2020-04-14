@@ -56,7 +56,7 @@ export default function Chat() {
     peer.send(JSON.stringify(data))
   }
 
-  //handle page scolloing
+  //handle page scrolling
   useEffect(() => {
     try {
       window.element = messageContainer.current
@@ -65,15 +65,11 @@ export default function Chat() {
         behavior: 'smooth',
       })
     } catch (err) {
-      console.log('Error')
+      console.log('Do nothing')
     }
   }, [message])
 
   useEffect(() => {
-    // const update = (data) => {
-    //   setMessage([...message, data])
-    //   // console.log('Please work for now', message)
-    // }
     //handle when peer is conneted
     peer.on('connect', () => {
       if (!connected) {
@@ -105,7 +101,6 @@ export default function Chat() {
   }, [connected])
 
   //handle Incoming Message
-
   useEffect(() => {
     const handleIncomingMessage = (data) => {
       //TODO:Hadling files that are recievied ⌛
@@ -120,13 +115,6 @@ export default function Chat() {
         if (parsed.type === 'text/plain') {
           update(parsed)
           console.log('parsed ')
-          try {
-            messageContainer.current.scrollIntoView({
-              behavior: 'smooth',
-            })
-          } catch (error) {
-            console.log('An error')
-          }
         }
       } catch (err) {
         let array = []
@@ -147,9 +135,10 @@ export default function Chat() {
       }
     }
 
+    //listener for data stream
     peer.on('data', handleIncomingMessage)
-
     //cleanup the data
+
     //TODO:finally working!!
     return () => peer.off('data', handleIncomingMessage)
   }, [message])
