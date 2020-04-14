@@ -8,7 +8,6 @@ let er = window.location.search
 let name_of_room = er.split('?chat=')
 
 export const share_file = async (file_data) => {
-  let FileArray = []
   let chunkSize = 100000
   let fileSize = file_data.size
   let chunks = Math.ceil(file_data.size / chunkSize, chunkSize)
@@ -30,6 +29,7 @@ export const share_file = async (file_data) => {
   bufferArrayuni = [data_object]
 
   while (chunk <= chunks) {
+    let FileArray
     var offset = chunk * chunkSize
 
     let buffer = await new Blob([file_data.slice(offset, offset + chunkSize)], {
