@@ -11,7 +11,6 @@ import { from } from 'rxjs'
 // import { Ripme, recievedFile } from './FileShare/PromiseFile'
 
 import './Chat.css'
-import socket from '../Functions/Users'
 
 const chunkStream = chunks(16000)
 chunkStream.pipe(peer)
@@ -55,18 +54,20 @@ export default function Chat() {
 
     //sent the data to other peer
     peer.send(JSON.stringify(data))
+  }
 
-    //FIXME:Must fix the scrolling issue
+  //handle page scolloing
+  useEffect(() => {
     try {
       window.element = messageContainer.current
       console.log('elem')
       messageContainer.current.scrollIntoView({
         behavior: 'smooth',
       })
-    } catch (error) {
-      console.log('error')
+    } catch (err) {
+      console.log('Error')
     }
-  }
+  }, [message])
 
   useEffect(() => {
     // const update = (data) => {
@@ -102,10 +103,6 @@ export default function Chat() {
     //   })
     // }
   }, [connected])
-
-  socket.on('file', (data) => {
-    console.log(data)
-  })
 
   //handle Incoming Message
 
