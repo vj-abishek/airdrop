@@ -6,11 +6,12 @@ export default function Success() {
     <div
       style={{
         display: 'flex',
-        height: '500px',
+        height: '460px',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
       }}
+      className='success-mobile'
     >
       <img
         src={success}

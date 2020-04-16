@@ -11,7 +11,8 @@ import { from } from 'rxjs'
 // import { Ripme, recievedFile } from './FileShare/PromiseFile'
 
 import './Chat.css'
-
+import { combaine } from './FileShare/Combine'
+let array = []
 const chunkStream = chunks(16000)
 chunkStream.pipe(peer)
 
@@ -20,6 +21,9 @@ export default function Chat() {
   const [text, setText] = useState('')
   const [connected, setConnected] = useState(false)
   const [message, setMessage] = useState([])
+  const [Filetype, setType] = useState(null)
+  const [final, setFinal] = useState({ final: false })
+  const [err, setError] = useState(false)
 
   const inputVariable = useRef()
   const file = useRef()
@@ -28,6 +32,7 @@ export default function Chat() {
   //handle Submit
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (!connected || err) return
     let data = {},
       name
     if (window.location.hash === '#init') {
@@ -60,12 +65,12 @@ export default function Chat() {
   useEffect(() => {
     try {
       window.element = messageContainer.current
-      console.log('elem')
+      // console.log('elem')
       messageContainer.current.scrollIntoView({
         behavior: 'smooth',
       })
     } catch (err) {
-      console.log('Do nothing')
+      // console.log('Do nothing')
     }
   }, [message])
 
@@ -76,33 +81,34 @@ export default function Chat() {
         setConnected(true)
       }
     })
-    // peer.on('disconnect', () => {
-    //   let error = {
-    //     name: 'Robot',
-    //     message: 'An error occured. Cannot connect to other peer :(',
-    //     time: Date.now(),
-    //   }
-    //   update(error)
-    // })
-    // return () => {
-    //   console.log('Component unmounted from 1st useEffect')
-    //   peer.on('destroy', () => {
-    //     let error = {
-    //       name: 'Robot',
-    //       message: 'An error occured. Cannot connect to other peer :(',
-    //       time: Date.now(),
-    //       type: 'text/plain',
-    //     }
-    //     update(error)
-    //     peer.send(JSON.parse(error))
-    //     peer.close()
-    //   })
-    // }
   }, [connected])
+
+  //Handle Errors
+  useEffect(() => {
+    //update the UI
+    const update = (newData) => {
+      setMessage([...message, newData])
+    }
+    const handleError = () => {
+      let error = {
+        id: uuid(),
+        name: 'Bot',
+        message: 'The other peer disconnected  :(',
+        time: Date.now(),
+      }
+      // console.log(error)
+      update(error)
+      setError(true)
+    }
+
+    peer.on('error', handleError)
+    return () => peer.off('error', handleError)
+  }, [message])
 
   //handle Incoming Message
   useEffect(() => {
     const handleIncomingMessage = (data) => {
+      // console.log(JSON.parse(data))
       //TODO:Hadling files that are recievied ⌛
 
       const update = (newData) => {
@@ -112,26 +118,65 @@ export default function Chat() {
       //parse the data and update
       try {
         let parsed = JSON.parse(data)
+
         if (parsed.type === 'text/plain') {
           update(parsed)
-          console.log('parsed ')
+          // console.log(parsed)
+        } else if (parsed.final) {
+          // console.log('Im here')
+          setFinal(parsed)
+        } else {
+          if (parsed.initial) {
+            setType({ type: parsed.type })
+          }
+          // console.log(parsed)
+          let message = combaine(parsed)
+
+          // console.log(message)
+          update(message)
         }
       } catch (err) {
-        let array = []
-        array = [...array, data]
-        console.log(array)
-        let buffer = new Blob(array, {
-          type: 'image/jpeg',
-        })
-        let url = window.URL.createObjectURL(buffer)
-        console.log('URL:', url)
-        let a
-        a = document.createElement('a')
-        a.href = url
-        a.download = `airdrop`
-        document.body.appendChild(a)
-        a.style = 'display: none'
-        a.click()
+        // console.log(err)
+        let condition = new TextDecoder('utf-8').decode(data)
+        if (condition === 'final') {
+          // console.log(condition)
+          // console.log('The final thing called')
+          let buffer = new Blob(array, {
+            type: Filetype.type,
+          })
+          let url = window.URL.createObjectURL(buffer)
+          console.log('URL:', url)
+          let message = {
+            name: 'Bot',
+            id: uuid(),
+            message: `The file is downloaded successfully 😀`,
+            type: Filetype.type || 'text/plain',
+            custom: true,
+            array,
+            url,
+          }
+          let regex = new RegExp(/^image/gi)
+          // console.log(!regex.test(Filetype.type))
+
+          if (!regex.test(Filetype.type)) {
+            let a
+            a = document.createElement('a')
+            a.href = url
+            a.download = 'airdrop' + Date.now()
+            document.body.appendChild(a)
+            a.style = 'display: none'
+            a.click()
+            a.remove()
+          }
+          update(message)
+          array = []
+        } else {
+          array = [...array, data]
+        }
+
+        // console.log(final, array)
+
+        // combaine('file', array)
       }
     }
 
@@ -141,7 +186,7 @@ export default function Chat() {
 
     //TODO:finally working!!
     return () => peer.off('data', handleIncomingMessage)
-  }, [message])
+  }, [message, Filetype, final])
 
   //handle file sending using effect
 
@@ -156,26 +201,38 @@ export default function Chat() {
 
   //handle the eventlistener
   const handleFileChange = async (e) => {
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
+    if (!e.target.files[0] || err) return
     let file_data = e.target.files[0]
-
+    let datas = {
+      id: uuid(),
+      name:
+        window.location.hash === '#init'
+          ? name_of_room[1].split('-')[0]
+          : 'Friend',
+      message: 'You are sending a file',
+      type: 'text/plain',
+      sentAt: Date.now(),
+    }
+    setMessage((old) => [...old, datas])
     // chunkStream.write(demo)
-    // handle with file file reader
 
     let share = await share_file(file_data)
     peer.send(JSON.stringify(bufferArrayuni[0]))
-    console.log('Raw Data from the chunk', share)
+    // console.log(bufferArrayuni)
+    // console.log('Raw Data from the chunk', share)
     if (share.slice(-1)[0].byteLength === 0) {
-      // console.log('File:,', new Uint8Array(share))
-
-      console.log('Buffer file::', new Buffer.from(share))
       const stream = from(share)
       stream.subscribe((data) => {
-        console.log('Sending the file: and the file is:', new Buffer.from(data))
-        peer.write(new Buffer(data))
+        // console.log('Sending the file: and the file is:', new Buffer.from(data))
+        peer.write(new Buffer.from(data), () => {
+          // console.log('Send the chunk:', data)
+          if (data.byteLength === 0) {
+            // peer.send(JSON.stringify(bufferArrayuni.slice(-1).pop()))
+            peer.send('final')
+          }
+        })
       })
-
-      //
     } else {
       console.log('Cant send')
     }
@@ -184,8 +241,9 @@ export default function Chat() {
   return (
     <div className='container'>
       <div className='chat-container'>
-        <header
+        <div
           style={{
+            display: 'flex',
             width: '98%',
             height: '30px',
             padding: '10px',
@@ -193,8 +251,24 @@ export default function Chat() {
             color: '#fff',
           }}
         >
-          Room No:- {name_of_room[1]}
-        </header>
+          <a className=' Iazdo' href='/'>
+            <span
+              style={{ display: 'inline-block', transform: 'rotate(270deg)' }}
+            >
+              <svg
+                aria-label='Back'
+                className='_8-yf5 '
+                fill='#fff'
+                height='24'
+                viewBox='0 0 48 48'
+                width='24'
+              >
+                <path d='M40 33.5c-.4 0-.8-.1-1.1-.4L24 18.1l-14.9 15c-.6.6-1.5.6-2.1 0s-.6-1.5 0-2.1l16-16c.6-.6 1.5-.6 2.1 0l16 16c.6.6.6 1.5 0 2.1-.3.3-.7.4-1.1.4z'></path>
+              </svg>
+            </span>
+          </a>
+          <header> {name_of_room[1]}</header>
+        </div>
         <div className='Message'>
           {connected ? (
             message.length > 0 ? (
@@ -203,17 +277,12 @@ export default function Chat() {
 
                 return condition ? (
                   <div
-                    key={i + 'Filehash' + 1}
+                    key={i + 'Filehash' + 1 + Math.random()}
                     style={{ display: 'flex', flexDirection: 'column' }}
                     ref={messageContainer}
                   >
                     <p style={{ color: '#fff', marginLeft: '5px' }}>
-                      <img
-                        width={300}
-                        height={300}
-                        src={`data:image/png;base64,${data.realFile}`}
-                        alt={data.type}
-                      />
+                      <img height={300} src={data.url} alt={data.type} />
                     </p>
                   </div>
                 ) : (
@@ -257,7 +326,7 @@ export default function Chat() {
                   ref={inputVariable}
                   type='text'
                   onChange={handleChange}
-                  placeholder='Type a message...'
+                  placeholder='Type a message or send a file... '
                   autoFocus
                   // style={{ width: '100%', height: '50px', outline: 'none' }}
                 />
@@ -265,12 +334,27 @@ export default function Chat() {
                   type='file'
                   ref={file}
                   onChange={handleFileChange}
+                  style={{
+                    cursor: 'text',
+                    whiteSpace: 'pre-wrap',
+                    overflowWrap: 'break-word',
+                  }}
                   hidden
                 />
               </div>
               <div>
                 <div className='button-style'>
-                  <button className='wpO6b ' type='button' onClick={handleFile}>
+                  <button
+                    className='wpO6b '
+                    style={{
+                      background: 'transparent',
+                      border: '0px',
+                      cursor: 'pointer',
+                      outline: 'none',
+                    }}
+                    type='button'
+                    onClick={handleFile}
+                  >
                     <svg
                       aria-label='Add Photo or Video'
                       className='_8-yf5 '
@@ -294,92 +378,3 @@ export default function Chat() {
     </div>
   )
 }
-
-//code from github
-// if (file.name.match(/\.jpg|\.png|\.jpeg|\.gif/gi)) {
-//   html += '<img crossOrigin="anonymous" src="' + file.url + '">';
-// } else if (file.name.match(/\.wav|\.mp3/gi)) {
-//   html += '<audio src="' + file.url + '" controls></audio>';
-// } else if (file.name.match(/\.webm|\.flv|\.mp4/gi)) {
-//   html += '<video src="' + file.url + '" controls></video>';
-// } else if (file.name.match(/\.js|\.txt|\.sh/gi)) {
-//   html += '<a href="' + file.url + '" target="_blank" download="' + file.name + '">';
-//   html += '<br><iframe class="inline-iframe" src="' + file.url + '"></iframe></a>';
-// }
-
-//code at peer.send
-
-// let blob = new Blob([data], {
-//   type: 'image/png'
-// })
-// console.log(data.type)
-// let url = window.URL.createObjectURL(blob)
-// console.log('URL:', url)
-// // console.log(':data:', data)
-// console.log(blob)
-// let a
-// a = document.createElement('a')
-// a.href = url
-// a.download = 'airdrop'
-// document.body.appendChild(a)
-// a.style = 'display: none'
-
-// a.remove()
-
-//FIXME: fix this code
-
-// if (parsed.initial || parsed.custom) {
-//   update(combaine(parsed))
-// }
-// const base64_data = of(parsed)
-// let array = ''
-// const modified = base64_data.pipe(
-//   // takeWhile(v => v.final === true),
-//   filter(val => val.initial === false),
-//   map(file => {
-//     let refile = file.file.split('data:image/png;base64,')
-//     setReffile({
-//       file: refile[1]
-//     })
-
-//     console.log(refile[1])
-//     if (refile[1] !== undefined) {
-//       array += refFile.file
-//       file.realFile = array
-//     }
-
-//     return file
-//   })
-// )
-// modified.subscribe(file => {
-//   if (file.final) {
-//     // let blob = new Blob([file.realFile], {
-//     //   type: file.type
-//     // })
-
-//     // let url = window.URL.createObjectURL(blob)
-//     // console.log('URL REady:', url)
-//     // file.url = url
-//     update(file)
-//     //reset the things
-
-//     // console.log('Running this by the way')
-//   }
-// })
-
-// console.log(FileArray)
-// const BufferToSend = from(File)
-
-// const modified = BufferToSend.pipe(
-//   filter(v => v.initial === false),
-//   takeWhile(F),
-//   map(async file => {
-//     console.log(file  )
-//   })
-// )
-// modified.subscribe(original => {
-//   original.then(iGotIt => {
-//     console.log(iGotIt)
-//     peer.send(JSON.stringify(iGotIt))
-//   })
-// })

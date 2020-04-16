@@ -9,7 +9,7 @@ export default function Article() {
         <div>
           <i
             className='material-icons'
-            style={{ fontSize: '50px', color: '  # #3F3D56' }}
+            style={{ fontSize: '50px', color: '#3F3D56' }}
           >
             security
           </i>

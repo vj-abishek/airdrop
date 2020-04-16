@@ -9,11 +9,10 @@ function Login() {
 
   const [state, setState] = useState({ name: '' })
 
-  const createUSer = e => {
+  const createUSer = (e) => {
     e.preventDefault()
-
     let name = state.name
-    console.log(name)
+
     dispatch({ type: 'SET_NAME', name })
   }
   return (
@@ -56,7 +55,7 @@ function Login() {
               id='outlined-basic'
               label='Choose temporary Name'
               variant='outlined'
-              onChange={e => setState({ name: e.target.value })}
+              onChange={(e) => setState({ name: e.target.value })}
               autoFocus
             />
             <br />

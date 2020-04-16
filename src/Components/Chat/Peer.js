@@ -27,6 +27,15 @@ socket.on('backOffer', (data) => {
   peer.signal(data.data)
 })
 
+peer.on('error', (err) => {
+  // let error = {
+  //   name: 'Robot',
+  //   message: 'An error occured. Cannot connect to other peer :(',
+  //   time: Date.now(),
+  // }
+  console.log('FROM the ')
+  // up date(error)
+})
 //listen for data changes
 
 export default peer

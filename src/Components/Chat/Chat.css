@@ -45,6 +45,7 @@
   padding: 5px;
   height: 26px;
   /* margin-top: 5px; */
+  display: flex;
   border-radius: 0 40px 40px 0;
   cursor: pointer;
 }
@@ -61,4 +62,21 @@
   cursor: pointer;
   margin-right: 10px;
   position: relative;
+}
+
+/* Media Query */
+@media only screen and (max-width: 768px) {
+  .success-mobile {
+    height: 60vh !important;
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+  }
+  .chat-container {
+    width: 100%;
+  }
+  .chat-container header {
+    font-size: 14px;
+    line-height: 30px;
+  }
 }

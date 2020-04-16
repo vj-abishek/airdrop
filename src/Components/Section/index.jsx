@@ -14,7 +14,7 @@ export default function index() {
         </div>
         <Link
           to='/create_user_name'
-          style={{ color: '#fff', textDecoration: 'none' }}
+          style={{ color: '#fff', textDecoration: 'none', marginLeft: '15px' }}
         >
           <Button variant='contained' color='primary'>
             Share Now
