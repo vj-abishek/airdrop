@@ -146,10 +146,10 @@ ul li {
 
 @media only screen and (max-width: 769px) {
   .color-diff {
-    font-size: 17px;
+    font-size: 24px;
   }
   .color-difference {
-    font-size: 17px;
+    font-size: 24px;
   }
   .MuiButton-containedPrimary {
     font-size: 10px !important;

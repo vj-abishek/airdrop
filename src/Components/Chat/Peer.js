@@ -15,11 +15,13 @@ const peer = new Peer({
 peer.on('signal', (data) => {
   console.log('SIGNAL', data)
   // console.log(name_of_room[1])
-  let now = {
-    data,
-    room: name_of_room[1],
-  }
-  socket.emit('offer', now)
+  setTimeout(function () {
+    let now = {
+      data,
+      room: name_of_room[1],
+    }
+    socket.emit('offer', now)
+  }, 2000)
 })
 
 //listen to socket
