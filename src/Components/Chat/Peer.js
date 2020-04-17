@@ -15,13 +15,11 @@ const peer = new Peer({
 peer.on('signal', (data) => {
   console.log('SIGNAL', data)
   // console.log(name_of_room[1])
-  setTimeout(function () {
-    let now = {
-      data,
-      room: name_of_room[1],
-    }
-    socket.emit('offer', now)
-  }, 2000)
+  let now = {
+    data,
+    room: name_of_room[1],
+  }
+  socket.emit('offer', now)
 })
 
 //listen to socket
@@ -29,18 +27,10 @@ socket.on('backOffer', (data) => {
   peer.signal(data.data)
 })
 
-peer.on('error', (err) => {
-  // let error = {
-  //   name: 'Robot',
-  //   message: 'An error occured. Cannot connect to other peer :(',
-  //   time: Date.now(),
-  // }
-  console.log('FROM the ')
-  // up date(error)
-})
 //listen for data changes
 
 export default peer
+
 // let buffer = new Blob(array, {
 //   type: parsed.type
 // })
