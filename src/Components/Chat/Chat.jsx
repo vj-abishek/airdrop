@@ -32,7 +32,8 @@ export default function Chat() {
   //handle Submit
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!connected || err) return
+    if (!connected || err || inputVariable.current.value === '') return
+
     let data = {},
       name
     if (window.location.hash === '#init') {
