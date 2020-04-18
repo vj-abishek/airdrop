@@ -1,6 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+# airdrop [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys)
 
 In the project directory, you can run:
 
