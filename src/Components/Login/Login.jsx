@@ -41,14 +41,8 @@ function Login() {
         <div className='login_section'>
           <h2 style={{ color: '#3F3D56' }}>Create User</h2>
           <ul>
-            <li>
-              Step 1: Go to{' '}
-              <a href='https://airdrop.netlify.com' target='blank'>
-                https://airdrop.netlify.com
-              </a>
-            </li>
-            <li>Step 2: Create a temporary User</li>
-            <li>Step 3: Choose the user to whom you want to send the file</li>
+            <li>Step 1: Create a temporary User</li>
+            <li>Step 2: Choose the user to whom you want to send the file</li>
           </ul>
           <form autoComplete='off' onSubmit={createUSer}>
             <TextField

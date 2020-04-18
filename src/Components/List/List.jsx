@@ -9,7 +9,7 @@ export default function List() {
   let er = location.search
   // console.log()
   let name_of_users = er.split('?name=')
-  console.log(location.search)
+  // console.log(location.search)
   // console.log(users)
   const [user, setUser] = useState({
     online: 1,
@@ -33,7 +33,7 @@ export default function List() {
   }, [room])
 
   socket.on('users', (user) => {
-    console.log(user)
+    // console.log(user)
     setUser({
       online: user.online_users,
       name: user.users,
@@ -42,9 +42,10 @@ export default function List() {
   //listen to events
 
   const { name } = user
-  console.log(!name)
+  // console.log(!name)
   //handle click
   const handleClick = (e) => {
+    if (name_of_users[1] === e.target.dataset['name']) return
     // console.log(e.target.dataset['name'])
     setfeedback(true)
     socket.emit('room_name', {
@@ -61,7 +62,7 @@ export default function List() {
 
   const handleAccept = () => {
     socket.emit('Join_by_ME', room)
-    console.log('Click this')
+    // console.log('Click this')
     history.push(`/chat/?chat=${room.room}#init`)
     // console.log(socket)
   }
@@ -73,7 +74,7 @@ export default function List() {
         <b>{name_of_users[1]}</b>
       </p>
       <br />
-      <ul>
+      <ul style={{ listStyle: 'decimal-leading-zero' }}>
         {name &&
           name.map((data) => (
             <li
