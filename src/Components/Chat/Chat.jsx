@@ -28,7 +28,6 @@ export default function Chat() {
   const inputVariable = useRef()
   const file = useRef()
   const messageContainer = useRef()
-  const retry = useRef()
 
   //handle Submit
   const handleSubmit = (e) => {
@@ -239,15 +238,6 @@ export default function Chat() {
     }
   }
 
-  //set Retry button
-  setTimeout(function () {
-    if (!connected) {
-      if (window.location.hash === '#init') {
-        retry.current.style.display = 'block'
-      }
-    }
-  }, 3000)
-
   return (
     <div className='container'>
       <div className='chat-container'>
@@ -308,30 +298,15 @@ export default function Chat() {
               <Success />
             )
           ) : (
-            <>
-              <p
-                style={{
-                  color: '#fff',
-                  textAlign: 'center',
-                  verticalAlign: 'center',
-                }}
-              >
-                Settings everything up, Please wait...
-              </p>
-              <button
-                style={{ display: 'none', margin: '20px auto' }}
-                onClick={() => {
-                  if (!connected) {
-                    if (window.localtion.hash === '#init') {
-                      window.location.reload()
-                    }
-                  }
-                }}
-                ref={retry}
-              >
-                Retry
-              </button>
-            </>
+            <p
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+                verticalAlign: 'center',
+              }}
+            >
+              Settings everything up, Don't Refresh, Please wait...
+            </p>
           )}
         </div>
         <div className='Message-text-box'>

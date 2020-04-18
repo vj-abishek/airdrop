@@ -12,13 +12,17 @@ export default function List() {
   console.log(location.search)
   // console.log(users)
   const [user, setUser] = useState({
-    online: 1
+    online: 1,
   })
   const [room, setRoom] = useState()
+  const [feedback, setfeedback] = useState(false)
 
+  if (room || feedback) {
+    window.navigator.vibrate(200)
+  }
   //effect
   useEffect(() => {
-    socket.on('join_room', data => {
+    socket.on('join_room', (data) => {
       // console.log('The server data:', data)
       setRoom(data)
     })
@@ -28,11 +32,11 @@ export default function List() {
     }
   }, [room])
 
-  socket.on('users', user => {
+  socket.on('users', (user) => {
     console.log(user)
     setUser({
       online: user.online_users,
-      name: user.users
+      name: user.users,
     })
   })
   //listen to events
@@ -40,17 +44,18 @@ export default function List() {
   const { name } = user
   console.log(!name)
   //handle click
-  const handleClick = e => {
-    console.log(e.target.dataset['name'])
+  const handleClick = (e) => {
+    // console.log(e.target.dataset['name'])
+    setfeedback(true)
     socket.emit('room_name', {
       room: e.target.dataset['name'],
       id: e.target.dataset['id'],
-      name: name_of_users[1]
+      name: name_of_users[1],
     })
     // console.log(name_click.current.dataset['name'])
   }
 
-  socket.on('Joined', data => {
+  socket.on('Joined', (data) => {
     history.push(`/chat/?chat=${data.room}`)
   })
 
@@ -70,7 +75,7 @@ export default function List() {
       <br />
       <ul>
         {name &&
-          name.map(data => (
+          name.map((data) => (
             <li
               key={data.id}
               data-id={data.id}
@@ -85,6 +90,14 @@ export default function List() {
         <q>
           Please wait untill your friend joins the connection or you will
           recieve a notification to join
+        </q>
+      ) : (
+        ''
+      )}
+      {feedback ? (
+        <q>
+          Request send to the room successfully. Wait untill the request is
+          accepted!
         </q>
       ) : (
         ''
