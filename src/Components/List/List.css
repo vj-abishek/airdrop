@@ -1,12 +1,14 @@
 .list_style {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #121212;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 ul li {
-    cursor: pointer;
+  cursor: pointer;
 }
