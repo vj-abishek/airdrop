@@ -7,8 +7,7 @@
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
-  "icons": [
-    {
+  "icons": [{
       "src": "images/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
@@ -48,6 +47,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  
+  ]
+
 }
