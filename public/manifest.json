@@ -1,7 +1,7 @@
 {
   "name": "Airdrop - Online file transfer",
   "short_name": "Airdrop",
-  "theme_color": "rgb(24,23,23)",
+  "theme_color": "#18171700",
   "background_color": "rgb(24,23,23)",
   "display": "standalone",
   "orientation": "portrait",
@@ -49,5 +49,5 @@
       "type": "image/png"
     }
   ],
-  "splash_pages": null
+  
 }
