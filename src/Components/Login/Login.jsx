@@ -23,25 +23,25 @@ function Login() {
           <br />
           <ul>
             <li>
-              Send your files with anyone around the world , realtime with peer
-              to peer communication!
+              Share your files with anyone anywhere in the world, in realtime along with peer
+              to peer communication.
             </li>
-            <li>Share your files with 3 simple Steps. Easy as a Breeze</li>
+            <li>Begin sharing your files after 3 simple Steps. Easy as a Breeze!</li>
             <li>
-              Transfer your important files and documents without worrying or
-              without being leaked
+              Transfer important files and documents without the nightmare of having 
+              them leaked.
             </li>
             <li>
-              This website is build upon WEBRTC, a realtime communication
-              system. Your Data wont be stored in our Servers, So Share
-              Privately and securely
+              This website is built upon WEBRTC, a realtime communication
+              system. Your Data won't be stored in our Servers, so share
+              with the assurance of privacy and security.
             </li>
           </ul>
         </div>
         <div className='login_section'>
           <h2 style={{ color: '#3F3D56' }}>Create User</h2>
           <ul>
-            <li>Step 1: Create a temporary User</li>
+            <li>Step 1: Create a temporary username</li>
             <li>Step 2: Choose the user to whom you want to send the file</li>
           </ul>
           <form autoComplete='off' onSubmit={createUSer}>
