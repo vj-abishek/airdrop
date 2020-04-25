@@ -300,7 +300,7 @@ export default function Chat() {
                 verticalAlign: 'center',
               }}
             >
-              Settings everything up, Don't Refresh, Please wait...
+              Setting everything up, Don't Refresh, Please wait...
             </p>
           )}
         </div>
