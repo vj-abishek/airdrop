@@ -1,4 +1,4 @@
-# airdrop [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys)
+# Onshare [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys)
 
 In the project directory, you can run:
 
