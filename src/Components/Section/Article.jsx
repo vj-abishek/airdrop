@@ -53,7 +53,7 @@ export default function Article() {
           <h4>Easy to use</h4>
           <p>
             This website is easy to use. Share with one tap. Share your desired
-            files with anyone anywhere in the world. Start sharing your files after 3 simple
+            files with anyone anywhere in the world. Start sharing your files after 2 simple
             steps. Easy as a breeze!
           </p>
         </div>
