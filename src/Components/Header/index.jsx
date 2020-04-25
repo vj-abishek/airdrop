@@ -6,8 +6,8 @@ export default function index() {
   return (
     <header className='header'>
       <div className='logo'>
-        <span className='color-diff'>Air</span>
-        <span className='color-difference'>drop v1</span>
+        <span className='color-diff'>On</span>
+        <span className='color-difference'>share</span>
       </div>
       <div className='share-button'>
         <Link
