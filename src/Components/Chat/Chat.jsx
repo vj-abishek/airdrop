@@ -3,18 +3,12 @@ import peer, { name_of_room } from './Peer'
 import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
 import { v4 as uuid } from 'uuid'
-import chunks from 'chunk-stream'
 
 import { from } from 'rxjs'
-// import { combaine } from './FileShare/Combine'
-// import { filter, map } from 'rxjs/operators'
-// import { Ripme, recievedFile } from './FileShare/PromiseFile'
 
 import './Chat.css'
 import { combaine } from './FileShare/Combine'
 let array = []
-const chunkStream = chunks(16000)
-chunkStream.pipe(peer)
 
 export default function Chat() {
   //handle state
