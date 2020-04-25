@@ -19,7 +19,7 @@ function Login() {
     <div className='container_for_div'>
       <div className='Create_user'>
         <div className='aboutsection_of_me'>
-          <h2 style={{ marginLeft: '15px' }}>Why use Airdrop?</h2>
+          <h2 style={{ marginLeft: '15px' }}>Why use Onshare?</h2>
           <br />
           <ul>
             <li>
