@@ -10,7 +10,7 @@ export default class Ad extends React.Component {
       <>
         {/* Horizontal Ad  */}
         <ins
-          class='adsbygoogle'
+          className='adsbygoogle'
           style={{ display: 'block' }}
           data-ad-client='ca-pub-4314629461501774'
           data-ad-slot='8928267796'
