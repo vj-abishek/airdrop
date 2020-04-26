@@ -1,8 +1,6 @@
 import socket from '../Functions/Users'
 import Peer from 'simple-peer'
 import history from '../history'
-// import { Ripme, recievedFile } from './FileShare/PromiseFile'
-// import b64toBlob from 'b64-to-blob'
 
 const { location } = history
 let er = location.search

@@ -63,6 +63,14 @@
   margin-right: 10px;
   position: relative;
 }
+.chat-container > div:nth-child(1) > header:nth-child(2) {
+  line-height: 1.5;
+}
+
+.msg-check {
+  margin-left: 10px;
+  line-height: 30px;
+}
 
 /* Media Query */
 @media only screen and (max-width: 768px) {

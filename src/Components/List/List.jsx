@@ -1,70 +1,71 @@
 import React, { useState, useEffect } from 'react'
 import history from '../history'
-// import { setUser } from '../../State/action'
+
 import socket from '../Functions/Users'
 import './List.css'
+
+//variable for redirection
+let click = false
 
 export default function List() {
   const { location } = history
   let er = location.search
-  // console.log()
   let name_of_users = er.split('?name=')
-  // console.log(location.search)
-  // console.log(users)
+
   const [user, setUser] = useState({
     online: 1,
   })
   const [room, setRoom] = useState()
   const [feedback, setfeedback] = useState(false)
 
+  //feedback
   if (room || feedback) {
     window.navigator.vibrate(200)
   }
+
   //effect
   useEffect(() => {
-    socket.on('join_room', (data) => {
-      // console.log('The server data:', data)
+    const set = (data) => {
       setRoom(data)
-    })
-    return () => {
-      socket.emit('disconnect')
-      socket.off()
     }
+    socket.on('join_room', set)
+    return () => socket.off('join_room', set)
   }, [room])
 
   socket.on('users', (user) => {
-    // console.log(user)
     setUser({
       online: user.online_users,
       name: user.users,
     })
   })
+
   //listen to events
 
   const { name } = user
-  // console.log(!name)
+
   //handle click
   const handleClick = (e) => {
     if (name_of_users[1] === e.target.dataset['name']) return
-    // console.log(e.target.dataset['name'])
+
     setfeedback(true)
+    click = !click
     socket.emit('room_name', {
       room: e.target.dataset['name'],
       id: e.target.dataset['id'],
       name: name_of_users[1],
     })
-    // console.log(name_click.current.dataset['name'])
   }
 
   socket.on('Joined', (data) => {
-    history.push(`/chat/?chat=${data.room}`)
+    if (click) {
+      history.push(`/chat/${data.room}#init`)
+    } else {
+      history.push(`/chat/${data.room}`)
+    }
   })
 
   const handleAccept = () => {
     socket.emit('Join_by_ME', room)
-    // console.log('Click this')
-    history.push(`/chat/?chat=${room.room}#init`)
-    // console.log(socket)
   }
 
   return (

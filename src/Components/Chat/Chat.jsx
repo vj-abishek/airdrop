@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import peer, { name_of_room } from './Peer'
+import peer from './Peer'
 import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
 import { v4 as uuid } from 'uuid'
 
 import { from } from 'rxjs'
-
+import { useParams } from 'react-router-dom'
 import './Chat.css'
 import { combaine } from './FileShare/Combine'
 let array = []
@@ -23,6 +23,9 @@ export default function Chat() {
   const file = useRef()
   const messageContainer = useRef()
 
+  //get ID from the URL
+  const { id } = useParams()
+
   //handle Submit
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -31,7 +34,7 @@ export default function Chat() {
     let data = {},
       name
     if (window.location.hash === '#init') {
-      name = name_of_room[1].split('-')
+      name = id.split('-')
       data = {
         id: uuid(),
         name: name[0],
@@ -118,24 +121,20 @@ export default function Chat() {
           update(parsed)
           // console.log(parsed)
         } else if (parsed.final) {
-          // console.log('Im here')
           setFinal(parsed)
         } else {
           if (parsed.initial) {
             setType({ type: parsed.type })
           }
-          // console.log(parsed)
+
           let message = combaine(parsed)
 
-          // console.log(message)
           update(message)
         }
       } catch (err) {
         // console.log(err)
         let condition = new TextDecoder('utf-8').decode(data)
         if (condition === 'final') {
-          // console.log(condition)
-          // console.log('The final thing called')
           let buffer = new Blob(array, {
             type: Filetype.type,
           })
@@ -168,10 +167,6 @@ export default function Chat() {
         } else {
           array = [...array, data]
         }
-
-        // console.log(final, array)
-
-        // combaine('file', array)
       }
     }
 
@@ -201,10 +196,7 @@ export default function Chat() {
     let file_data = e.target.files[0]
     let datas = {
       id: uuid(),
-      name:
-        window.location.hash === '#init'
-          ? name_of_room[1].split('-')[0]
-          : 'Friend',
+      name: window.location.hash === '#init' ? id.split('-')[0] : 'Friend',
       message: 'You are sending a file',
       type: 'text/plain',
       sentAt: Date.now(),
@@ -262,7 +254,24 @@ export default function Chat() {
               </svg>
             </span>
           </a>
-          <header> {name_of_room[1]}</header>
+          <header> {id}</header>
+          {window.location.hash === '#init' ? (
+            <span className='msg-check'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 16 15'
+                width='16'
+                height='15'
+              >
+                <path
+                  fill='#fff'
+                  d='M10.91 3.316l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z'
+                ></path>
+              </svg>
+            </span>
+          ) : (
+            ''
+          )}
         </div>
         <div className='Message'>
           {connected ? (
