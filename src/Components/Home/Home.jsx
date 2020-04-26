@@ -11,8 +11,8 @@ export default function Home() {
       <Header />
       <Section />
       <Article />
-      <Footer />
       <Ad />
+      <Footer />
     </div>
   )
 }
