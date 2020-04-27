@@ -16,15 +16,15 @@ export default function Article() {
           <br />
           <h4>Security</h4>
           <p>
-            Share your files privately without getting them leaked . This is a realtime
-            sharing system. The files you share won't be uploaded to our
-            server. This website is based on
+            Share your files privately without getting them leaked . This is a
+            realtime sharing system. The files you share won't be uploaded to
+            our server. This website is based on
             <a href='https://en.wikipedia.org/wiki/WebRTC' target='blank'>
-              WEBRTC
+              {''}WEBRTC
             </a>
             . A realtime communication channel to transfer data. You can
-            transfer your files to anyone, anywhere in the world without 
-            Worrying about confidentiality. 
+            transfer your files to anyone, anywhere in the world without
+            Worrying about confidentiality.
           </p>
         </div>
 
@@ -37,8 +37,8 @@ export default function Article() {
           </i>
           <h4>Communication</h4>
           <p>
-            Now you can communicate with the other peer along with sending files.
-            Your chat is private and you also can use our website for
+            Now you can communicate with the other peer along with sending
+            files. Your chat is private and you also can use our website for
             secrete conversations. This is a handy feature which enables you to
             chat with each other and share your desired files
           </p>
@@ -53,8 +53,8 @@ export default function Article() {
           <h4>Easy to use</h4>
           <p>
             This website is easy to use. Share with one tap. Share your desired
-            files with anyone anywhere in the world. Start sharing your files after 2 simple
-            steps. Easy as a breeze!
+            files with anyone anywhere in the world. Start sharing your files
+            after 2 simple steps. Easy as a breeze!
           </p>
         </div>
       </div>
