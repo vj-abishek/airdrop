@@ -12,17 +12,12 @@ const peer = new Peer({
 })
 peer.on('signal', (data) => {
   console.log('SIGNAL', data)
-  // console.log(name_of_room[1])
-  let now = {
-    data,
-    room: name_of_room[1],
-  }
-  socket.emit('offer', now)
+  socket.emit('airdropOffer', data)
 })
 
 //listen to socket
 socket.on('backOffer', (data) => {
-  peer.signal(data.data)
+  peer.signal(data)
 })
 
 //listen for data changes

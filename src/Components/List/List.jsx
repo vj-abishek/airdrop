@@ -65,6 +65,7 @@ export default function List() {
   })
 
   const handleAccept = () => {
+    console.log('Acceting the room', room)
     socket.emit('Join_by_ME', room)
   }
 
