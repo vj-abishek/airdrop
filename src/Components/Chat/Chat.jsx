@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import peer from './Peer'
 import { share_file, bufferArrayuni } from './FileShare/File.js'
 import Success from './Success'
@@ -28,6 +28,15 @@ export default function Chat() {
   //get ID from the URL
   const { id } = useParams()
 
+  //alert the user to not to go back
+  useLayoutEffect(() => {
+    const onUnload = (e) => {
+      e.preventDefault()
+      e.returnValue = 'Are you sure you want to leave the chat?'
+    }
+    window.addEventListener('beforeunload', onUnload)
+    return () => window.removeEventListener('beforeunload', onUnload)
+  })
   //get the online user
   useEffect(() => {
     const user = (data) => {
