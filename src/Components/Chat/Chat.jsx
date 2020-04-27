@@ -8,6 +8,7 @@ import { from } from 'rxjs'
 import { useParams } from 'react-router-dom'
 import './Chat.css'
 import { combaine } from './FileShare/Combine'
+import socket from '../Functions/Users'
 let array = []
 
 export default function Chat() {
@@ -18,6 +19,7 @@ export default function Chat() {
   const [Filetype, setType] = useState(null)
   const [final, setFinal] = useState({ final: false })
   const [err, setError] = useState(false)
+  const [name, setName] = useState(false)
 
   const inputVariable = useRef()
   const file = useRef()
@@ -26,30 +28,27 @@ export default function Chat() {
   //get ID from the URL
   const { id } = useParams()
 
+  //get the online user
+  useEffect(() => {
+    const user = (data) => {
+      setName(data)
+    }
+    socket.on('user', user)
+
+    return () => socket.off('get_user', user)
+  }, [name])
+
   //handle Submit
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!connected || err || inputVariable.current.value === '') return
 
-    let data = {},
-      name
-    if (window.location.hash === '#init') {
-      name = id.split('-')
-      data = {
-        id: uuid(),
-        name: name[0],
-        message: text.text,
-        type: 'text/plain',
-        sentAt: Date.now(),
-      }
-    } else {
-      data = {
-        id: uuid(),
-        name: 'Friend',
-        message: text.text,
-        type: 'text/plain',
-        sentAt: Date.now(),
-      }
+    const data = {
+      id: uuid(),
+      name: name[0].name,
+      message: text.text,
+      type: 'text/plain',
+      sentAt: Date.now(),
     }
 
     setMessage((old) => [...old, data])
@@ -74,12 +73,20 @@ export default function Chat() {
 
   useEffect(() => {
     //handle when peer is conneted
+    window.socket = socket
+
+    if (!name) {
+      socket.emit('get_user', {
+        id: socket.id,
+      })
+    }
+
     peer.on('connect', () => {
       if (!connected) {
         setConnected(true)
       }
     })
-  }, [connected])
+  }, [connected, name])
 
   //Handle Errors
   useEffect(() => {
@@ -196,7 +203,7 @@ export default function Chat() {
     let file_data = e.target.files[0]
     let datas = {
       id: uuid(),
-      name: window.location.hash === '#init' ? id.split('-')[0] : 'Friend',
+      name: name[0].name,
       message: 'You are sending a file',
       type: 'text/plain',
       sentAt: Date.now(),
@@ -205,6 +212,7 @@ export default function Chat() {
     // chunkStream.write(demo)
 
     let share = await share_file(file_data)
+    bufferArrayuni[0].name = name[0].name
     peer.send(JSON.stringify(bufferArrayuni[0]))
     // console.log(bufferArrayuni)
     // console.log('Raw Data from the chunk', share)
