@@ -1,13 +1,14 @@
 {
-  "name": "Onshare - Online file transfer",
-  "short_name": "Onshare",
+  "name": "SafeShare - Online file transfer",
+  "short_name": "SafeShare",
   "theme_color": "#18171700",
   "background_color": "rgb(24,23,23)",
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
-  "icons": [{
+  "icons": [
+    {
       "src": "images/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
@@ -48,5 +49,4 @@
       "type": "image/png"
     }
   ]
-
 }

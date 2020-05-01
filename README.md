@@ -1,4 +1,4 @@
-# Onshare [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys)
+# SafeShare [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys)
 
 In the project directory, you can run:
 
@@ -27,7 +27,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `Demo`
 
-[Demo](https://airdrop.netlify.com) 
+[Demo](https://airdrop.netlify.com)
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)

@@ -19,22 +19,24 @@ function Login() {
     <div className='container_for_div'>
       <div className='Create_user'>
         <div className='aboutsection_of_me'>
-          <h2 style={{ marginLeft: '15px' }}>Why use Onshare?</h2>
+          <h2 style={{ marginLeft: '15px' }}>Why use SafeShare?</h2>
           <br />
           <ul>
             <li>
-              Share your files with anyone anywhere in the world, in realtime along with peer
-              to peer communication.
+              Share your files with anyone anywhere in the world, in realtime
+              along with peer to peer communication.
             </li>
-            <li>Begin sharing your files after 3 simple Steps. Easy as a Breeze!</li>
             <li>
-              Transfer important files and documents without the nightmare of having 
-              them leaked.
+              Begin sharing your files after 3 simple Steps. Easy as a Breeze!
+            </li>
+            <li>
+              Transfer important files and documents without the nightmare of
+              having them leaked.
             </li>
             <li>
               This website is built upon WEBRTC, a realtime communication
-              system. Your Data won't be stored in our Servers, so share
-              with the assurance of privacy and security.
+              system. Your Data won't be stored in our Servers, so share with
+              the assurance of privacy and security.
             </li>
           </ul>
         </div>

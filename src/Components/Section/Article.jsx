@@ -3,7 +3,7 @@ import React from 'react'
 export default function Article() {
   return (
     <article>
-      <p className='about'>ABOUT ONSHARE</p>
+      <p className='about'>ABOUT SafeShare</p>
       <br />
       <div className='about-section'>
         <div>
