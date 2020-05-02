@@ -14,6 +14,8 @@ export default function index() {
         </div>
         <Link
           to='/create_user_name'
+          alt='Share files'
+          title='Share files'
           style={{ color: '#fff', textDecoration: 'none', marginLeft: '15px' }}
         >
           <Button variant='contained' color='primary'>
@@ -22,7 +24,12 @@ export default function index() {
         </Link>
       </div>
       <div>
-        <img src={Svg} className='img-svg-real' alt='Share your files' />
+        <img
+          src={Svg}
+          className='img-svg-real'
+          alt='SafeShare.live - Online file sharing'
+          title='SafeShare.live - Online file sharing'
+        />
       </div>
     </section>
   )
