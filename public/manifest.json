@@ -1,14 +1,12 @@
 {
-  "name": "SafeShare - Online file transfer",
+  "name": "SafeShare.live - Online file sharing",
   "short_name": "SafeShare",
-  "theme_color": "#18171700",
-  "background_color": "rgb(24,23,23)",
+  "theme_color": "#181717",
+  "background_color": "#181717",
   "display": "standalone",
-  "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
-  "icons": [
-    {
+  "icons": [{
       "src": "images/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
@@ -48,5 +46,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "splash_pages": null
 }
