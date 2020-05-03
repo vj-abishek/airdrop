@@ -3,8 +3,7 @@
   "short_name": "SafeShare",
   "theme_color": "#181717",
   "background_color": "#181717",
-  "display": "standalone",
-  "Scope": "/",
+  "display": "standalone"
   "start_url": "/index.html",
   "icons": [{
       "src": "images/icons/icon-72x72.png",
@@ -46,6 +45,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "splash_pages": null
+  ]
 }
