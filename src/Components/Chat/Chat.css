@@ -144,4 +144,12 @@
     font-size: 14px;
     line-height: 30px;
   }
+  .img-container-real {
+    width: 250px;
+    height: 250px;
+  }
+  .inside {
+    width: 250px;
+    height: 250px;
+  }
 }
