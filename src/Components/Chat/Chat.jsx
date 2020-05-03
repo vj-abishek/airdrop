@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import peer from './Peer'
-import { share_file, bufferArrayuni } from './FileShare/File.js'
+import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js'
 import Success from './Success'
 import { v4 as uuid } from 'uuid'
 
@@ -211,15 +211,21 @@ export default function Chat() {
     // console.log(e.target.files[0])
     if (!e.target.files[0] || err) return
     let file_data = e.target.files[0]
-    let datas = {
-      id: uuid(),
-      name: name[0].name,
-      message: 'You are sending a file',
-      url: 'https://portals.interworks.com/file2/loading.gif ',
-      type: file_data.type,
-      sentAt: Date.now(),
+    const reader = new FileReader()
+    reader.onload = () => {
+      const url = URL.createObjectURL(dataURItoBlob(reader.result))
+      let datas = {
+        id: uuid(),
+        name: name[0].name,
+        message: 'You are sending a file',
+        url,
+        type: file_data.type,
+        sentAt: Date.now(),
+      }
+
+      setMessage((old) => [...old, datas])
     }
-    setMessage((old) => [...old, datas])
+    reader.readAsDataURL(file_data)
 
     // chunkStream.write(demo)
 
