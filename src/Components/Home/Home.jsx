@@ -39,7 +39,11 @@ export default function Home() {
       <Header />
       <Section />
       <Article />
-      {trigger ? <Prompt handleClick={HandleClick} /> : ''}
+      {trigger ? (
+        <Prompt handleClick={HandleClick} Cancel={() => setTrigger(false)} />
+      ) : (
+        ''
+      )}
       <Ad />
       <Footer />
     </div>

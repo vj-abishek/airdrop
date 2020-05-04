@@ -32,7 +32,11 @@ export default function Prompt(props) {
             >
               Add to Home screen
             </button>
-            <button className='aOOlW   HoLwm ' tabIndex='0'>
+            <button
+              className='aOOlW   HoLwm '
+              tabIndex='0'
+              onClick={props.Cancel}
+            >
               Cancel
             </button>
           </div>
