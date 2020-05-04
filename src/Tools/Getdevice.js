@@ -1,7 +1,7 @@
 const device = () => {
   const UA = navigator.userAgent
-  UA.split(';')
-  return UA
+  const final = UA.split(';')
+  return final
 }
 
 export default device
