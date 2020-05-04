@@ -7,6 +7,7 @@ const Login = lazy(() => import('./Components/Login/Login'))
 const Home = lazy(() => import('./Components/Home/Home'))
 const List = lazy(() => import('./Components/List/List'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
+const Auto = lazy(() => import('./Components/Auto/AutoPage'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
 
 function App() {
@@ -36,13 +37,15 @@ function App() {
             <Route path='/create_user_name'>
               <Login />
             </Route>
-            <Route path='/list'>
+            <Route path='/list/:id'>
               <List />
             </Route>
             <Route path='/Chat/:id'>
               <Chat />
             </Route>
-
+            <Route path='/auto'>
+              <Auto />
+            </Route>
             <Route component={Page404} />
           </Switch>
         </Suspense>
