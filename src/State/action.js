@@ -6,7 +6,7 @@ import history from '../Components/history'
 // console.log(socket)
 //
 const init = {
-  users: null
+  users: null,
 }
 
 //listen for number of users
@@ -23,20 +23,20 @@ export const setUser = (state = init, action) => {
     case 'SET_NAME':
       console.log(action.name)
       const data = {
-        name: action.name
+        name: action.name,
       }
 
       //sent user using socket
       socket.emit('Create_name', data)
-      console.log(history)
-      history.push(`/list?name=${action.name}`)
+      console.log(action.name)
+      history.push(`/list/${btoa(action.name)}`)
 
       return state
 
     //lilsten for number of users
     case 'Get_USERS':
       let nows
-      socket.on('users', userss => {
+      socket.on('users', (userss) => {
         // console.log(userss)
         // return { ...state, userss }
         nows = userss

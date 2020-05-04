@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import history from '../history'
-
+import { useParams } from 'react-router-dom'
 import socket from '../Functions/Users'
 import './List.css'
 
@@ -8,10 +8,9 @@ import './List.css'
 let click = false
 
 export default function List() {
-  const { location } = history
-  let er = location.search
-  let name_of_users = er.split('?name=')
-
+  //get ID from the URL
+  const { id } = useParams()
+  const userID = atob(id)
   const [user, setUser] = useState({
     online: 1,
   })
@@ -45,14 +44,14 @@ export default function List() {
 
   //handle click
   const handleClick = (e) => {
-    if (name_of_users[1] === e.target.dataset['name']) return
+    if (userID === e.target.dataset['name']) return
 
     setfeedback(true)
     click = !click
     socket.emit('room_name', {
       room: e.target.dataset['name'],
       id: e.target.dataset['id'],
-      name: name_of_users[1],
+      name: userID,
     })
   }
 
@@ -72,7 +71,7 @@ export default function List() {
     <div className='list_style'>
       <p>
         There are {user.online} users active now. And Your name is{' '}
-        <b>{name_of_users[1]}</b>
+        <b>{userID}</b>
       </p>
       <br />
       <ul style={{ listStyle: 'decimal-leading-zero' }}>
