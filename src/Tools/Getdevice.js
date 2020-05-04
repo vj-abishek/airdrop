@@ -1,6 +1,7 @@
 const device = () => {
   const UA = navigator.userAgent
-  const final = UA.split(';')
+  const one = UA.split(';')
+  const final = one[0].split('(')
   return final
 }
 
