@@ -10,7 +10,7 @@ export default function AutoPage() {
 
   useEffect(() => {
     const info = Info()
-    setName(info[2])
+    setName(info[1])
     if (name) dispatch({ type: 'SET_NAME', name })
   }, [name])
 
