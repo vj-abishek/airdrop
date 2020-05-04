@@ -21,14 +21,14 @@ const init = {
 export const setUser = (state = init, action) => {
   switch (action.type) {
     case 'SET_NAME':
-      console.log(action.name)
+      // console.log(action.name)
       const data = {
         name: action.name,
       }
 
       //sent user using socket
       socket.emit('Create_name', data)
-      console.log(action.name)
+
       history.push(`/list/${btoa(action.name)}`)
 
       return state

@@ -9,8 +9,9 @@ export default function AutoPage() {
   const [name, setName] = useState()
 
   useEffect(() => {
-    const info = Info()
-    setName(info[0])
+    let info = Info()
+    let final = info[0] === 'x64' ? `x64${Math.random()}` : info[0]
+    setName(final)
     if (name) dispatch({ type: 'SET_NAME', name })
   }, [name])
 
