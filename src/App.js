@@ -8,7 +8,7 @@ const Home = lazy(() => import('./Components/Home/Home'))
 const List = lazy(() => import('./Components/List/List'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
 const Auto = lazy(() => import('./Components/Auto/AutoPage'))
-const Share = lazy(() => import('./Components/share/Share'))
+const Share = lazy(() => import('./Components/Share/Share'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
 
 function App() {
