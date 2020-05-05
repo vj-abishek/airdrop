@@ -69,10 +69,10 @@ export default function List() {
 
   return (
     <div className='list_style'>
-      <p>
-        There are {user.online} users active now. And Your name is{' '}
-        <b>{userID}</b>
-      </p>
+      <h3>
+        <q>{userID}</q>
+        Share With Whome ?({user.online})
+      </h3>
       <br />
       <ul style={{ listStyle: 'decimal-leading-zero' }}>
         {name &&
@@ -97,17 +97,17 @@ export default function List() {
       )}
       {feedback ? (
         <q>
-          Request send to the room successfully. Wait untill the request is
+          Request send to the room successfully. Wait until the request is
           accepted!
         </q>
       ) : (
         ''
       )}
       {room ? (
-        <div>
-          <div>
+        <div style={{ textAlign: 'center' }}>
+          <h3>
             {room.name} wants to connect with you id:({room.room})
-          </div>
+          </h3>
           <button onClick={handleAccept}>Accept</button>
         </div>
       ) : (

@@ -24,6 +24,7 @@ export default function Chat() {
   const inputVariable = useRef()
   const file = useRef()
   const messageContainer = useRef()
+  const imageID = useRef()
 
   //get ID from the URL
   const { id } = useParams()
@@ -37,6 +38,7 @@ export default function Chat() {
     window.addEventListener('beforeunload', onUnload)
     return () => window.removeEventListener('beforeunload', onUnload)
   })
+
   //get the online user
   useEffect(() => {
     const user = (data) => {
@@ -140,7 +142,7 @@ export default function Chat() {
           setFinal(parsed)
         } else {
           if (parsed.initial) {
-            setType({ type: parsed.type })
+            setType({ type: parsed.type, fileName: parsed.fileName })
           }
 
           let message = combaine(parsed)
@@ -173,7 +175,7 @@ export default function Chat() {
             let a
             a = document.createElement('a')
             a.href = url
-            a.download = 'airdrop' + Date.now()
+            a.download = Filetype.fileName || 'airdrop' + Date.now()
             document.body.appendChild(a)
             a.style = 'display: none'
             a.click()
@@ -224,6 +226,8 @@ export default function Chat() {
       }
 
       setMessage((old) => [...old, datas])
+      //set Blured Image
+      imageID.current.style.filter = 'blur(10px)'
     }
     reader.readAsDataURL(file_data)
 
@@ -243,6 +247,8 @@ export default function Chat() {
           if (data.byteLength === 0) {
             // peer.send(JSON.stringify(bufferArrayuni.slice(-1).pop()))
             peer.send('final')
+            //Remove Blured Image
+            imageID.current.style.filter = 'blur(0px)'
           }
         })
       })
@@ -313,7 +319,12 @@ export default function Chat() {
                   >
                     <div className='img-container-real'>
                       <div className='inside'>
-                        <img width='100%' src={data.url} alt={data.type} />
+                        <img
+                          width='100%'
+                          src={data.url}
+                          ref={imageID}
+                          alt={data.type}
+                        />
                         <div className='_1i3Za'></div>
                       </div>
                       <div className='_1uFFm'>
