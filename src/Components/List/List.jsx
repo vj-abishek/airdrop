@@ -69,50 +69,53 @@ export default function List() {
 
   return (
     <div className='list_style'>
-      <h3>
-        <q>{userID}</q>
-        Share With Whome ?({user.online})
-      </h3>
-      <br />
-      <ul style={{ listStyle: 'decimal-leading-zero' }}>
-        {name &&
-          name.map((data) => (
-            <li
-              key={data.id}
-              data-id={data.id}
-              data-name={data.name}
-              onClick={handleClick}
-            >
-              {data.name}
-            </li>
-          ))}
-      </ul>
-      {!name ? (
-        <q>
-          Please wait untill your friend joins the connection or you will
-          recieve a notification to join
-        </q>
-      ) : (
-        ''
-      )}
-      {feedback ? (
-        <q>
-          Request send to the room successfully. Wait until the request is
-          accepted!
-        </q>
-      ) : (
-        ''
-      )}
-      {room ? (
-        <div style={{ textAlign: 'center' }}>
-          <h3>
-            {room.name} wants to connect with you id:({room.room})
-          </h3>
-          <button onClick={handleAccept}>Accept</button>
-        </div>
-      ) : (
-        ''
-      )}
+      <div className='container_for_me'>
+        <h3>
+          Your name is <q>{userID}</q>: ({user.online})
+        </h3>
+        <br />
+        <ul style={{ listStyle: 'decimal-leading-zero' }}>
+          {name &&
+            name.map((data) => (
+              <li
+                key={data.id}
+                data-id={data.id}
+                data-name={data.name}
+                onClick={handleClick}
+              >
+                {data.name}
+              </li>
+            ))}
+        </ul>
+        {!name ? (
+          <q>
+            Please wait untill your friend joins the connection or you will
+            recieve a notification to join
+          </q>
+        ) : (
+          ''
+        )}
+        {feedback ? (
+          <q>
+            Request send to the room successfully. Wait until the request is
+            accepted!
+          </q>
+        ) : (
+          ''
+        )}
+        {room ? (
+          <div style={{ textAlign: 'center' }}>
+            <h4>
+              {room.name} wants to connect with you id:({room.room})
+            </h4>
+            <button className='btn_accept' onClick={handleAccept}>
+              Accept
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   )
 }

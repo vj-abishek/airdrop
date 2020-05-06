@@ -11,7 +11,7 @@ const peer = new Peer({
   trickle: false,
 })
 peer.on('signal', (data) => {
-  console.log('SIGNAL', data)
+  console.log('SIGNAL:', data)
   socket.emit('airdropOffer', data)
 })
 
