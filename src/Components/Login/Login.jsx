@@ -2,6 +2,7 @@ import React, { useReducer, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { setUser } from '../../State/action'
+import { Helmet } from 'react-helmet'
 
 function Login() {
   // eslint-disable-next-line
@@ -17,6 +18,14 @@ function Login() {
   }
   return (
     <div className='container_for_div'>
+      <Helmet>
+        <title>Safeshare.live - Create Name</title>
+        <link rel='canonical' href='https://safeshare.live/' />
+        <meta
+          name='description'
+          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+        />
+      </Helmet>
       <div className='Create_user'>
         <div className='aboutsection_of_me'>
           <h2 style={{ marginLeft: '15px' }}>Why use SafeShare?</h2>
