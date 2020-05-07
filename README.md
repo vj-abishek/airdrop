@@ -31,3 +31,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
+
+## Copyright
+Licensed under the [MIT LICENSE](LICENSE)
