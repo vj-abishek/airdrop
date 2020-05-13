@@ -28,6 +28,62 @@
   width: 100%;
   height: 75vh;
 }
+.SelfClass {
+  align-items: end;
+  background-color: red;
+
+  flex-direction: row-reverse;
+}
+.AnotherClass {
+  flex-direction: row;
+}
+.message_box_container {
+  display: flex;
+}
+
+.home_message {
+  display: flex;
+
+  margin: 0;
+  padding: 10px;
+  border: 0 solid #000;
+}
+.child_home {
+  max-width: 236px;
+  min-height: 44px;
+
+  border-radius: 22px;
+}
+.self {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.parent {
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  color: #fff;
+}
+
+.selfCont {
+  background-color: #3897f0;
+  color: #fff;
+}
+
+.parentCont {
+  background-color: rgb(24, 24, 24);
+  color: #fff;
+}
+
+.imageSelf {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.imageParent {
+  display: flex;
+  flex-direction: column;
+}
 .input-ka-name {
   width: 100%;
   height: 50px;

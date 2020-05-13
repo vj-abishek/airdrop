@@ -44,6 +44,7 @@ export default function List() {
 
   //handle click
   const handleClick = (e) => {
+    e.stopPropagation() //to stop propagating events
     if (userID === e.target.dataset['name']) return
 
     setfeedback(true)

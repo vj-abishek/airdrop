@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom'
 import './Chat.css'
 import { combaine } from './FileShare/Combine'
 import socket from '../Functions/Users'
+import Message from '../Message/Message'
+import ImageCon from '../Message/ImageCon'
 let array = []
 
 export default function Chat() {
@@ -21,10 +23,10 @@ export default function Chat() {
   const [err, setError] = useState(false)
   const [name, setName] = useState(false)
 
-  const inputVariable = useRef()
-  const file = useRef()
-  const messageContainer = useRef()
-  const imageID = useRef()
+  const inputVariable = useRef(null)
+  const file = useRef(null)
+  const messageContainer = useRef(null)
+  const imageID = useRef(null)
 
   //get ID from the URL
   const { id } = useParams()
@@ -62,11 +64,11 @@ export default function Chat() {
       sentAt: Date.now(),
     }
 
-    setMessage((old) => [...old, data])
-    inputVariable.current.value = ''
-
     //sent the data to other peer
     peer.send(JSON.stringify(data))
+    data.self = true
+    setMessage((old) => [...old, data])
+    inputVariable.current.value = ''
   }
 
   //handle page scrolling
@@ -223,6 +225,7 @@ export default function Chat() {
         url,
         type: file_data.type,
         sentAt: Date.now(),
+        self: true,
       }
 
       setMessage((old) => [...old, datas])
@@ -312,55 +315,18 @@ export default function Chat() {
                 let condition = /^image/gi.test(data.type)
 
                 return condition ? (
-                  <div
-                    key={i + 'Filehash' + 1 + Math.random()}
-                    style={{ display: 'flex', flexDirection: 'column' }}
-                    ref={messageContainer}
-                  >
-                    <div className='img-container-real'>
-                      <div className='inside'>
-                        <img
-                          width='100%'
-                          src={data.url}
-                          ref={imageID}
-                          alt={data.type}
-                        />
-                        <div className='_1i3Za'></div>
-                      </div>
-                      <div className='_1uFFm'>
-                        <div className='_1DZAH _2Pjvv' role='button'>
-                          <span className='_3EFt_' dir='auto'>
-                            {new Date(data.sentAt).toLocaleTimeString()}
-                          </span>
-                          <div className='jdhpF'>
-                            <span
-                              data-icon='msg-dblcheck'
-                              className='_209Po _1xtH9 _3f3C2'
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 16 15'
-                                width='16'
-                                height='15'
-                              >
-                                <path
-                                  fill='royalblue'
-                                  d='M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z'
-                                ></path>
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ImageCon
+                    key={data.id}
+                    data={data}
+                    messageContainer={messageContainer}
+                    imageID={imageID}
+                  />
                 ) : (
-                  <div key={data.id} ref={messageContainer}>
-                    <p style={{ color: '#fff', marginLeft: '5px' }}>
-                      <span style={{ color: '#ababab' }}>{data.name}</span> :{' '}
-                      {data.message}
-                    </p>
-                  </div>
+                  <Message
+                    key={data.id}
+                    forwardedRef={messageContainer}
+                    data={data}
+                  />
                 )
               })
             ) : (
