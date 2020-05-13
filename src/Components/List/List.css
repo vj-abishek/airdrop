@@ -32,6 +32,7 @@ ul li {
   border-radius: 30px;
   padding: 17px 35px;
   margin: 20px 0 70px;
+  cursor: pointer;
   text-decoration: none;
   border: 0px;
 }
