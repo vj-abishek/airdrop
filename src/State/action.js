@@ -50,3 +50,39 @@ export const setUser = (state = init, action) => {
       return state
   }
 }
+
+export const Join = (state, action) => {
+  if (action.type === 'JOIN_ME') {
+    const data = {
+      name: action.uid,
+    }
+
+    //sent user using socket
+    socket.emit('Create_name', data)
+    console.log({ ...data, msg: 'Created Successfully' })
+    socket.emit('qrcoderoomcreate', data)
+    return {
+      ...state,
+      data,
+      msg: 'Created SuccessFully',
+    }
+  }
+}
+
+export const roomJoin = (state, action) => {
+  if (action.type === 'JOIN_ROOM') {
+    const data = {
+      name: action.id,
+    }
+
+    //sent user using socket
+    socket.emit('Create_name', data)
+    console.log('Created the user')
+    socket.emit('qrcoderoomjoin', data)
+
+    return {
+      ...state,
+      data,
+    }
+  }
+}

@@ -9,6 +9,8 @@ const List = lazy(() => import('./Components/List/List'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
 const Auto = lazy(() => import('./Components/Auto/AutoPage'))
 const Share = lazy(() => import('./Components/Share/Share'))
+const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'))
+const Join = lazy(() => import('./Components/Join/Join'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
 
 function App() {
@@ -49,6 +51,12 @@ function App() {
             </Route>
             <Route path='/share'>
               <Share />
+            </Route>
+            <Route path='/qrcode'>
+              <Qrcode />
+            </Route>
+            <Route path='/join/:id'>
+              <Join />
             </Route>
             <Route component={Page404} />
           </Switch>

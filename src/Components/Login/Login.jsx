@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { setUser } from '../../State/action'
 import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 
 function Login() {
   // eslint-disable-next-line
@@ -68,6 +69,10 @@ function Login() {
 
             <Button variant='contained' color='primary' type='submit'>
               Create Me
+            </Button>
+            <Button style={{ marginLeft: '10px' }}>
+              {' '}
+              <Link to='/qrcode'>Generate Qrcode</Link>
             </Button>
           </form>
         </div>

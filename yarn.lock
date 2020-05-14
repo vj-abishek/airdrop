@@ -8662,7 +8662,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8745,6 +8745,20 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+
+qrcode.react@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.0.tgz#7e8889db3b769e555e8eb463d4c6de221c36d5de"
+  integrity sha512-jBXleohRTwvGBe1ngV+62QvEZ/9IZqQivdwzo9pJM4LQMoCM2VnvNBnKdjvGnKyDZ/l0nCDgsPod19RzlPvm/Q==
+  dependencies:
+    loose-envify "^1.4.0"
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
 
 qs@6.7.0:
   version "6.7.0"
@@ -9001,6 +9015,13 @@ react-side-effect@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
   integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
+
+react-spinners-css@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/react-spinners-css/-/react-spinners-css-1.1.8.tgz#4bfde203edb37bb570e6edeea00faade0c77f376"
+  integrity sha512-irdhCZYHoLOIbGakX50hIEwq6DG3TIyPadTqxp9dUGiu2ISrhGstpCCsFvkoVETaK1813h4nKd///luyahJHNg==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-transition-group@^4.3.0:
   version "4.3.0"
