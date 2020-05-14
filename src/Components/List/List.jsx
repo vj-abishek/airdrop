@@ -58,9 +58,9 @@ export default function List() {
 
   socket.on('Joined', (data) => {
     if (click) {
-      history.push(`/chat/${data.room}#init`)
-    } else {
       history.push(`/chat/${data.room}`)
+    } else {
+      history.push(`/chat/${data.room}#init`)
     }
   })
 
