@@ -31,6 +31,13 @@ export default function Chat() {
   //get ID from the URL
   const { id } = useParams()
 
+  //signal the other user
+  useEffect(() => {
+    if (window.location.hash !== '#init') {
+      socket.emit('imhere')
+    }
+  }, [])
+
   //alert the user to not to go back
   useLayoutEffect(() => {
     const onUnload = (e) => {
