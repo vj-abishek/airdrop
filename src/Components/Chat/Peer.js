@@ -1,29 +1,14 @@
 import socket from '../Functions/Users'
 import Peer from 'simple-peer'
 
-let got = false
 const peer = new Peer({
   initiator: window.location.hash === '#init',
   trickle: false,
 })
-
-socket.on('imhere', () => {
-  console.log('The other peer connected 😊')
-  if (!got) {
-    peer.on('signal', (data) => {
-      console.log('SIGNAL:', data)
-      socket.emit('airdropOffer', data)
-    })
-    got = true
-  }
+peer.on('signal', (data) => {
+  console.log('SIGNAL:', data)
+  socket.emit('airdropOffer', data)
 })
-
-if (window.location.hash !== '#init') {
-  peer.on('signal', (data) => {
-    console.log('SIGNAL:', data)
-    socket.emit('airdropOffer', data)
-  })
-}
 
 //listen to socket
 socket.on('backOffer', (data) => {
