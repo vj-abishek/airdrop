@@ -5,6 +5,7 @@ import socket from '../Functions/Users'
 import { v4 as uuid } from 'uuid'
 import { Join } from '../../State/action'
 import history from '../history'
+import { Helmet } from 'react-helmet'
 
 export default function Qrcode() {
   // eslint-disable-next-line
@@ -38,17 +39,27 @@ export default function Qrcode() {
   })
 
   return !created ? (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <Ring color='#3f51b5' />
-    </div>
+    <>
+      <Helmet>
+        <title>Safeshare.live - Connect with QRcode</title>
+        <link rel='canonical' href='https://safeshare.live/' />
+        <meta
+          name='description'
+          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+        />
+      </Helmet>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <Ring color='#3f51b5' />
+      </div>
+    </>
   ) : (
     <div
       style={{
@@ -59,6 +70,14 @@ export default function Qrcode() {
         flexDirection: 'column',
       }}
     >
+      <Helmet>
+        <title>Safeshare.live - Connect with QRcode</title>
+        <link rel='canonical' href='https://safeshare.live/' />
+        <meta
+          name='description'
+          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+        />
+      </Helmet>
       <h1>Scan the Qrcode</h1>
 
       <QRCode
