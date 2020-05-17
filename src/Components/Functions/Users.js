@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 const socket =
   window.location.host === 'localhost:3000'
     ? io.connect('localhost:3030')
-    : io.connect('https://denoreact.web.app/server')
+    : io.connect('https://denoreact.web.app/')
 
 export default socket
 
