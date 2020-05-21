@@ -27,7 +27,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `Demo`
 
-[Demo](https://onshare.now.sh/)
+[Demo](https://onshare.now.sh/qrcode)
+Scan the `Qrcode` in another device and open the URL in a `browser`
+
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
