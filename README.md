@@ -31,6 +31,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Scan the `Qrcode` in another device and open the URL in a `browser`
 
+### `How to use`
+
+![How to use](https://github.com/vj-abishek/airdrop/blob/master/img/ezgif.com-video-to-gif.gif)
+
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
