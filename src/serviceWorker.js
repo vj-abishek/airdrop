@@ -136,30 +136,30 @@ export function unregister() {
   }
 }
 
-const handleFileshare = (e) => {
-  e.respondeWith(Response.redirect('./'))
+// const handleFileshare = (e) => {
+//   e.respondeWith(Response.redirect('./'))
 
-  e.waitUntil(
-    (async function () {
-      const data = await e.request.formData()
-      const client = await navigator.serviceWorker.clients.get(
-        e.resultingClientId
-      )
+//   e.waitUntil(
+//     (async function () {
+//       const data = await e.request.formData()
+//       const client = await navigator.serviceWorker.clients.get(
+//         e.resultingClientId
+//       )
 
-      const file = data.get('file')
-      client.postMessage({ file })
-    })()
-  )
-}
+//       const file = data.get('file')
+//       client.postMessage({ file })
+//     })()
+//   )
+// }
 
-navigator.serviceWorker.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url)
+// navigator.serviceWorker.addEventListener('fetch', (e) => {
+//   const url = new URL(e.request.url)
 
-  if (
-    url.origin === window.location.origin &&
-    url.pathname === '/share' &&
-    e.request.method === 'POST'
-  ) {
-    handleFileshare(e)
-  }
-})
+//   if (
+//     url.origin === window.location.origin &&
+//     url.pathname === '/share' &&
+//     e.request.method === 'POST'
+//   ) {
+//     handleFileshare(e)
+//   }
+// })

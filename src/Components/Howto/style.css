@@ -1,0 +1,11 @@
+.iframevideo {
+  width: 60%;
+  height: 315px;
+}
+
+@media (max-width: 425px) {
+  .iframevideo {
+    height: 315px;
+    width: 300px;
+  }
+}
