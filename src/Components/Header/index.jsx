@@ -6,8 +6,14 @@ export default function index() {
   return (
     <header className='header'>
       <div className='logo' title='SafeShare logo'>
-        <span className='color-diff'>Safe</span>
-        <span className='color-difference'>share</span>
+        <Link
+          to='/'
+          title='Home Page URL'
+          style={{ color: '#fff', textDecoration: 'none' }}
+        >
+          <span className='color-diff'>Safe</span>
+          <span className='color-difference'>share</span>
+        </Link>
       </div>
       <div className='share-button'>
         <Link
