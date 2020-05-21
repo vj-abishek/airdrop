@@ -11,7 +11,7 @@ export default function index() {
       </div>
       <div className='share-button'>
         <Link
-          to='/create_user_name'
+          to='/auto'
           title='Share files'
           style={{ color: '#fff', textDecoration: 'none' }}
         >

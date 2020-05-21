@@ -13,7 +13,7 @@ export default function index() {
           <p style={{ marginTop: '-20px' }}>to peer communication</p>
         </div>
         <Link
-          to='/auto'
+          to='/create_user_name'
           alt='Share files'
           title='Share files'
           style={{ color: '#fff', textDecoration: 'none', marginLeft: '15px' }}
