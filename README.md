@@ -27,7 +27,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `Demo`
 
-[Demo](https://airdrop.netlify.com)
+[Demo](https://onshare.now.sh/)
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
