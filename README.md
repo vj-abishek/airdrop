@@ -10,8 +10,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
@@ -21,7 +19,6 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 
 ## Learn More
 
@@ -33,11 +30,12 @@ Scan the `Qrcode` in another device and open the URL in a `browser`
 
 ### `How to use`
 
-![How to use](https://github.com/vj-abishek/airdrop/blob/master/img/ezgif.com-video-to-gif.gif)
+![How to use](https://github.com/vj-abishek/airdrop/blob/master/img/ezgif.com-gif-maker.gif)
 
 ### `Server Repo`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
 
 ## Copyright
+
 Licensed under the [MIT LICENSE](LICENSE)
