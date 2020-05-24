@@ -163,8 +163,8 @@ export default function Chat() {
           let message = {
             name: 'Bot',
             id: uuid(),
-            message: `${Filetype.fileName || 'airdrop'}.${
-              Filetype.type
+            message: `${
+              Filetype.fileName || 'airdrop'
             } successfully downloaded 😀`,
             type: Filetype.type || 'text/plain',
             custom: true,
