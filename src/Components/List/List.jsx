@@ -3,7 +3,7 @@ import history from '../history'
 import { useParams } from 'react-router-dom'
 import socket from '../Functions/Users'
 import './List.css'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
 //variable for redirection
 let click = false
