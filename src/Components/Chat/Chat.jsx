@@ -223,7 +223,7 @@ export default function Chat() {
       let datas = {
         id: uuid(),
         name: name[0].name,
-        message: 'You are sending a file',
+        message: `${file_data.name} is sending...`,
         url,
         type: file_data.type,
         sentAt: Date.now(),
