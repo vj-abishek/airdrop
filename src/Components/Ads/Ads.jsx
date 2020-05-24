@@ -7,7 +7,7 @@ export default class Ad extends React.Component {
 
   render() {
     return (
-      <>
+      <div style={{ margin: 'auto' }}>
         {/* Horizontal Ad  */}
         <ins
           className='adsbygoogle'
@@ -17,7 +17,7 @@ export default class Ad extends React.Component {
           data-ad-format='auto'
           data-full-width-responsive='true'
         ></ins>
-      </>
+      </div>
     )
   }
 }
