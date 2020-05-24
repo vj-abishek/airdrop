@@ -37,6 +37,7 @@ export default function Home() {
   }
   return (
     <div>
+      <Ad />
       <Header />
       <Section />
       <Article />
@@ -46,7 +47,7 @@ export default function Home() {
       ) : (
         ''
       )}
-      <Ad />
+
       <Footer />
     </div>
   )
