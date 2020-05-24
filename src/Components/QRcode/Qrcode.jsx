@@ -54,6 +54,8 @@ export default function Qrcode() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: 'rgb(24, 24, 24)',
+          color: '#fff',
           flexDirection: 'column',
         }}
       >
@@ -67,6 +69,8 @@ export default function Qrcode() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgb(24, 24, 24)',
+        color: '#fff',
         flexDirection: 'column',
       }}
     >
