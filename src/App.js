@@ -11,6 +11,7 @@ const Auto = lazy(() => import('./Components/Auto/AutoPage'))
 const Share = lazy(() => import('./Components/Share/Share'))
 const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'))
 const Join = lazy(() => import('./Components/Join/Join'))
+const Toast = lazy(() => import('./Components/Alert/Toast'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
 
 function App() {
@@ -57,6 +58,9 @@ function App() {
             </Route>
             <Route path='/join/:id'>
               <Join />
+            </Route>
+            <Route path='/toast'>
+              <Toast />
             </Route>
             <Route component={Page404} />
           </Switch>

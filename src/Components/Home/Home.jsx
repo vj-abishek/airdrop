@@ -56,8 +56,8 @@ export default function Home() {
     <div>
       <Ad />
       <Header />
-      <Section />
       {updateHappen && <Toast />}
+      <Section />
       <Article />
       <Howto />
       {trigger && <Prompt handleClick={HandleClick} Cancel={handleCancel} />}
