@@ -201,7 +201,7 @@ export default function Chat() {
               new Notification(
                 `${
                   Filetype.fileName || 'airdrop ' + Date.now()
-                } successfully downloaded 😀`
+                } downloaded successfully 😀`
               )
             }
           }
