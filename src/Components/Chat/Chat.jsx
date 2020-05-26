@@ -107,11 +107,11 @@ export default function Chat() {
     const update = (newData) => {
       setMessage([...message, newData])
     }
-    const handleError = () => {
+    const handleError = (err) => {
       let error = {
         id: uuid(),
         name: 'Bot',
-        message: 'The other peer disconnected  :(',
+        message: 'The other peer disconnected  :(  ' + err,
         time: Date.now(),
       }
       // console.log(error)
@@ -125,6 +125,18 @@ export default function Chat() {
 
   //handle Incoming Message
   useEffect(() => {
+    //get permissions for notifications
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission().then(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === 'granted') {
+          new Notification(
+            'This is how the notification will be shown when a file is downloaded'
+          )
+        }
+      })
+    }
+
     const handleIncomingMessage = (data) => {
       // console.log(JSON.parse(data))
       //TODO:Hadling files that are recievied ⌛
@@ -160,6 +172,7 @@ export default function Chat() {
           })
           let url = window.URL.createObjectURL(buffer)
           console.log('URL:', url)
+
           let message = {
             name: 'Bot',
             id: uuid(),
@@ -179,11 +192,16 @@ export default function Chat() {
             let a
             a = document.createElement('a')
             a.href = url
-            a.download = Filetype.fileName || 'airdrop' + Date.now()
+            a.download = Filetype.fileName || 'airdrop'
             document.body.appendChild(a)
             a.style = 'display: none'
             a.click()
             a.remove()
+            new Notification(
+              `${
+                Filetype.fileName || 'airdrop ' + Date.now()
+              } successfully downloaded 😀`
+            )
           }
           update(message)
           array = []
@@ -231,8 +249,13 @@ export default function Chat() {
       }
 
       setMessage((old) => [...old, datas])
-      //set Blured Image
-      imageID.current.style.filter = 'blur(10px)'
+
+      try {
+        //set Blured Image
+        imageID.current.style.filter = 'blur(10px)'
+      } catch (err) {
+        console.log('An error occured. See this ', err)
+      }
     }
     reader.readAsDataURL(file_data)
 
@@ -252,8 +275,12 @@ export default function Chat() {
           if (data.byteLength === 0) {
             // peer.send(JSON.stringify(bufferArrayuni.slice(-1).pop()))
             peer.send('final')
-            //Remove Blured Image
-            imageID.current.style.filter = 'blur(0px)'
+            try {
+              //Remove Blured Image
+              imageID.current.style.filter = 'blur(0px)'
+            } catch (err) {
+              console.log('This is not an image')
+            }
           }
         })
       })
