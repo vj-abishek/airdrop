@@ -197,11 +197,13 @@ export default function Chat() {
             a.style = 'display: none'
             a.click()
             a.remove()
-            new Notification(
-              `${
-                Filetype.fileName || 'airdrop ' + Date.now()
-              } successfully downloaded 😀`
-            )
+            if (Notification.permission === 'granted') {
+              new Notification(
+                `${
+                  Filetype.fileName || 'airdrop ' + Date.now()
+                } successfully downloaded 😀`
+              )
+            }
           }
           update(message)
           array = []
