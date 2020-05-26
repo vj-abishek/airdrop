@@ -24,7 +24,7 @@ export default function Home() {
     navigator.serviceWorker.addEventListener('message', messages)
     return () =>
       navigator.serviceWorker.removeEventListener('message', messages)
-  }, [trigger])
+  }, [updateHappen])
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', (e) => {
