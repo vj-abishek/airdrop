@@ -17,6 +17,7 @@ export default function Home() {
   useEffect(() => {
     navigator.serviceWorker.addEventListener('message', (e) => {
       if (e.data.type === 'UPDATE') {
+        console.log('Update message..')
         setUpdateHappen(true)
       }
     })
