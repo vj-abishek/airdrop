@@ -6,10 +6,22 @@ import Footer from '../Footer'
 import Ad from '../Ads/Ads'
 import Prompt from '../Prompt/Prompt'
 import Howto from '../Howto/Howto'
+import Toast from '../Alert/Toast'
 
 export default function Home() {
   const [trigger, setTrigger] = useState(false)
+  const [updateHappen, setUpdateHappen] = useState(false)
   const [prompt, setPrompt] = useState()
+
+  //listen for update event from the service worker
+  useEffect(() => {
+    navigator.serviceWorker.addEventListener('message', (e) => {
+      if (e.data.type === 'UPDATE') {
+        setUpdateHappen(true)
+      }
+    })
+  }, [])
+
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent the mini-infobar from appearing on mobile
@@ -35,19 +47,16 @@ export default function Home() {
       }
     })
   }
+  const handleCancel = () => setTrigger(false)
   return (
     <div>
       <Ad />
       <Header />
       <Section />
+      {updateHappen && <Toast />}
       <Article />
       <Howto />
-      {trigger ? (
-        <Prompt handleClick={HandleClick} Cancel={() => setTrigger(false)} />
-      ) : (
-        ''
-      )}
-
+      {trigger && <Prompt handleClick={HandleClick} Cancel={handleCancel} />}
       <Footer />
     </div>
   )
