@@ -15,13 +15,16 @@ export default function Home() {
 
   //listen for update event from the service worker
   useEffect(() => {
-    navigator.serviceWorker.addEventListener('message', (e) => {
+    const messages = (e) => {
       if (e.data.type === 'UPDATE') {
         console.log('Update message.. testing')
         setUpdateHappen(true)
       }
-    })
-  }, [])
+    }
+    navigator.serviceWorker.addEventListener('message', messages)
+    return () =>
+      navigator.serviceWorker.removeEventListener('message', messages)
+  }, [trigger])
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', (e) => {
