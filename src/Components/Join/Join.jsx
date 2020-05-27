@@ -5,6 +5,7 @@ import { roomJoin } from '../../State/action'
 import history from '../history'
 import { Ring } from 'react-spinners-css'
 import socket from '../Functions/Users'
+import { Helmet } from 'react-helmet'
 
 export default function Join() {
   // eslint-disable-next-line
@@ -28,16 +29,28 @@ export default function Join() {
   }, [id])
 
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <Ring color='#3f51b5' />
-    </div>
+    <>
+      <Helmet>
+        <title>Joning to other peer...</title>
+        <link rel='canonical' href='https://safeshare.live/' />
+        <meta
+          name='description'
+          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+        />
+      </Helmet>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'rgb(24, 24, 24)',
+          color: '#fff',
+          flexDirection: 'column',
+        }}
+      >
+        <Ring color='#3f51b5' />
+      </div>
+    </>
   )
 }
