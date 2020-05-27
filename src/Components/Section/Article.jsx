@@ -19,8 +19,13 @@ export default function Article() {
             Share your files privately without getting them leaked . This is a
             realtime sharing system. The files you share won't be uploaded to
             our server. This website is based on
-            <a href='https://en.wikipedia.org/wiki/WebRTC' target='blank'>
-              {''}WEBRTC
+            <a
+              style={{ color: '#000' }}
+              href='https://en.wikipedia.org/wiki/WebRTC'
+              target='blank'
+            >
+              {' '}
+              WEBRTC
             </a>
             . A realtime communication channel to transfer data. You can
             transfer your files to anyone, anywhere in the world without
