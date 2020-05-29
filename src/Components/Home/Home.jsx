@@ -24,7 +24,6 @@ export default function Home() {
 
     if (navigator.serviceWorker.controller !== null) {
       navigator.serviceWorker.ready.then((da) => {
-        console.log(da, 'testing')
         da.onupdatefound = messages
       })
     }
