@@ -96,6 +96,8 @@ function registerValidSW(swUrl, config) {
           }
         }
       }
+
+      //my function
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error)
@@ -140,30 +142,44 @@ export function unregister() {
   }
 }
 
-// const handleFileshare = (e) => {
-//   e.respondeWith(Response.redirect('./'))
 
-//   e.waitUntil(
-//     (async function () {
-//       const data = await e.request.formData()
-//       const client = await navigator.serviceWorker.clients.get(
-//         e.resultingClientId
-//       )
+//function to handle file sharing
+if (navigator.serviceWorker) {
+  const handleFileshare = (e) => {
+    e.respondeWith(Response.redirect('./'))
 
-//       const file = data.get('file')
-//       client.postMessage({ file })
-//     })()
-//   )
-// }
+    // Eg, if it's cross-origin.
+    if (!e.clientId) return;
 
-// navigator.serviceWorker.addEventListener('fetch', (e) => {
-//   const url = new URL(e.request.url)
+    e.waitUntil(
+      (async function () {
+        const data = await e.request.formData()
+        // const client = await clients.get(e.clientId);
 
-//   if (
-//     url.origin === window.location.origin &&
-//     url.pathname === '/share' &&
-//     e.request.method === 'POST'
-//   ) {
-//     handleFileshare(e)
-//   }
-// })
+        e.clients.matchAll().then(function (clients) {
+          clients.forEach(function (client) {
+            const file = data.get('file')
+
+            client.postMessage({ file })
+          });
+        })
+
+        // const file = data.get('file')
+        // client.postMessage({ file })
+      })()
+    )
+  }
+
+  navigator.serviceWorker.addEventListener('fetch', (e) => {
+    const url = new URL(e.request.url)
+
+    if (
+      url.origin === window.location.origin &&
+      url.pathname === '/share' &&
+      e.request.method === 'POST'
+    ) {
+      handleFileshare(e)
+    }
+  })
+
+}

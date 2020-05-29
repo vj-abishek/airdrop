@@ -17,7 +17,7 @@ export default function ColorAlerts() {
   return (
     <div className={classes.root}>
       <Alert severity='success' color='info'>
-        New content avaliable — Close and reopen the app!
+        New update avaliable — reopen the app!
       </Alert>
     </div>
   )

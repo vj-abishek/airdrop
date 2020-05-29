@@ -16,10 +16,9 @@ export default function Home() {
   //listen for update event from the service worker
   useEffect(() => {
     const messages = (e) => {
-      if (e.type === 'updatefound') {
-        console.log('Update happened from the local file')
-        setUpdateHappen(true)
-      }
+      console.log(e)
+      console.log('Update happen,testing..')
+      setUpdateHappen(true)
     }
 
     if (navigator.serviceWorker) {
