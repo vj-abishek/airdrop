@@ -35,7 +35,7 @@ export default function Chat() {
   useLayoutEffect(() => {
     const onUnload = (e) => {
       e.preventDefault()
-      e.returnValue = 'Are you sure you want to leave the chat?'
+      e.returnValue = 'Are you sure to leave ?'
     }
     window.addEventListener('beforeunload', onUnload)
     return () => window.removeEventListener('beforeunload', onUnload)

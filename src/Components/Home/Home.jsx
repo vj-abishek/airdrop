@@ -15,13 +15,18 @@ export default function Home() {
 
   //listen for update event from the service worker
   useEffect(() => {
-    const messages = (e) => {
-      if (e.data.type === 'UPDATE') {
-        console.log('Update message.. testing')
-        setUpdateHappen(true)
-      }
+    const messages = () => {
+      console.log('Update happened from the local file')
+      setUpdateHappen(true)
     }
-    navigator.serviceWorker.addEventListener('message', messages)
+
+    if (navigator.serviceWorker.controller !== null) {
+      navigator.serviceWorker.ready.then((da) => {
+        console.log(da, 'testing')
+        da.onupdatefound = messages
+      })
+    }
+    // navigator.serviceWorker.onmessage = messages
     return () =>
       navigator.serviceWorker.removeEventListener('message', messages)
   }, [updateHappen])
