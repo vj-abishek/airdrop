@@ -22,7 +22,7 @@ export default function Home() {
       }
     }
 
-    if (navigator.serviceWorker.controller !== null) {
+    if (navigator.serviceWorker) {
       navigator.serviceWorker.ready.then((da) => {
         da.onupdatefound = messages
       })
