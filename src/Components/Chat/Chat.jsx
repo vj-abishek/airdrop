@@ -11,6 +11,7 @@ import { combaine } from './FileShare/Combine'
 import socket from '../Functions/Users'
 import Message from '../Message/Message'
 import ImageCon from '../Message/ImageCon'
+
 let array = []
 
 export default function Chat() {
@@ -176,9 +177,7 @@ export default function Chat() {
           let message = {
             name: 'Bot',
             id: uuid(),
-            message: `${
-              Filetype.fileName || 'airdrop'
-            } successfully downloaded 😀`,
+            message: `${Filetype.fileName || 'airdrop'}`,
             type: Filetype.type || 'text/plain',
             custom: true,
             sentAt: Date.now(),
@@ -189,21 +188,21 @@ export default function Chat() {
           // console.log(!regex.test(Filetype.type))
 
           if (!regex.test(Filetype.type)) {
-            let a
-            a = document.createElement('a')
-            a.href = url
-            a.download = Filetype.fileName || 'airdrop'
-            document.body.appendChild(a)
-            a.style = 'display: none'
-            a.click()
-            a.remove()
-            if (Notification.permission === 'granted') {
-              new Notification(
-                `${
-                  Filetype.fileName || 'airdrop ' + Date.now()
-                } downloaded successfully 😀`
-              )
-            }
+            // let a
+            // a = document.createElement('a')
+            // a.href = url
+            // a.download = Filetype.fileName || 'airdrop'
+            // document.body.appendChild(a)
+            // a.style = 'display: none'
+            // a.click()
+            // a.remove()
+            // if (Notification.permission === 'granted') {
+            //   new Notification(
+            //     `${
+            //       Filetype.fileName || 'airdrop ' + Date.now()
+            //     } downloaded successfully 😀`
+            //   )
+            // }
           }
           update(message)
           array = []
@@ -294,7 +293,7 @@ export default function Chat() {
   return (
     <>
       <Helmet>
-        <title>Safeshare.live - Now transfer your files - {id}</title>
+        <title>Safeshare.live - Connected with room {id}</title>
         <link rel='canonical' href='https://safeshare.live/' />
         <meta
           name='description'
@@ -352,7 +351,7 @@ export default function Chat() {
           <div className='Message'>
             {connected ? (
               message.length > 0 ? (
-                message.map((data, i) => {
+                message.map((data) => {
                   let condition = /^image/gi.test(data.type)
 
                   return condition ? (

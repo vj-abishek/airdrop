@@ -27,8 +27,6 @@ export default function Home() {
       })
     }
     // navigator.serviceWorker.onmessage = messages
-    return () =>
-      navigator.serviceWorker.removeEventListener('message', messages)
   }, [updateHappen])
 
   useEffect(() => {

@@ -38,6 +38,45 @@ export function register(config) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config)
 
+        // My fuction to share files
+        const handleFileshare = (e) => {
+          e.respondeWith(Response.redirect('./'))
+
+          // Eg, if it's cross-origin.
+          if (!e.clientId) return;
+
+          e.waitUntil(
+            (async function () {
+              const data = await e.request.formData()
+              // const client = await clients.get(e.clientId);
+
+              e.clients.matchAll().then(function (clients) {
+                clients.forEach(function (client) {
+                  const file = data.get('file')
+
+                  client.postMessage({ file })
+                });
+              })
+
+              // const file = data.get('file')
+              // client.postMessage({ file })
+            })()
+          )
+        }
+
+        navigator.serviceWorker.addEventListener('fetch', (e) => {
+          const url = new URL(e.request.url)
+
+          if (
+            url.origin === window.location.origin &&
+            url.pathname === '/share' &&
+            e.request.method === 'POST'
+          ) {
+            handleFileshare(e)
+          }
+        })
+
+
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
@@ -143,43 +182,4 @@ export function unregister() {
 }
 
 
-//function to handle file sharing
-if (navigator.serviceWorker) {
-  const handleFileshare = (e) => {
-    e.respondeWith(Response.redirect('./'))
 
-    // Eg, if it's cross-origin.
-    if (!e.clientId) return;
-
-    e.waitUntil(
-      (async function () {
-        const data = await e.request.formData()
-        // const client = await clients.get(e.clientId);
-
-        e.clients.matchAll().then(function (clients) {
-          clients.forEach(function (client) {
-            const file = data.get('file')
-
-            client.postMessage({ file })
-          });
-        })
-
-        // const file = data.get('file')
-        // client.postMessage({ file })
-      })()
-    )
-  }
-
-  navigator.serviceWorker.addEventListener('fetch', (e) => {
-    const url = new URL(e.request.url)
-
-    if (
-      url.origin === window.location.origin &&
-      url.pathname === '/share' &&
-      e.request.method === 'POST'
-    ) {
-      handleFileshare(e)
-    }
-  })
-
-}
