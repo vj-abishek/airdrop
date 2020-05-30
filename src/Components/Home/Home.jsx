@@ -61,6 +61,7 @@ export default function Home() {
     <div>
       <Ad />
       <Header />
+      <button onClick={methodDoesNotExist}>Break the world</button>;
       {updateHappen && <Toast />}
       <Section />
       <Article />
