@@ -57,18 +57,10 @@ export default function Home() {
     })
   }
   const handleCancel = () => setTrigger(false)
-  const methodDoesNotExist = () => {
-    try {
-      window.alertme('hello world')
-    } catch (err) {
-      console.error(err)
-    }
-  }
   return (
     <div>
       <Ad />
       <Header />
-      <button onClick={methodDoesNotExist}>Break the world</button>;
       {updateHappen && <Toast />}
       <Section />
       <Article />
