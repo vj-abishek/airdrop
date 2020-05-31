@@ -2,8 +2,7 @@ import React from 'react'
 
 export default function Message({ data, forwardedRef }) {
   const handleClick = (e) => {
-    console.log(e)
-    e.style.display = 'none'
+    e.target.style.display = 'none'
   }
   return (
     <div className={data.self ? 'home_message self' : 'home_message parent'}>
