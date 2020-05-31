@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default function Message({ data, forwardedRef }) {
+  const handleClick = (e) => {
+    console.log(e)
+    e.style.display = 'none'
+  }
   return (
     <div className={data.self ? 'home_message self' : 'home_message parent'}>
       <div
@@ -13,6 +17,7 @@ export default function Message({ data, forwardedRef }) {
           <a
             href={data.url}
             download={data.message}
+            onClick={handleClick}
             title={`Download "${data.message}"`}
             style={{
               textDecoration: 'none',
