@@ -21,6 +21,7 @@ socket.on('backOffer', (data) => {
   peer.signal(data)
 })
 
+peer.on('connect', () => console.log('Connected finally 😉'))
 
 socket.on('airdropBackAnswer', data => {
   peer.signal(data)
