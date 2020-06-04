@@ -3,7 +3,7 @@ import Header from '../Header'
 import Section from '../Section'
 import Article from '../Section/Article'
 import Footer from '../Footer'
-import Ad from '../Ads/Ads'
+// import Ad from '../Ads/Ads'
 import Prompt from '../Prompt/Prompt'
 import Howto from '../Howto/Howto'
 import Toast from '../Alert/Toast'
@@ -57,7 +57,6 @@ export default function Home() {
   const handleCancel = () => setTrigger(false)
   return (
     <div>
-      <Ad />
       <Header />
       {updateHappen && <Toast />}
       <Section />
