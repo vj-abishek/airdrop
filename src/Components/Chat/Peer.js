@@ -3,7 +3,7 @@ import Peer from 'simple-peer'
 
 let peers;
 
-if (window.localhost.hash === '#init') {
+if (window.location.hash === '#init') {
   const peer = new Peer({
     initiator: true,
     trickle: false,
