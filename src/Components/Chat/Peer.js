@@ -38,7 +38,7 @@ socket.on('airdropBackAnswer', data => {
 })
 //listen for data changes
 
-export default peers
+export default Peer
 
 // let buffer = new Blob(array, {
 //   type: parsed.type
