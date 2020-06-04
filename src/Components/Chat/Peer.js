@@ -1,23 +1,44 @@
 import socket from '../Functions/Users'
 import Peer from 'simple-peer'
 
-const peer = new Peer({
-  initiator: window.location.hash === '#init',
-  trickle: false,
-})
-peer.on('signal', (data) => {
-  console.log('SIGNAL:', data)
-  socket.emit('airdropOffer', data)
-})
+let peers;
 
+if (window.localhost.hash === '#init') {
+  const peer = new Peer({
+    initiator: true,
+    trickle: false,
+  })
+
+  peer.on('signal', (data) => {
+    console.log('SIGNAL:', data)
+    socket.emit('airdropOffer', data)
+  })
+  peers = peer
+
+}
 //listen to socket
 socket.on('backOffer', (data) => {
+  const peer = new Peer({
+    initiator: false,
+    trickle: false,
+  })
+
+  peer.on('signal', data => {
+    console.log(`I think it is answer`, data)
+    socket.emit('airdropAnswer', data)
+  })
   peer.signal(data)
+
+  peers = peer
 })
 
+
+socket.on('airdropBackAnswer', data => {
+  peers.signal(data)
+})
 //listen for data changes
 
-export default peer
+export default peers
 
 // let buffer = new Blob(array, {
 //   type: parsed.type
