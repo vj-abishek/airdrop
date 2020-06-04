@@ -11,3 +11,4 @@ export default socket
 //https://denoreact.web.app/
 //https://us-central1-denoreact.cloudfunctions.net/app
 // https://abigo-facetime.herokuapp.com/
+// https://facetime.azurewebsites.net/

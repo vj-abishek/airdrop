@@ -20,6 +20,11 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Info
+If you are using it in local dev envirnoment, You must have a server in your development computer.
+
+Orelse open with `127.0.0.1:3000` instead of `localhost:3000`
+
 ## Learn More
 
 ### `Demo`
