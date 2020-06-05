@@ -98,6 +98,7 @@ export default function Chat() {
     peer.on('connect', () => {
       if (!connected) {
         setConnected(true)
+        window.navigator.vibrate(200) //feedback when connected
       }
     })
   }, [connected, name])
