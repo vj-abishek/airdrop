@@ -69,6 +69,10 @@ export default function List() {
     socket.emit('Join_by_ME', room)
   }
 
+  const handleBack = () => {
+    window.location.href = '/'
+  }
+
   return (
     <>
       <Helmet>
@@ -124,7 +128,11 @@ export default function List() {
               </button>
             </div>
           ) : (
-            ''
+            <div style={{ textAlign: 'center' }}>
+              <button className='btn_accept' onClick={handleBack}>
+                Back
+              </button>
+            </div>
           )}
         </div>
       </div>
