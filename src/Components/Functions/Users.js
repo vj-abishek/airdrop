@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 const socket =
   window.location.protocol === 'http'
     ? io.connect(`${window.location.hostname}:3030`)
-    : io.connect('https://abigo-facetime.herokuapp.com/')
+    : io.connect('https://facetime.azurewebsites.net/')
 
 export default socket
 
