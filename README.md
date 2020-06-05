@@ -41,6 +41,9 @@ Scan the `Qrcode` in another device and open the URL in a `browser`
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
 
+## How to contribute
+Issues and PR's are welcome.
+
 ## Copyright
 
 Licensed under the [MIT LICENSE](LICENSE)
