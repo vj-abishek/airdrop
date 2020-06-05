@@ -87,7 +87,6 @@ export default function Chat() {
 
   useEffect(() => {
     //handle when peer is conneted
-    window.socket = socket
 
     if (!name) {
       socket.emit('get_user', {
