@@ -23,7 +23,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Info
 If you are using it in local dev envirnoment, You must have a server in your development computer.
 
-Orelse open with `127.0.0.1:3000` instead of `localhost:3000`
+If you don't have the server ,open with `127.0.0.1:3000` instead of `localhost:3000`
 
 ## Learn More
 
