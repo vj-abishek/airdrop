@@ -4,9 +4,8 @@ import io from 'socket.io-client'
 const socket =
   window.location.protocol === 'http'
     ? io.connect(`${window.location.hostname}:3030`)
-    : io.connect('ws://facetime.azurewebsites.net/', { transports: ['websocket'] })
+    : io.connect('https://facetime.azurewebsites.net/', { transports: ['websocket'] })
 
-// var socket = io();
 
 export default socket
 
