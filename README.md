@@ -27,7 +27,7 @@ If you don't have the server ,open with `127.0.0.1:3000` instead of `localhost:3
 
 ## Learn More
 
-### `Demo`
+# Demo
 
 [https://onshare.now.sh/qrcode](https://onshare.now.sh/qrcode)
 
