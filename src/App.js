@@ -2,11 +2,11 @@ import React, { lazy, Suspense } from 'react'
 import './App.css'
 import { Router, Switch, Route } from 'react-router-dom'
 import history from './Components/history'
+import Chat from './Components/Chat/Chat'
 //lazy load the components
 const Login = lazy(() => import('./Components/Login/Login'))
 const Home = lazy(() => import('./Components/Home/Home'))
 const List = lazy(() => import('./Components/List/List'))
-const Chat = lazy(() => import('./Components/Chat/Chat'))
 const Auto = lazy(() => import('./Components/Auto/AutoPage'))
 const Share = lazy(() => import('./Components/Share/Share'))
 const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'))
