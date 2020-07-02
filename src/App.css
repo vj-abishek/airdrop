@@ -328,3 +328,19 @@ imageCOntainEE img {
     text-align: center;
   }
 }
+
+
+.back-drop{
+  padding:10px;
+  background: #ebebeb;
+  box-shadow: 1px 4px 5px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  height: 340px;
+  
+}
+
+@media(max-width:720px){
+  .back-drop{
+    margin-bottom: 10px;
+  }
+}

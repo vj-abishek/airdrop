@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function Article() {
   return (
@@ -6,7 +6,7 @@ export default function Article() {
       <p className='about'>ABOUT SafeShare</p>
       <br />
       <div className='about-section'>
-        <div>
+        <div className='back-drop'>
           <i
             className='material-icons'
             style={{ fontSize: '50px', color: '#3F3D56' }}
@@ -33,7 +33,7 @@ export default function Article() {
           </p>
         </div>
 
-        <div>
+        <div className='back-drop'>
           <i
             className='material-icons'
             style={{ fontSize: '50px', color: ' #3F3D56' }}
@@ -44,11 +44,11 @@ export default function Article() {
           <p>
             Now you can communicate with the other peer along with sending
             files. Your chat is private and you also can use our website for
-            secrete conversations. This is a handy feature which enables you to
-            chat with each other and share your desired files
+            secrete conversati ons. This is a handy feature which enables you to
+            chat with each other and sh are your desired files
           </p>
         </div>
-        <div>
+        <div className='back-drop'>
           <i
             className='material-icons'
             style={{ fontSize: '50px', color: '#3F3D56' }}
@@ -64,5 +64,5 @@ export default function Article() {
         </div>
       </div>
     </article>
-  )
+  );
 }
