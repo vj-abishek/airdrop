@@ -4,13 +4,13 @@ import './style.css';
 export default function Howto() {
   return (
     <div style={{ margin: '20px auto', textAlign: 'center' }}>
-      <h2 style={{ fontFamily: "'Ubuntu', sans-serif" }}>
-        How to use safeshare.live?
-      </h2>
+      <h3 style={{ fontFamily: "'Ubuntu', sans-serif" }}>
+        Don't know, how to use safeshare.live?
+      </h3>
       <div className='youtube-dl'>
         {' '}
         <iframe
-          title='How to use Safeshare.live'
+          title='Watch this to know how to use'
           width='600'
           height='350'
           src='https://www.youtube.com/embed/DxDyMuiVGHE?start=2'

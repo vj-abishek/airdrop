@@ -80,14 +80,17 @@ p {
 }
 
 .about-section {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-gap:1em;
+  justify-items: center;  
+  overflow-x:auto;
+  margin: 20px;
 }
 
 .about-section div {
   text-align: center;
-  width: 300px;
+  width: 280px;
 }
 
 .about-section div p {
@@ -331,16 +334,13 @@ imageCOntainEE img {
 
 
 .back-drop{
-  padding:10px;
   background: #ebebeb;
   box-shadow: 1px 4px 5px rgba(0,0,0,0.1);
   border-radius: 10px;
-  height: 340px;
-  
 }
 
 @media(max-width:720px){
   .back-drop{
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 }
