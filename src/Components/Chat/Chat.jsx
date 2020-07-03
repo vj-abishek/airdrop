@@ -1,61 +1,75 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import peer from './Peer'
-import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js'
-import Success from './Success'
-import { v4 as uuid } from 'uuid'
-import { Helmet } from 'react-helmet'
-import { from } from 'rxjs'
-import { useParams } from 'react-router-dom'
-import './Chat.css'
-import { combaine } from './FileShare/Combine'
-import socket from '../Functions/Users'
-import Message from '../Message/Message'
-import ImageCon from '../Message/ImageCon'
+/**
+ * Table of Content
+ *
+ * Message sharing
+ * File sharing
+ * Typing indicator
+ * Peer connection
+ * Socket Connection
+ * Chunk stream
+ * Base64 to Blob
+ *
+ */
 
-let array = []
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import peer from './Peer';
+import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
+import Success from './Success';
+import { v4 as uuid } from 'uuid';
+import { Helmet } from 'react-helmet';
+import { from } from 'rxjs';
+import { useParams } from 'react-router-dom';
+import './Chat.css';
+import { combaine } from './FileShare/Combine';
+import socket from '../Functions/Users';
+import Message from '../Message/Message';
+import ImageCon from '../Message/ImageCon';
+
+let array = [];
 
 export default function Chat() {
   //handle state
-  const [text, setText] = useState('')
-  const [connected, setConnected] = useState(false)
-  const [message, setMessage] = useState([])
-  const [Filetype, setType] = useState(null)
-  const [final, setFinal] = useState({ final: false })
-  const [err, setError] = useState(false)
-  const [name, setName] = useState(false)
+  const [text, setText] = useState('');
+  const [connected, setConnected] = useState(false);
+  const [message, setMessage] = useState([]);
+  const [Filetype, setType] = useState(null);
+  const [final, setFinal] = useState({ final: false });
+  const [err, setError] = useState(false);
+  const [name, setName] = useState(false);
+  const [Typing, setTyping] = useState(false);
 
-  const inputVariable = useRef(null)
-  const file = useRef(null)
-  const messageContainer = useRef(null)
-  const imageID = useRef(null)
+  const inputVariable = useRef(null);
+  const file = useRef(null);
+  const messageContainer = useRef(null);
+  const imageID = useRef(null);
 
-  //get ID from the URL
-  const { id } = useParams()
+  // get ID from the URL
+  const { id } = useParams();
 
-  //alert the user to not to go back
+  // alert the user to not to go back
   useLayoutEffect(() => {
     const onUnload = (e) => {
-      e.preventDefault()
-      e.returnValue = 'Are you sure to leave ?'
-    }
-    window.addEventListener('beforeunload', onUnload)
-    return () => window.removeEventListener('beforeunload', onUnload)
-  })
+      e.preventDefault();
+      return (e.returnValue = 'Are you sure to leave ?');
+    };
+    window.addEventListener('beforeunload', onUnload);
+    return () => window.removeEventListener('beforeunload', onUnload);
+  });
 
-  //get the online user
+  // get the online user
   useEffect(() => {
     const user = (data) => {
-      setName(data)
-    }
-    socket.on('user', user)
+      setName(data);
+    };
+    socket.on('user', user);
 
-    return () => socket.off('get_user', user)
-  }, [name])
+    return () => socket.off('get_user', user);
+  }, [name]);
 
-  //handle Submit
+  // handle Submit
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!connected || err || inputVariable.current.value === '') return
+    e.preventDefault();
+    if (!connected || err || inputVariable.current.value === '') return;
 
     const data = {
       id: uuid(),
@@ -63,116 +77,126 @@ export default function Chat() {
       message: text.text,
       type: 'text/plain',
       sentAt: Date.now(),
-    }
+    };
 
-    //sent the data to other peer
-    peer.send(JSON.stringify(data))
-    data.self = true
-    setMessage((old) => [...old, data])
-    inputVariable.current.value = ''
-  }
+    // send the data to other peer
+    peer.send(JSON.stringify(data));
+    data.self = true;
+    setMessage((old) => [...old, data]);
+    inputVariable.current.value = '';
+  };
 
-  //handle page scrolling
+  // handle page scrolling
   useEffect(() => {
     try {
-      window.element = messageContainer.current
+      window.element = messageContainer.current;
       // console.log('elem')
       messageContainer.current.scrollIntoView({
         behavior: 'smooth',
-      })
+      });
     } catch (err) {
       // console.log('Do nothing')
     }
-  }, [message])
+  }, [message]);
 
   useEffect(() => {
-    //handle when peer is conneted
+    // handle when peer is conneted
 
     if (!name) {
       socket.emit('get_user', {
         id: socket.id,
-      })
+      });
     }
 
     peer.on('connect', () => {
       if (!connected) {
-        setConnected(true)
-        window.navigator.vibrate(200) //feedback when connected
+        setConnected(true);
+        window.navigator.vibrate(200); // feedback when connected
       }
-    })
-  }, [connected, name])
+    });
+  }, [connected, name]);
 
-  //Handle Errors
+  // Handle Errors
   useEffect(() => {
-    //update the UI
+    // update the UI
     const update = (newData) => {
-      setMessage([...message, newData])
-    }
+      setMessage([...message, newData]);
+    };
     const handleError = (err) => {
       let error = {
         id: uuid(),
         name: 'Bot',
-        message: 'The other peer disconnected  :(  ' + err,
+        message: 'The other peer disconnected :(  ' + err,
         time: Date.now(),
-      }
+      };
       // console.log(error)
-      update(error)
-      setError(true)
-    }
+      update(error);
+      setError(true);
+    };
 
-    peer.on('error', handleError)
-    return () => peer.off('error', handleError)
-  }, [message])
+    peer.on('error', handleError);
+    return () => peer.off('error', handleError);
+  }, [message]);
 
-  //handle Incoming Message
+  // handle Incoming Message
   useEffect(() => {
-    //get permissions for notifications
+    // get permissions for notifications
     if (Notification.permission !== 'granted') {
       Notification.requestPermission().then(function (permission) {
         // If the user accepts, let's create a notification
         if (permission === 'granted') {
           new Notification(
             'This is how the notification will be shown when a file is downloaded'
-          )
+          );
         }
-      })
+      });
     }
 
     const handleIncomingMessage = (data) => {
       // console.log(JSON.parse(data))
-      //TODO:Hadling files that are recievied ⌛
+      /* Hadling files that are recievied ⌛ */
 
       const update = (newData) => {
-        setMessage([...message, newData])
-      }
+        setMessage([...message, newData]);
+      };
 
-      //parse the data and update
+      const upDateTyping = (Data) => {
+        setTyping(Data);
+      };
+
+      // parse the data and update
       try {
-        let parsed = JSON.parse(data)
+        let parsed = JSON.parse(data);
 
         if (parsed.type === 'text/plain') {
-          update(parsed)
+          update(parsed);
           // console.log(parsed)
+        } else if (parsed.type === 'info') {
+          if (parsed.type) {
+            upDateTyping(true);
+          } else {
+            upDateTyping(false);
+          }
         } else if (parsed.final) {
-          setFinal(parsed)
+          setFinal(parsed);
         } else {
           if (parsed.initial) {
-            setType({ type: parsed.type, fileName: parsed.fileName })
+            setType({ type: parsed.type, fileName: parsed.fileName });
           }
 
-          let message = combaine(parsed)
+          let message = combaine(parsed);
 
-          update(message)
+          update(message);
         }
       } catch (err) {
         // console.log(err)
-        let condition = new TextDecoder('utf-8').decode(data)
+        let condition = new TextDecoder('utf-8').decode(data);
         if (condition === 'final') {
           let buffer = new Blob(array, {
             type: Filetype.type,
-          })
-          let url = window.URL.createObjectURL(buffer)
-          console.log('URL:', url)
+          });
+          let url = window.URL.createObjectURL(buffer);
+          console.log('URL:', url);
 
           let message = {
             name: 'Bot',
@@ -183,8 +207,8 @@ export default function Chat() {
             sentAt: Date.now(),
             array,
             url,
-          }
-          let regex = new RegExp(/^image/gi)
+          };
+          let regex = new RegExp(/^image/gi);
           // console.log(!regex.test(Filetype.type))
 
           if (!regex.test(Filetype.type)) {
@@ -204,41 +228,40 @@ export default function Chat() {
             //   )
             // }
           }
-          update(message)
-          array = []
+          update(message);
+          array = [];
         } else {
-          array = [...array, data]
+          array = [...array, data];
         }
       }
-    }
+    };
 
-    //listener for data stream
-    peer.on('data', handleIncomingMessage)
-    //cleanup the data
+    // listener for data stream
+    peer.on('data', handleIncomingMessage);
 
-    //TODO:finally working!!
-    return () => peer.off('data', handleIncomingMessage)
-  }, [message, Filetype, final])
+    // cleanup the data
+    return () => peer.off('data', handleIncomingMessage);
+  }, [message, Filetype, final, Typing]);
 
-  //handle file sending using effect
+  // handle file sending using effect
 
   const handleChange = (e) => {
     setText({
       text: e.target.value,
-    })
-  }
+    });
+  };
   const handleFile = () => {
-    file.current.click()
-  }
+    file.current.click();
+  };
 
-  //handle the eventlistener
+  // handle the eventlistener
   const handleFileChange = async (e) => {
     // console.log(e.target.files[0])
-    if (!e.target.files[0] || err) return
-    let file_data = e.target.files[0]
-    const reader = new FileReader()
+    if (!e.target.files[0] || err) return;
+    let file_data = e.target.files[0];
+    const reader = new FileReader();
     reader.onload = () => {
-      const url = URL.createObjectURL(dataURItoBlob(reader.result))
+      const url = URL.createObjectURL(dataURItoBlob(reader.result));
       let datas = {
         id: uuid(),
         name: name[0].name,
@@ -247,49 +270,76 @@ export default function Chat() {
         type: file_data.type,
         sentAt: Date.now(),
         self: true,
-      }
+      };
 
-      setMessage((old) => [...old, datas])
+      setMessage((old) => [...old, datas]);
 
       try {
-        //set Blured Image
-        imageID.current.style.filter = 'blur(10px)'
+        // set Blured Image
+        imageID.current.style.filter = 'blur(10px)';
       } catch (err) {
-        console.log('An error occured. See this ', err)
+        console.log('This is not an image');
       }
-    }
-    reader.readAsDataURL(file_data)
+    };
+    reader.readAsDataURL(file_data);
 
     // chunkStream.write(demo)
 
-    let share = await share_file(file_data)
-    bufferArrayuni[0].name = name[0].name
-    peer.send(JSON.stringify(bufferArrayuni[0]))
+    let share = await share_file(file_data);
+    bufferArrayuni[0].name = name[0].name;
+    peer.send(JSON.stringify(bufferArrayuni[0]));
     // console.log(bufferArrayuni)
     // console.log('Raw Data from the chunk', share)
     if (share.slice(-1)[0].byteLength === 0) {
-      const stream = from(share)
+      const stream = from(share);
       stream.subscribe((data) => {
         // console.log('Sending the file: and the file is:', new Buffer.from(data))
         peer.write(new Buffer.from(data), () => {
           // console.log('Send the chunk:', data)
           if (data.byteLength === 0) {
             // peer.send(JSON.stringify(bufferArrayuni.slice(-1).pop()))
-            peer.send('final')
+            peer.send('final');
             try {
-              //Remove Blured Image
-              imageID.current.style.filter = 'blur(0px)'
+              // Remove Blured Image
+              imageID.current.style.filter = 'blur(0px)';
             } catch (err) {
-              console.log('This is not an image')
+              console.log('This is not an image');
             }
           }
-        })
-      })
+        });
+      });
     } else {
-      console.log('Cant send')
+      console.log('Cant send');
     }
-  }
+  };
 
+  /**
+   * Handle Focus,
+   * Send typing to other peer
+   *
+   */
+  const handelFocus = () => {
+    console.log('Focused');
+    if (!connected) return;
+
+    peer.send(
+      JSON.stringify({
+        type: 'info',
+        typing: true,
+      })
+    );
+  };
+
+  const handleBlur = () => {
+    if (!connected) return;
+    console.log('Habdle Blur');
+    peer.send(
+      JSON.stringify({
+        type: 'info',
+        typing: false,
+      })
+    );
+  };
   return (
     <>
       <Helmet>
@@ -352,7 +402,7 @@ export default function Chat() {
             {connected ? (
               message.length > 0 ? (
                 message.map((data) => {
-                  let condition = /^image/gi.test(data.type)
+                  let condition = /^image/gi.test(data.type);
 
                   return condition ? (
                     <ImageCon
@@ -367,7 +417,7 @@ export default function Chat() {
                       forwardedRef={messageContainer}
                       data={data}
                     />
-                  )
+                  );
                 })
               ) : (
                 <Success />
@@ -382,6 +432,23 @@ export default function Chat() {
               >
                 Setting everything up, Don't Refresh, Please wait...
               </p>
+            )}
+            {Typing ? (
+              <Message
+                forwardedRef={messageContainer}
+                data={{
+                  self: false,
+                  typing: true,
+                }}
+              />
+            ) : (
+              <Message
+                forwardedRef={messageContainer}
+                data={{
+                  self: false,
+                  typing: false,
+                }}
+              />
             )}
           </div>
           <div className='Message-text-box'>
@@ -401,8 +468,10 @@ export default function Chat() {
                     ref={inputVariable}
                     type='text'
                     onChange={handleChange}
+                    onFocus={handelFocus}
+                    onBlur={handleBlur}
                     placeholder='Type a message or send a file... '
-                    autoFocus
+                    // autoFocus
                     // style={{ width: '100%', height: '50px', outline: 'none' }}
                   />
                   <input
@@ -452,5 +521,5 @@ export default function Chat() {
         </div>
       </div>
     </>
-  )
+  );
 }

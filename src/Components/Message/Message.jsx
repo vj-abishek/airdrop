@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 export default function Message({ data, forwardedRef }) {
   const handleClick = (e) => {
-    e.target.style.display = 'none'
-  }
+    e.target.style.display = 'none';
+  };
   return (
     <div className={data.self ? 'home_message self' : 'home_message parent'}>
       <div
@@ -11,7 +11,28 @@ export default function Message({ data, forwardedRef }) {
         style={{ display: 'flex', flexDirection: 'row' }}
         className={data.self ? 'child_home selfCont' : 'child_home parentCont'}
       >
-        <div style={{ margin: '12px', fontSize: '14px' }}>{data.message}</div>
+        {data.typing && (
+          <div
+            style={{
+              margin: '12px',
+              fontSize: '14px',
+              textOverflow: 'clip',
+              overflow: 'overlay',
+            }}
+          >
+            <span>Typing...</span>
+          </div>
+        )}
+        <div
+          style={{
+            margin: '12px',
+            fontSize: '14px',
+            textOverflow: 'clip',
+            overflow: 'overlay',
+          }}
+        >
+          <span>{data.message}</span>
+        </div>
         {data.url && !data.self && (
           <a
             href={data.url}
@@ -45,5 +66,5 @@ export default function Message({ data, forwardedRef }) {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -66,6 +66,10 @@ article {
   /* background-color: red; */
 }
 
+button{
+   -webkit-tap-highlight-color: transparent;
+}
+
 .about {
   font-family: 'Ubuntu', sans-serif;
   text-transform: uppercase;
