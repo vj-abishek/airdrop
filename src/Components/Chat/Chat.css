@@ -99,6 +99,7 @@
 .button-style {
   background: #fff;
   padding: 5px;
+  -webkit-tap-highlight-color: transparent;
   height: 26px;
   /* margin-top: 5px; */
   display: flex;
