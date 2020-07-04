@@ -121,6 +121,11 @@ export default function Chat() {
         window.navigator.vibrate(200); // feedback when connected
       }
     });
+
+    peer.on('error', (err) => {
+      console.log(err);
+      setConnected(false);
+    });
   }, [connected, name]);
 
   // Handle Errors
@@ -345,6 +350,7 @@ export default function Chat() {
    */
   const handleFocus = () => {
     if (!connected) return;
+
     peer.send(
       JSON.stringify({
         type: 'info',
@@ -355,6 +361,7 @@ export default function Chat() {
 
   const handleBlur = () => {
     if (!connected) return;
+
     peer.send(
       JSON.stringify({
         type: 'info',
