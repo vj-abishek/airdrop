@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function ImageCon({ data, messageContainer, imageID }) {
   return (
@@ -8,8 +8,10 @@ export default function ImageCon({ data, messageContainer, imageID }) {
     >
       <div className='img-container-real'>
         <div className='inside'>
-          <img width='100%' src={data.url} ref={imageID} alt={data.type} />
-          <div className='_1i3Za'></div>
+          <a href={data.url} target='_blank' rel='noopener noreferrer'>
+            <img width='100%' src={data.url} ref={imageID} alt={data.type} />
+            <div className='_1i3Za'></div>
+          </a>
         </div>
         <div className='_1uFFm'>
           <div className='_1DZAH _2Pjvv' role='button'>
@@ -35,5 +37,5 @@ export default function ImageCon({ data, messageContainer, imageID }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
