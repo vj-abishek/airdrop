@@ -264,6 +264,15 @@ export default function Chat() {
           typing: true,
         })
       );
+
+      if (inputVariable.current.value === '') {
+        peer.send(
+          JSON.stringify({
+            type: 'info',
+            typing: false,
+          })
+        );
+      }
     }
   };
   const handleFile = () => {
