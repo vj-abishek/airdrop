@@ -1,10 +1,9 @@
 import io from 'socket.io-client'
 
 
-const socket =
-  window.location.hostname === 'localhost' || '192.168.43.50'
-    ? io.connect(`http://${window.location.hostname}:3030`)
-    : io.connect('https://abigo-facetime.herokuapp.com/')
+const socket = window.location.hostname === 'localhost' || '192.168.43.50'
+  ? io.connect(`http://${window.location.hostname}:3030`)
+  : io.connect('https://abigo-facetime.herokuapp.com/', { transports: ['websocket'] })
 
 export default socket
 

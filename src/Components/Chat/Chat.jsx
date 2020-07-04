@@ -168,7 +168,6 @@ export default function Chat() {
       };
 
       const upDateTyping = (Data) => {
-        console.log(Data);
         setTyping(Data);
       };
 
@@ -348,14 +347,12 @@ export default function Chat() {
 
   const handleKeyPress = () => {
     if (!connected) return;
-
-    if (inputVariable.current.value === '')
-      peer.send(
-        JSON.stringify({
-          type: 'info',
-          typing: true,
-        })
-      );
+    peer.send(
+      JSON.stringify({
+        type: 'info',
+        typing: true,
+      })
+    );
   };
   return (
     <>
