@@ -256,6 +256,15 @@ export default function Chat() {
     setText({
       text: e.target.value,
     });
+
+    if (connected) {
+      peer.send(
+        JSON.stringify({
+          type: 'info',
+          typing: true,
+        })
+      );
+    }
   };
   const handleFile = () => {
     file.current.click();
