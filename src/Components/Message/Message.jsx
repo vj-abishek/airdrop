@@ -9,7 +9,7 @@ export default function Message({ data, forwardedRef }) {
     <div className={data.self ? 'home_message self' : 'home_message parent'}>
       <div
         ref={forwardedRef}
-        style={{ display: 'flex', flexDirection: 'row' }}
+        style={{ display: 'flex', flexDirection: 'row', transition: '1s' }}
         className={data.self ? 'child_home selfCont' : 'child_home parentCont'}
       >
         {data.typing ? (
