@@ -1,4 +1,5 @@
 import React from 'react';
+import Typing from '../Typing/Typing';
 
 export default function Message({ data, forwardedRef }) {
   const handleClick = (e) => {
@@ -11,7 +12,7 @@ export default function Message({ data, forwardedRef }) {
         style={{ display: 'flex', flexDirection: 'row' }}
         className={data.self ? 'child_home selfCont' : 'child_home parentCont'}
       >
-        {data.typing && (
+        {data.typing ? (
           <div
             style={{
               margin: '12px',
@@ -20,19 +21,24 @@ export default function Message({ data, forwardedRef }) {
               overflow: 'overlay',
             }}
           >
-            <span>Typing...</span>
+            <Typing show={data.typing} />
+          </div>
+        ) : (
+          <Typing show={false} />
+        )}
+        {data.message && (
+          <div
+            style={{
+              margin: '12px',
+              fontSize: '14px',
+              textOverflow: 'clip',
+              overflow: 'overlay',
+            }}
+          >
+            <span>{data.message}</span>
           </div>
         )}
-        <div
-          style={{
-            margin: '12px',
-            fontSize: '14px',
-            textOverflow: 'clip',
-            overflow: 'overlay',
-          }}
-        >
-          <span>{data.message}</span>
-        </div>
+
         {data.url && !data.self && (
           <a
             href={data.url}

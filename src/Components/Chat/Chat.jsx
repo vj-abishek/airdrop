@@ -37,6 +37,7 @@ export default function Chat() {
   const [err, setError] = useState(false);
   const [name, setName] = useState(false);
   const [Typing, setTyping] = useState(false);
+  // const [typingFocus, setTypingFocus] = useState(false);
 
   const inputVariable = useRef(null);
   const file = useRef(null);
@@ -81,6 +82,12 @@ export default function Chat() {
 
     // send the data to other peer
     peer.send(JSON.stringify(data));
+    peer.send(
+      JSON.stringify({
+        type: 'info',
+        typing: false,
+      })
+    );
     data.self = true;
     setMessage((old) => [...old, data]);
     inputVariable.current.value = '';
@@ -161,6 +168,7 @@ export default function Chat() {
       };
 
       const upDateTyping = (Data) => {
+        console.log(Data);
         setTyping(Data);
       };
 
@@ -172,7 +180,7 @@ export default function Chat() {
           update(parsed);
           // console.log(parsed)
         } else if (parsed.type === 'info') {
-          if (parsed.type) {
+          if (parsed.typing) {
             upDateTyping(true);
           } else {
             upDateTyping(false);
@@ -318,27 +326,36 @@ export default function Chat() {
    * Send typing to other peer
    *
    */
-  const handelFocus = () => {
-    console.log('Focused');
+  const handleFocus = () => {
     if (!connected) return;
-
-    peer.send(
-      JSON.stringify({
-        type: 'info',
-        typing: true,
-      })
-    );
-  };
-
-  const handleBlur = () => {
-    if (!connected) return;
-    console.log('Habdle Blur');
     peer.send(
       JSON.stringify({
         type: 'info',
         typing: false,
       })
     );
+  };
+
+  const handleBlur = () => {
+    if (!connected) return;
+    peer.send(
+      JSON.stringify({
+        type: 'info',
+        typing: false,
+      })
+    );
+  };
+
+  const handleKeyPress = () => {
+    if (!connected) return;
+
+    if (inputVariable.current.value === '')
+      peer.send(
+        JSON.stringify({
+          type: 'info',
+          typing: true,
+        })
+      );
   };
   return (
     <>
@@ -468,7 +485,8 @@ export default function Chat() {
                     ref={inputVariable}
                     type='text'
                     onChange={handleChange}
-                    onFocus={handelFocus}
+                    onKeyPress={handleKeyPress}
+                    onFocus={handleFocus}
                     onBlur={handleBlur}
                     placeholder='Type a message or send a file... '
                     // autoFocus
