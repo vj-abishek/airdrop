@@ -20,7 +20,7 @@ function Login() {
   return (
     <div className='container_for_div'>
       <Helmet>
-        <title>Safeshare.live - Create Name</title>
+        <title>Create Name - SafeShare.live</title>
         <link rel='canonical' href='https://safeshare.live/' />
         <meta
           name='description'
