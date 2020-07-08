@@ -1,5 +1,6 @@
 import React from 'react'
 import Svg from '../../img/undraw_share_online_r87b.svg'
+import Png from '../../img/share.png';
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 
@@ -24,12 +25,13 @@ export default function index() {
         </Link>
       </div>
       <div>
-        <img
-          src={Svg}
-          className='img-svg-real'
-          alt='SafeShare.live - Online file sharing'
-          title='SafeShare.live - Online file sharing'
-        />
+    <picture className='img-svg-real'  alt="SafeShare.live - Online file sharing" title="SafeShare.live - Online file sharing">
+      <source media="(min-width:1024px)" srcSet={Png}/>
+      <source media="(min-width:465px)" srcSet={Svg}/>
+      <img className='img-svg-real' src={Svg}  alt="SafeShare.live - Online file sharing"
+              title='SafeShare.live - Online file sharing'/>
+    </picture>
+          
       </div>
     </section>
   )
