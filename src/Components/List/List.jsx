@@ -76,7 +76,7 @@ export default function List() {
   return (
     <>
       <Helmet>
-        <title>Safeshare.live - List is peers avaliable in the server</title>
+        <title>Auto Create - Safeshare.live</title>
         <link rel='canonical' href='https://safeshare.live/' />
         <meta
           name='description'
