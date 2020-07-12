@@ -92,6 +92,7 @@
 <body>
   <noscript>You need to enable JavaScript to share files to anyone.</noscript>
   <div id="root"></div>
+  <div id="img"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -104,14 +105,17 @@
     -->
 </body>
 
-<!-- <script>
+<script>
   if('serviceWorker' in navigator){
     navigator.serviceWorker.onmessage = (e) => {
       const localFile = e.data.file;
       console.log(localFile);
-     alert('Success')
+      const img = document.getElementById('img');
+      alert(localFile);
+      img.innerText = localFile;
+      
     };
   }
-</script> -->
+</script>
 
 </html>
