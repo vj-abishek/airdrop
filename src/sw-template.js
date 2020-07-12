@@ -43,15 +43,15 @@ if ('function' === typeof importScripts) {
 
 // My fuction to share files
 const handleFileshare = (e) => {
-    e.respondeWith(Response.redirect('./'))
+    e.respondWith(Response.redirect('./'))
 
-    // Eg, if it's cross-origin.
-    if (!e.clientId) return;
+    // // Eg, if it's cross-origin.
+    // if (!e.clientId) return;
 
     e.waitUntil(
         (async function () {
             const data = await e.request.formData()
-            const client = await clients.get(e.clientId);
+            const client = await self.clients.get(e.resultingClientId);
 
             // e.clients.matchAll().then(function (clients) {
             //     clients.forEach(function (client) {
