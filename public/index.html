@@ -48,7 +48,7 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
     ></script> -->
   <title>
-    SafeShare - Online file sharing based on P2P communication
+    SafeShare (Beta) - Online file sharing based on P2P communication
   </title>
 
   <!-- logo   -->
@@ -92,6 +92,7 @@
 <body>
   <noscript>You need to enable JavaScript to share files to anyone.</noscript>
   <div id="root"></div>
+  <div id="img"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -103,5 +104,25 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+
+<script>
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.onmessage = (e) => {
+      const localFile = e.data.file;
+      console.log(localFile);
+      const img = document.getElementById('img');
+
+      const reader = new FileReader();
+      reader.onload = function(){
+      const dataURL = reader.result;
+      const image = new Image();
+      image.src= dataURL;
+      img.appendChild(image)
+    };
+      reader.readAsDataURL(localFile);
+      
+    };
+  }
+</script>
 
 </html>

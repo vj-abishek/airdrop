@@ -15,6 +15,7 @@ const Toast = lazy(() => import('./Components/Alert/Toast'))
 const Chat = lazy(() => import('./Components/Chat/Chat'))
 const Page404 = lazy(() => import('./Components/404/FNF'))
 
+
 function App() {
   return (
     <Router history={history}>
