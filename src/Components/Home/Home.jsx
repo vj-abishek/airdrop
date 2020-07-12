@@ -54,13 +54,6 @@ export default function Home() {
     });
   };
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.onmessage = (e) => {
-      const localFile = e.data.file;
-      alert(localFile);
-    };
-  }
-
   const handleCancel = () => setTrigger(false);
   return (
     <div>
