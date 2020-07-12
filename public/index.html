@@ -92,7 +92,9 @@
 <body>
   <noscript>You need to enable JavaScript to share files to anyone.</noscript>
   <div id="root"></div>
-  <div id="img"></div>
+  <div>
+    <img  src="" alt="This is the image" id="originalImage"/> 
+  </div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -110,9 +112,14 @@
     navigator.serviceWorker.onmessage = (e) => {
       const localFile = e.data.file;
       console.log(localFile);
-      const img = document.getElementById('img');
-      alert(localFile);
-      img.innerText = localFile;
+      const output = document.getElementById('originalImage');
+
+      const reader = new FileReader();
+      reader.onload = function(){
+      const dataURL = reader.result;
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(localFile);
       
     };
   }
