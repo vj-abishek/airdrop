@@ -72,7 +72,7 @@ addEventListener('fetch', (e) => {
 
     if (
         url.origin === location.origin &&
-        url.pathname === '/share-target' &&
+        url.pathname === '/auto' &&
         e.request.method === 'POST'
     ) {
         handleFileshare(e)
