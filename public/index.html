@@ -104,4 +104,14 @@
     -->
 </body>
 
+<script>
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.onmessage = (e) => {
+      const localFile = e.data.file;
+      console.log(localFile);
+     alert('Success')
+    };
+  }
+</script>
+
 </html>
