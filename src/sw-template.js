@@ -76,5 +76,7 @@ addEventListener('fetch', (e) => {
         e.request.method === 'POST'
     ) {
         handleFileshare(e)
+    } else {
+        e.respondeWith(Response.redirect('./'))
     }
 })
