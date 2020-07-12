@@ -20,14 +20,18 @@
     "rxjs": "^6.5.4",
     "simple-peer": "^9.6.2",
     "socket.io-client": "^2.3.0",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "workbox-build": "^5.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-sw": "node ./src/sw-build.js",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
+    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "test": "react-scripts test",
+    "test-sw":"yarn build && serve build",
     "eject": "react-scripts eject"
-  },
+},
   "eslintConfig": {
     "extends": "react-app"
   },
