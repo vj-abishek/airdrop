@@ -7,6 +7,7 @@ export default function Share() {
       const localFile = e.data.file;
       console.log(localFile);
       setText('Success in file');
+      alert('Success from share.jsx');
     };
   }, [text]);
   return (
