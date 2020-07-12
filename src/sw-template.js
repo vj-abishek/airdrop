@@ -39,43 +39,42 @@ if ('function' === typeof importScripts) {
         console.log('Workbox could not be loaded. No Offline support');
     }
 
-
-    // My fuction to share files
-    const handleFileshare = (e) => {
-        e.respondeWith(Response.redirect('./'))
-
-        // Eg, if it's cross-origin.
-        if (!e.clientId) return;
-
-        e.waitUntil(
-            (async function () {
-                const data = await e.request.formData()
-                const client = await clients.get(e.clientId);
-
-                // e.clients.matchAll().then(function (clients) {
-                //     clients.forEach(function (client) {
-                //         const file = data.get('file')
-
-                //         client.postMessage({ file })
-                //     });
-                // })
-
-                const file = data.get('file')
-                client.postMessage({ file })
-            })()
-        )
-    }
-
-    addEventListener('fetch', (e) => {
-        const url = new URL(e.request.url)
-
-        if (
-            url.origin === location.origin &&
-            url.pathname === '/share-target' &&
-            e.request.method === 'POST'
-        ) {
-            handleFileshare(e)
-        }
-    })
-
 }
+
+// My fuction to share files
+const handleFileshare = (e) => {
+    e.respondeWith(Response.redirect('./'))
+
+    // Eg, if it's cross-origin.
+    if (!e.clientId) return;
+
+    e.waitUntil(
+        (async function () {
+            const data = await e.request.formData()
+            const client = await clients.get(e.clientId);
+
+            // e.clients.matchAll().then(function (clients) {
+            //     clients.forEach(function (client) {
+            //         const file = data.get('file')
+
+            //         client.postMessage({ file })
+            //     });
+            // })
+
+            const file = data.get('file')
+            client.postMessage({ file })
+        })()
+    )
+}
+
+addEventListener('fetch', (e) => {
+    const url = new URL(e.request.url)
+
+    if (
+        url.origin === location.origin &&
+        url.pathname === '/share-target' &&
+        e.request.method === 'POST'
+    ) {
+        handleFileshare(e)
+    }
+})
