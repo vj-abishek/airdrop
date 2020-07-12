@@ -54,15 +54,6 @@ export default function Home() {
     });
   };
 
-  // navigator
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.onmessage = (e) => {
-      const localFile = e.data.file;
-      console.log(localFile);
-      updateHappen(true);
-    };
-  }
-
   const handleCancel = () => setTrigger(false);
   return (
     <div>

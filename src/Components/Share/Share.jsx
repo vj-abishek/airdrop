@@ -4,17 +4,12 @@ export default function Share() {
   const [text, setText] = useState();
   useEffect(() => {
     navigator.serviceWorker.onmessage = (e) => {
-      console.log(e.data.file);
+      const localFile = e.data.file;
+      console.log(localFile);
       setText('Success in file');
     };
-    const parsedUrl = new URL(window.location);
-    // searchParams.get() will properly handle decoding the values.
-    console.log('Title shared: ' + parsedUrl.searchParams.get('title'));
-    console.log('Text shared: ' + parsedUrl.searchParams.get('text'));
-    console.log('URL shared: ' + parsedUrl.searchParams.get('url'));
-    setText(parsedUrl.searchParams.get('text'));
-  }, []);
+  }, [text]);
   return (
-    <h1 style={{ textAlign: 'center' }}>This is the sharing option{text}</h1>
+    <h6 style={{ textAlign: 'center' }}>This is the sharing option{text}</h6>
   );
 }
