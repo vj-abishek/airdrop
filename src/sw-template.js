@@ -43,7 +43,7 @@ if ('function' === typeof importScripts) {
 
 // My fuction to share files
 const handleFileshare = (e) => {
-    e.respondWith(Response.redirect('./'))
+    e.respondWith(Response.redirect('/share'))
 
     // // Eg, if it's cross-origin.
     // if (!e.clientId) return;
@@ -76,7 +76,5 @@ addEventListener('fetch', (e) => {
         e.request.method === 'POST'
     ) {
         handleFileshare(e)
-    } else {
-        e.respondeWith(Response.redirect('./'))
     }
 })
