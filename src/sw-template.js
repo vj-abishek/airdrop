@@ -71,7 +71,7 @@ if ('function' === typeof importScripts) {
 
         if (
             url.origin === location.origin &&
-            url.pathname === '/share' &&
+            url.pathname === '/share-target' &&
             e.request.method === 'POST'
         ) {
             handleFileshare(e)
