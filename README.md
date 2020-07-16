@@ -1,5 +1,4 @@
-# SafeShare [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys) ![GitHub stars](https://img.shields.io/github/stars/vj-abishek/airdrop) ![GitHub contributors](https://img.shields.io/github/contributors/vj-abishek/airdrop) ![GitHub last commit](https://img.shields.io/github/last-commit/vj-abishek/airdrop) ![GitHub issues](https://img.shields.io/github/issues/vj-abishek/airdrop)
-
+# SafeShare [![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys) ![GitHub stars](https://img.shields.io/github/stars/vj-abishek/airdrop) ![GitHub contributors](https://img.shields.io/github/contributors/vj-abishek/airdrop) ![GitHub issues](https://img.shields.io/github/issues/vj-abishek/airdrop)
 In the project directory, you can run:
 
 ### `yarn start`
