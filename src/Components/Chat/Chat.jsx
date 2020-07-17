@@ -124,7 +124,7 @@ export default function Chat() {
 
     peer.on('error', (err) => {
       console.log(err);
-      setConnected(false);
+      // setConnected(false);
     });
   }, [connected, name]);
 
