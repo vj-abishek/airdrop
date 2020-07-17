@@ -58,7 +58,7 @@ function App() {
             <Route path='/qrcode'>
               <Qrcode />
             </Route>
-            <Route path='/join/:id'>
+            <Route path='/j/:id'>
               <Join />
             </Route>
             <Route path='/toast'>

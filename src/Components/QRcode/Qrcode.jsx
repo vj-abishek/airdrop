@@ -1,43 +1,64 @@
-import React, { useEffect, useReducer, useState } from 'react'
-import QRCode from 'qrcode.react'
-import { Ring } from 'react-spinners-css'
-import socket from '../Functions/Users'
-import { v4 as uuid } from 'uuid'
-import { Join } from '../../State/action'
-import history from '../history'
-import { Helmet } from 'react-helmet'
+import React, { useEffect, useReducer, useState, useRef } from 'react';
+import QRCode from 'qrcode.react';
+import { Ring } from 'react-spinners-css';
+import socket from '../Functions/Users';
+import { nanoid } from 'nanoid';
+import { Join } from '../../State/action';
+import history from '../history';
+import { Helmet } from 'react-helmet';
 
 export default function Qrcode() {
   // eslint-disable-next-line
-  const [sockets, dispatch] = useReducer(Join, {})
-  const [created, setCreated] = useState(false)
-  console.log(sockets)
-  const [id, setId] = useState('https://safeshare.live/join')
+  const [sockets, dispatch] = useReducer(Join, {});
+  const [created, setCreated] = useState(false);
+  const [copied, setCopy] = useState(false);
+  const [id, setId] = useState('https://safeshare.live/j');
+
+  const copyTextref = useRef(null);
+
   useEffect(() => {
-    const uid = uuid()
-    setId(`${uid}`)
-    console.log(uid)
-    if (uid) dispatch({ type: 'JOIN_ME', uid })
-  }, [])
+    const uid = nanoid(10);
+    setId(`${uid}`);
+    console.log(uid);
+    if (uid) dispatch({ type: 'JOIN_ME', uid });
+  }, []);
 
   useEffect(() => {
     const fun = () => {
-      console.log('Created room')
-      setCreated(true)
-    }
-    socket.on('createdRoom', fun)
-    return () => socket.off('createdRoom', fun)
-  }, [created])
+      console.log('Created room');
+      setCreated(true);
+    };
+    socket.on('createdRoom', fun);
+    return () => socket.off('createdRoom', fun);
+  }, [created]);
 
   useEffect(() => {
     const anFun = () => {
-      console.log('Joined,Redirecting...')
-      history.push(`/chat/${id}`)
-    }
-    socket.on('createdJoined', anFun)
-    return () => socket.off('createdJoined', anFun)
-  })
+      console.log('Joined,Redirecting...');
+      history.push(`/chat/${id}`);
+    };
+    socket.on('createdJoined', anFun);
+    return () => socket.off('createdJoined', anFun);
+  });
 
+  const copyText = () => {
+    const node = copyTextref.current;
+    if (document.body.createTextRange) {
+      const range = document.body.createTextRange();
+      range.moveToElementText(node);
+      range.select();
+      document.execCommand('copy');
+      setCopy(true);
+    } else if (window.getSelection) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand('copy');
+      setCopy(true);
+    }
+  };
   return !created ? (
     <>
       <Helmet>
@@ -85,14 +106,23 @@ export default function Qrcode() {
       <h1>Scan the Qrcode</h1>
 
       <QRCode
-        title={`${window.location.origin}/join/${id}`}
-        value={`${window.location.origin}/join/${id}`}
+        title={`${window.location.origin}/j/${id}`}
+        value={`${window.location.origin}/j/${id}`}
         size={200}
         level={'L'}
         includeMargin={true}
         renderAs={'canvas'}
       />
       <h3>And Open the link in a browser</h3>
+      {copied ? <p>Copied!</p> : <p> OR Copy this </p>}
+      <h3
+        onClick={copyText}
+        ref={copyTextref}
+        style={{ cursor: 'pointer' }}
+        title='Click to Copy'
+      >
+        {window.location.origin}/j/{id}
+      </h3>
     </div>
-  )
+  );
 }

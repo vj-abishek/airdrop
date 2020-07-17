@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "chunk-stream": "^0.0.1",
+    "nanoid": "^3.1.10",
     "qrcode.react": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -29,9 +30,9 @@
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "test": "react-scripts test",
-    "test-sw":"yarn build && serve build",
+    "test-sw": "yarn build && serve build",
     "eject": "react-scripts eject"
-},
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
