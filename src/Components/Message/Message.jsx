@@ -31,8 +31,7 @@ export default function Message({ data, forwardedRef }) {
             style={{
               margin: '12px',
               fontSize: '14px',
-              textOverflow: 'clip',
-              overflow: 'auto',
+             	overflow-wrap: break-word;
             }}
           >
             <span>{data.message}</span>
