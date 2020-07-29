@@ -20,7 +20,7 @@ If you don't have the server ,open with `127.0.0.1:3000` instead of `localhost:3
 
 [https://onshare.now.sh/qrcode](https://onshare.now.sh/qrcode)
 
-Scan the `Qrcode` in another device and open the URL in a `browser`
+Open the above link and scan the `Qrcode` in another device and open the URL in a `browser`
 
 ### `How to use`
 
