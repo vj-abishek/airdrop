@@ -12,10 +12,10 @@
  */
 
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import peer from './Peer';
+import { peer } from './Peer';
 import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
 import Success from './Success';
-import { v4 as uuid } from 'uuid';
+import { nanoid } from 'nanoid';
 import { Helmet } from 'react-helmet';
 import { from } from 'rxjs';
 import { useParams } from 'react-router-dom';
@@ -73,7 +73,7 @@ export default function Chat() {
     if (!connected || err || inputVariable.current.value === '') return;
 
     const data = {
-      id: uuid(),
+      id: nanoid(),
       name: name[0].name,
       message: text.text,
       type: 'text/plain',
@@ -136,7 +136,7 @@ export default function Chat() {
     };
     const handleError = (err) => {
       let error = {
-        id: uuid(),
+        id: nanoid(10),
         name: 'Bot',
         message: 'The other peer disconnected :(  ' + err,
         time: Date.now(),
@@ -212,7 +212,7 @@ export default function Chat() {
 
           let message = {
             name: 'Bot',
-            id: uuid(),
+            id: nanoid(10),
             message: `${Filetype.fileName || 'airdrop'}`,
             type: Filetype.type || 'text/plain',
             custom: true,
@@ -293,7 +293,7 @@ export default function Chat() {
     reader.onload = () => {
       const url = URL.createObjectURL(dataURItoBlob(reader.result));
       let datas = {
-        id: uuid(),
+        id: nanoid(10),
         name: name[0].name,
         message: `${file_data.name} is sending...`,
         url,
