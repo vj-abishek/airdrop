@@ -30,6 +30,9 @@ Open the above link and scan the `Qrcode` to connect to other peer
 
 [The server repo is avaliable here](https://github.com/vj-abishek/facetime-server)
 
+## Old SafeShare Version Repo:
+[old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
+
 ## How to contribute
 Issues and PR's are welcome.
 
