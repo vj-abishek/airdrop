@@ -37,6 +37,7 @@ export default function Chat() {
   const [err, setError] = useState(false);
   const [name, setName] = useState(false);
   const [Typing, setTyping] = useState(false);
+  const [error, seterror] = useState(false);
   // const [typingFocus, setTypingFocus] = useState(false);
 
   const inputVariable = useRef(null);
@@ -131,7 +132,7 @@ export default function Chat() {
 
     peer.on('error', (err) => {
       console.log(err);
-      // setConnected(false);
+      seterror(true);
     });
   }, [connected, name]);
 
@@ -344,7 +345,7 @@ export default function Chat() {
    *
    */
   const handleFocus = () => {
-    if (!connected) return;
+    if (!connected || error) return;
 
     peer.send(
       JSON.stringify({
@@ -355,7 +356,7 @@ export default function Chat() {
   };
 
   const handleBlur = () => {
-    if (!connected) return;
+    if (!connected || error) return;
 
     peer.send(
       JSON.stringify({
