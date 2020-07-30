@@ -7,10 +7,12 @@ class SimpleSignal extends EventEmitter {
     constructor() {
         super();
         this.state = {
-            anwser: {},
+            answer: {},
             offer: {},
             peer: null,
-            connected: false
+            connected: false,
+            peers: [],
+            first: true,
         }
 
         this.peer = new Peer({
@@ -21,7 +23,9 @@ class SimpleSignal extends EventEmitter {
         this.peer.on('signal', (data) => {
             if (data.type === "offer") {
                 this.state.offer = data;
-                socket.emit('airdropOffer', data)
+                console.log("Sending data first attempt");
+                this.state.first = false;
+                socket.emit('airdropOffer', this.state.offer);
                 return this.emit('signal', data)
             }
             else {
@@ -43,18 +47,37 @@ class SimpleSignal extends EventEmitter {
             this.peer.signal(data)
         })
 
+        socket.on('indicateOtherPeer', (peer) => {
+            console.log(`${peer.peer} send connection at ${peer.time}`)
+            this.state.peers.push(peer);
+            console.log(this.state.peers)
+            this.generate();
+        })
+
+        this.peer.on('connect', () => {
+            console.log('Finally Connected 😀🎉🎊🥳');
+            this.print();
+            this.state.connected = true;
+        })
+
     }
 
-    // // sendOffer() {
-    // //     this.peer.on('signal', (data) => {
-    // //         this.state.offer = data;
-    // //         socket.emit('airdropOffer', this.state.offer)
-    // //     })
+    signal(peer) {
+        if (window.location.hash !== "#init" && this.state.first === false && !this.state.connected) {
+            socket.emit('indicateOtherPeer', {
+                peer,
+                time: Date.now(),
+            })
+        }
+    }
 
-    // }
+    generate() {
+        console.log("Sending data Second attempt");
+        socket.emit('airdropOffer', this.state.offer);
+    }
 
     print() {
-        console.table({ offer: this.state.offer, answer: this.state.anwser })
+        console.table({ offer: this.state.offer, answer: this.state.answer })
     }
 
 

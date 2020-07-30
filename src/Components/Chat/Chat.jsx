@@ -12,7 +12,7 @@
  */
 
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { peer } from './Peer';
+import Signal, { peer } from './Peer';
 import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
 import Success from './Success';
 import { nanoid } from 'nanoid';
@@ -56,6 +56,13 @@ export default function Chat() {
     window.addEventListener('beforeunload', onUnload);
     return () => window.removeEventListener('beforeunload', onUnload);
   });
+
+  // Indicate the peer
+  useEffect(() => {
+    if (window.location.hash !== '#init') {
+      Signal.signal('peer2');
+    }
+  }, []);
 
   // get the online user
   useEffect(() => {
