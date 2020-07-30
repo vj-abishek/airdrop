@@ -68,7 +68,13 @@ class SimpleSignal extends EventEmitter {
                 peer,
                 time: Date.now(),
             })
+        } else if (peer === "retry") {
+            socket.emit('indicateOtherPeer', {
+                peer,
+                time: Date.now(),
+            })
         }
+        else return;
     }
 
     generate() {

@@ -97,6 +97,20 @@ export default function Chat() {
     return () => Signal.off('signal', set);
   }, []);
 
+  useEffect(() => {
+    const set = () => {
+      setBeforeMessage('Connection failed, Retrying...');
+      try {
+        if (window.localtion.hash === '#init') {
+          Signal.signal('retry');
+        }
+      } catch (err) {}
+    };
+    peer.on('error', set);
+
+    return () => peer.off('error', set);
+  }, []);
+
   // handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
