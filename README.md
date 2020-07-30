@@ -19,7 +19,7 @@ If you don't have the server ,open with `127.0.0.1:3000` instead of `localhost:3
 
 ### Demo
 
-[https://onshare.now.sh/qrcode](https://onshare.now.sh/qrcode)
+[https://old-safeshare.now.sh/qrcode](https://old-safeshare.now.sh/qrcode)
 
 Open the above link and scan the `Qrcode` in another device and open the URL in a `browser`
 
