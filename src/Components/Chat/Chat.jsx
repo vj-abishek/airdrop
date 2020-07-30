@@ -159,18 +159,6 @@ export default function Chat() {
 
   // handle Incoming Message
   useEffect(() => {
-    // get permissions for notifications
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission().then(function (permission) {
-        // If the user accepts, let's create a notification
-        if (permission === 'granted') {
-          new Notification(
-            'This is how the notification will be shown when a file is downloaded'
-          );
-        }
-      });
-    }
-
     const handleIncomingMessage = (data) => {
       // console.log(JSON.parse(data))
       /* Hadling files that are recievied ⌛ */
