@@ -4,14 +4,13 @@
  * Message sharing
  * File sharing
  * Typing indicator
- * Peer connection
  * Socket Connection
  * Chunk stream
  * Base64 to Blob
  *
  */
 
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Signal, { peer } from './Peer';
 import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
 import Success from './Success';
@@ -38,6 +37,9 @@ export default function Chat() {
   const [name, setName] = useState(false);
   const [Typing, setTyping] = useState(false);
   const [error, seterror] = useState(false);
+  const [beforemessage, setBeforeMessage] = useState(
+    "Setting everything up, Don't Refresh, Please wait..."
+  );
   // const [typingFocus, setTypingFocus] = useState(false);
 
   const inputVariable = useRef(null);
@@ -49,10 +51,10 @@ export default function Chat() {
   const { id } = useParams();
 
   // alert the user to not to go back
-  useLayoutEffect(() => {
+  useEffect(() => {
     const onUnload = (e) => {
       e.preventDefault();
-      return (e.returnValue = 'Are you sure to leave ?');
+      e.returnValue = '';
     };
     window.addEventListener('beforeunload', onUnload);
     return () => window.removeEventListener('beforeunload', onUnload);
@@ -74,6 +76,26 @@ export default function Chat() {
 
     return () => socket.off('get_user', user);
   }, [name]);
+
+  // Notify the user that the offer is sending
+  useEffect(() => {
+    const set = () => {
+      setBeforeMessage('Sending offer, please wait...');
+    };
+    Signal.on('signal', set);
+
+    return () => Signal.off('signal', set);
+  }, []);
+
+  // Notify the user that the answer is sending
+  useEffect(() => {
+    const set = () => {
+      setBeforeMessage('Recieved offer and sending answer...');
+    };
+    Signal.on('offer', set);
+
+    return () => Signal.off('signal', set);
+  }, []);
 
   // handle Submit
   const handleSubmit = (e) => {
@@ -465,7 +487,7 @@ export default function Chat() {
                   verticalAlign: 'center',
                 }}
               >
-                Setting everything up, Don't Refresh, Please wait...
+                {beforemessage}
               </p>
             )}
             {Typing ? (
