@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Switch from 'react-switch';
+import PropTypes from 'prop-types';
 
-export default function ToggleButtons({ children }) {
+export default function ToggleButtons({ children, last }) {
   const [checked, setChecked] = useState(false);
 
   const handleChange = () => setChecked(!checked);
@@ -9,25 +10,53 @@ export default function ToggleButtons({ children }) {
   return (
     <div
       style={{ gridTemplateColumns: '50px 1fr 50px' }}
-      className="grid p-3 gap-1 ml-2"
+      className="grid p-3 p-1 items-center"
     >
       {children}
 
-      <Switch
-        checked={checked}
-        onChange={handleChange}
-        handleDiameter={8}
-        uncheckedIcon={false}
-        checkedIcon={false}
-        offColor="#004552"
-        onColor="#00B2D2"
-        onHandleColor="#F4F4F9"
-        offHandleColor="#F4F4F9"
-        height={20}
-        width={40}
-        className="react-switch"
-        id="small-radius-switch"
-      />
+      {last ? (
+        <div className="p-3 borderBorder">
+          <Switch
+            checked={checked}
+            onChange={handleChange}
+            onColor="#86d3ff"
+            onHandleColor="#2693e6"
+            offColor="#004552"
+            handleDiameter={20}
+            uncheckedIcon={false}
+            checkedIcon={false}
+            height={20}
+            width={38}
+          />
+        </div>
+      ) : (
+        <div className="p-3">
+          <Switch
+            checked={checked}
+            onChange={handleChange}
+            onColor="#86d3ff"
+            onHandleColor="#2693e6"
+            offColor="#004552"
+            handleDiameter={20}
+            uncheckedIcon={false}
+            checkedIcon={false}
+            height={20}
+            width={38}
+          />
+        </div>
+      )}
     </div>
   );
 }
+
+ToggleButtons.defaultProps = {
+  last: false,
+};
+
+ToggleButtons.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.element,
+  ]).isRequired,
+  last: PropTypes.bool,
+};

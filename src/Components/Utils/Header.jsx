@@ -9,7 +9,7 @@ export default function Header({ children, back }) {
   };
 
   return (
-    <header className="borderBorder bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full">
+    <header className="z-50 borderBorder bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full">
       {back ? (
         <div className="flex items-center ">
           <div
