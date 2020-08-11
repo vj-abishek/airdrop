@@ -1,0 +1,5 @@
+.navlink:hover > div {
+  color: var(--color-accent);
+  background-color: var(--color-secondary);
+  border-radius: 999px;
+}

@@ -1,13 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 export default function index() {
   return (
     <footer>
-      Made with{' '}
+      Made with
+      {' '}
       <i className='material-icons' style={{ color: 'red' }}>
         favorite
-      </i>{' '}
+      </i>
+      {' '}
       in India
     </footer>
-  )
+  );
 }

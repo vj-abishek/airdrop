@@ -1,11 +1,9 @@
 import { SimpleSignal } from './SimpleSignal';
 
-
 const Signal = new SimpleSignal();
 
-const peer = Signal.peer
+const { peer } = Signal;
 
+export { peer };
 
-export { peer }
-
-export default Signal
+export default Signal;

@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer, useState, useRef } from 'react';
 import QRCode from 'qrcode.react';
 import { Ring } from 'react-spinners-css';
-import socket from '../Functions/Users';
 import { nanoid } from 'nanoid';
+import { Helmet } from 'react-helmet';
+import socket from '../Functions/Users';
 import { Join } from '../../State/action';
 import history from '../history';
-import { Helmet } from 'react-helmet';
 
 export default function Qrcode() {
   // eslint-disable-next-line
@@ -63,10 +63,10 @@ export default function Qrcode() {
     <>
       <Helmet>
         <title>Safeshare.live - Connect with QRcode</title>
-        <link rel='canonical' href='https://safeshare.live/' />
+        <link rel="canonical" href="https://safeshare.live/" />
         <meta
-          name='description'
-          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+          name="description"
+          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
         />
       </Helmet>
       <div
@@ -79,8 +79,9 @@ export default function Qrcode() {
           color: '#fff',
           flexDirection: 'column',
         }}
+        className="col-span-2"
       >
-        <Ring color='#3f51b5' />
+        <Ring color="#3f51b5" />
       </div>
     </>
   ) : (
@@ -94,13 +95,14 @@ export default function Qrcode() {
         color: '#fff',
         flexDirection: 'column',
       }}
+      className="col-span-2"
     >
       <Helmet>
         <title>Safeshare.live - Connect with QRcode</title>
-        <link rel='canonical' href='https://safeshare.live/' />
+        <link rel="canonical" href="https://safeshare.live/" />
         <meta
-          name='description'
-          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+          name="description"
+          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
         />
       </Helmet>
       <h1>Scan the Qrcode</h1>
@@ -109,9 +111,9 @@ export default function Qrcode() {
         title={`${window.location.origin}/j/${id}`}
         value={`${window.location.origin}/j/${id}`}
         size={200}
-        level={'L'}
-        includeMargin={true}
-        renderAs={'canvas'}
+        level="L"
+        includeMargin
+        renderAs="canvas"
       />
       <h3>And Open the link in a browser</h3>
       {copied ? <p>Copied!</p> : <p> OR Copy this </p>}
@@ -119,9 +121,11 @@ export default function Qrcode() {
         onClick={copyText}
         ref={copyTextref}
         style={{ cursor: 'pointer' }}
-        title='Click to Copy'
+        title="Click to Copy"
       >
-        {window.location.origin}/j/{id}
+        {window.location.origin}
+        /j/
+        {id}
       </h3>
     </div>
   );

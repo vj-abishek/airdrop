@@ -1,6 +1,6 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Alert from '@material-ui/lab/Alert'
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,10 +9,10 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-}))
+}));
 
 export default function ColorAlerts() {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -20,5 +20,5 @@ export default function ColorAlerts() {
         New update avaliable — reopen the app!
       </Alert>
     </div>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import React from 'react'
-import error from '../../img/download.png'
+import React from 'react';
+import error from '../../img/download.png';
 
 export default function FNf(some) {
-  console.log(some)
+  console.log(some);
   return (
     <div
       style={{
@@ -12,7 +12,7 @@ export default function FNf(some) {
         alignItems: 'center',
         color: '#ccc',
         flexDirection: 'column',
-        background: '#fff'
+        background: '#fff',
       }}
     >
       <img
@@ -28,5 +28,5 @@ export default function FNf(some) {
         know.
       </p>
     </div>
-  )
+  );
 }

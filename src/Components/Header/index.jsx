@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 export default function index() {
   return (
@@ -27,5 +27,5 @@ export default function index() {
         </Link>
       </div>
     </header>
-  )
+  );
 }

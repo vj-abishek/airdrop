@@ -1,12 +1,12 @@
 const device = () => {
   try {
-    const UA = navigator.userAgent
-    const one = UA.split(';')
-    const final = one[2].split(')')
-    return final
+    const UA = navigator.userAgent;
+    const one = UA.split(';');
+    const final = one[2].split(')');
+    return final;
   } catch (error) {
-    return ['iPhone']
+    return ['iPhone'];
   }
-}
+};
 
-export default device
+export default device;

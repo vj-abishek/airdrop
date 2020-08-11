@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 export default class Ad extends React.Component {
   componentDidMount() {
-    if (window) (window.adsbygoogle = window.adsbygoogle || []).push({})
+    if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
   }
 
   render() {
@@ -16,8 +16,8 @@ export default class Ad extends React.Component {
           data-ad-slot='8928267796'
           data-ad-format='auto'
           data-full-width-responsive='true'
-        ></ins>
+        />
       </div>
-    )
+    );
   }
 }

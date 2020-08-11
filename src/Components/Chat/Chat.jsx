@@ -11,13 +11,13 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import Signal, { peer } from './Peer';
-import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
-import Success from './Success';
 import { nanoid } from 'nanoid';
 import { Helmet } from 'react-helmet';
 import { from } from 'rxjs';
 import { useParams } from 'react-router-dom';
+import Success from './Success';
+import { share_file, bufferArrayuni, dataURItoBlob } from './FileShare/File.js';
+import Signal, { peer } from './Peer';
 import './Chat.css';
 import { combaine } from './FileShare/Combine';
 import socket from '../Functions/Users';
@@ -27,7 +27,7 @@ import ImageCon from '../Message/ImageCon';
 let array = [];
 
 export default function Chat() {
-  //handle state
+  // handle state
   const [text, setText] = useState('');
   const [connected, setConnected] = useState(false);
   const [message, setMessage] = useState([]);
@@ -38,7 +38,7 @@ export default function Chat() {
   const [Typing, setTyping] = useState(false);
   const [error, seterror] = useState(false);
   const [beforemessage, setBeforeMessage] = useState(
-    "Setting everything up, Don't Refresh, Please wait..."
+    "Setting everything up, Don't Refresh, Please wait...",
   );
   // const [typingFocus, setTypingFocus] = useState(false);
 
@@ -130,7 +130,7 @@ export default function Chat() {
       JSON.stringify({
         type: 'info',
         typing: false,
-      })
+      }),
     );
     data.self = true;
     setMessage((old) => [...old, data]);
@@ -179,10 +179,10 @@ export default function Chat() {
       setMessage([...message, newData]);
     };
     const handleError = (err) => {
-      let error = {
+      const error = {
         id: nanoid(10),
         name: 'Bot',
-        message: 'The other peer disconnected :(  ' + err,
+        message: `The other peer disconnected :(  ${err}`,
         time: Date.now(),
       };
       // console.log(error)
@@ -210,7 +210,7 @@ export default function Chat() {
 
       // parse the data and update
       try {
-        let parsed = JSON.parse(data);
+        const parsed = JSON.parse(data);
 
         if (parsed.type === 'text/plain') {
           update(parsed);
@@ -228,21 +228,21 @@ export default function Chat() {
             setType({ type: parsed.type, fileName: parsed.fileName });
           }
 
-          let message = combaine(parsed);
+          const message = combaine(parsed);
 
           update(message);
         }
       } catch (err) {
         // console.log(err)
-        let condition = new TextDecoder('utf-8').decode(data);
+        const condition = new TextDecoder('utf-8').decode(data);
         if (condition === 'final') {
-          let buffer = new Blob(array, {
+          const buffer = new Blob(array, {
             type: Filetype.type,
           });
-          let url = window.URL.createObjectURL(buffer);
+          const url = window.URL.createObjectURL(buffer);
           console.log('URL:', url);
 
-          let message = {
+          const message = {
             name: 'Bot',
             id: nanoid(10),
             message: `${Filetype.fileName || 'airdrop'}`,
@@ -252,7 +252,7 @@ export default function Chat() {
             array,
             url,
           };
-          let regex = new RegExp(/^image/gi);
+          const regex = new RegExp(/^image/gi);
           // console.log(!regex.test(Filetype.type))
 
           if (!regex.test(Filetype.type)) {
@@ -299,7 +299,7 @@ export default function Chat() {
         JSON.stringify({
           type: 'info',
           typing: true,
-        })
+        }),
       );
 
       if (inputVariable.current.value === '') {
@@ -307,7 +307,7 @@ export default function Chat() {
           JSON.stringify({
             type: 'info',
             typing: false,
-          })
+          }),
         );
       }
     }
@@ -320,11 +320,11 @@ export default function Chat() {
   const handleFileChange = async (e) => {
     // console.log(e.target.files[0])
     if (!e.target.files[0] || err) return;
-    let file_data = e.target.files[0];
+    const file_data = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
       const url = URL.createObjectURL(dataURItoBlob(reader.result));
-      let datas = {
+      const datas = {
         id: nanoid(10),
         name: name[0].name,
         message: `${file_data.name} is sending...`,
@@ -347,7 +347,7 @@ export default function Chat() {
 
     // chunkStream.write(demo)
 
-    let share = await share_file(file_data);
+    const share = await share_file(file_data);
     bufferArrayuni[0].name = name[0].name;
     peer.send(JSON.stringify(bufferArrayuni[0]));
     // console.log(bufferArrayuni)
@@ -387,7 +387,7 @@ export default function Chat() {
       JSON.stringify({
         type: 'info',
         typing: false,
-      })
+      }),
     );
   };
 
@@ -398,7 +398,7 @@ export default function Chat() {
       JSON.stringify({
         type: 'info',
         typing: false,
-      })
+      }),
     );
   };
 
@@ -408,21 +408,24 @@ export default function Chat() {
       JSON.stringify({
         type: 'info',
         typing: true,
-      })
+      }),
     );
   };
   return (
     <>
       <Helmet>
-        <title>Safeshare.live - Connected with room {id}</title>
-        <link rel='canonical' href='https://safeshare.live/' />
+        <title>
+          Safeshare.live - Connected with room
+          {id}
+        </title>
+        <link rel="canonical" href="https://safeshare.live/" />
         <meta
-          name='description'
-          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+          name="description"
+          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
         />
       </Helmet>
-      <div className='container'>
-        <div className='chat-container'>
+      <div className="col-span-2">
+        <div className="chat-container">
           <div
             style={{
               display: 'flex',
@@ -433,35 +436,35 @@ export default function Chat() {
               color: '#fff',
             }}
           >
-            <a className=' Iazdo' href='/'>
+            <a className=" Iazdo" href="/">
               <span
                 style={{ display: 'inline-block', transform: 'rotate(270deg)' }}
               >
                 <svg
-                  aria-label='Back'
-                  className='_8-yf5 '
-                  fill='#fff'
-                  height='24'
-                  viewBox='0 0 48 48'
-                  width='24'
+                  aria-label="Back"
+                  className="_8-yf5 "
+                  fill="#fff"
+                  height="24"
+                  viewBox="0 0 48 48"
+                  width="24"
                 >
-                  <path d='M40 33.5c-.4 0-.8-.1-1.1-.4L24 18.1l-14.9 15c-.6.6-1.5.6-2.1 0s-.6-1.5 0-2.1l16-16c.6-.6 1.5-.6 2.1 0l16 16c.6.6.6 1.5 0 2.1-.3.3-.7.4-1.1.4z'></path>
+                  <path d="M40 33.5c-.4 0-.8-.1-1.1-.4L24 18.1l-14.9 15c-.6.6-1.5.6-2.1 0s-.6-1.5 0-2.1l16-16c.6-.6 1.5-.6 2.1 0l16 16c.6.6.6 1.5 0 2.1-.3.3-.7.4-1.1.4z" />
                 </svg>
               </span>
             </a>
             <header> {id}</header>
             {window.location.hash === '#init' ? (
-              <span className='msg-check'>
+              <span className="msg-check">
                 <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 15'
-                  width='16'
-                  height='15'
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 15"
+                  width="16"
+                  height="15"
                 >
                   <path
-                    fill='#fff'
-                    d='M10.91 3.316l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z'
-                  ></path>
+                    fill="#fff"
+                    d="M10.91 3.316l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"
+                  />
                 </svg>
               </span>
             ) : (
@@ -469,11 +472,11 @@ export default function Chat() {
             )}
           </div>
 
-          <div className='Message'>
+          <div className="Message">
             {connected ? (
               message.length > 0 ? (
                 message.map((data) => {
-                  let condition = /^image/gi.test(data.type);
+                  const condition = /^image/gi.test(data.type);
 
                   return condition ? (
                     <ImageCon
@@ -522,9 +525,9 @@ export default function Chat() {
               />
             )}
           </div>
-          <div className='Message-text-box'>
+          <div className="Message-text-box">
             <form onSubmit={handleSubmit}>
-              <div className='input-ka-name'>
+              <div className="input-ka-name">
                 <div style={{ flex: 1 }}>
                   <input
                     style={{
@@ -537,17 +540,17 @@ export default function Chat() {
                       border: '0px',
                     }}
                     ref={inputVariable}
-                    type='text'
+                    type="text"
                     onChange={handleChange}
                     onKeyPress={handleKeyPress}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    placeholder='Type a message or send a file... '
+                    placeholder="Type a message or send a file... "
                     // autoFocus
                     // style={{ width: '100%', height: '50px', outline: 'none' }}
                   />
                   <input
-                    type='file'
+                    type="file"
                     ref={file}
                     onChange={handleFileChange}
                     style={{
@@ -559,30 +562,30 @@ export default function Chat() {
                   />
                 </div>
                 <div>
-                  <div className='button-style'>
+                  <div className="button-style">
                     <button
-                      className='wpO6b '
+                      className="wpO6b "
                       style={{
                         background: 'transparent',
                         border: '0px',
                         cursor: 'pointer',
                         outline: 'none',
                       }}
-                      type='button'
+                      type="button"
                       onClick={handleFile}
                     >
                       <svg
-                        aria-label='Add Photo or Video'
-                        className='_8-yf5 '
-                        fill='#262626'
-                        height='24'
-                        viewBox='0 0 48 48'
-                        width='24'
+                        aria-label="Add Photo or Video"
+                        className="_8-yf5 "
+                        fill="#262626"
+                        height="24"
+                        viewBox="0 0 48 48"
+                        width="24"
                       >
-                        <path d='M38.5 0h-29C4.3 0 0 4.3 0 9.5v29C0 43.7 4.3 48 9.5 48h29c5.2 0 9.5-4.3 9.5-9.5v-29C48 4.3 43.7 0 38.5 0zM45 38.5c0 3.6-2.9 6.5-6.5 6.5h-29c-3.3 0-6-2.5-6.4-5.6l8.3-8.3c.1-.1.3-.2.4-.2.1 0 .2 0 .4.2l6.3 6.3c1.4 1.4 3.6 1.4 5 0L35.9 25c.2-.2.6-.2.8 0l8.3 8.3v5.2zm0-9.4l-6.2-6.2c-1.3-1.3-3.7-1.3-5 0L21.3 35.3c-.1.1-.3.2-.4.2-.1 0-.2 0-.4-.2L14.2 29c-1.3-1.3-3.7-1.3-5 0L3 35.2V9.5C3 5.9 5.9 3 9.5 3h29C42.1 3 45 5.9 45 9.5v19.6zM11.8 8.2c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5z'></path>
+                        <path d="M38.5 0h-29C4.3 0 0 4.3 0 9.5v29C0 43.7 4.3 48 9.5 48h29c5.2 0 9.5-4.3 9.5-9.5v-29C48 4.3 43.7 0 38.5 0zM45 38.5c0 3.6-2.9 6.5-6.5 6.5h-29c-3.3 0-6-2.5-6.4-5.6l8.3-8.3c.1-.1.3-.2.4-.2.1 0 .2 0 .4.2l6.3 6.3c1.4 1.4 3.6 1.4 5 0L35.9 25c.2-.2.6-.2.8 0l8.3 8.3v5.2zm0-9.4l-6.2-6.2c-1.3-1.3-3.7-1.3-5 0L21.3 35.3c-.1.1-.3.2-.4.2-.1 0-.2 0-.4-.2L14.2 29c-1.3-1.3-3.7-1.3-5 0L3 35.2V9.5C3 5.9 5.9 3 9.5 3h29C42.1 3 45 5.9 45 9.5v19.6zM11.8 8.2c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5z" />
                       </svg>
                     </button>
-                    <button className='sqdOP' type='submit'>
+                    <button className="sqdOP" type="submit">
                       Send
                     </button>
                   </div>

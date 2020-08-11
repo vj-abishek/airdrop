@@ -1,9 +1,9 @@
 // const Buff = require('readable-stream')
 
-let buf = Buffer.from('abc')
-console.log(buf)
+const buf = Buffer.from('abc');
+console.log(buf);
 
-//code from github
+// code from github
 // if (file.name.match(/\.jpg|\.png|\.jpeg|\.gif/gi)) {
 //   html += '<img crossOrigin="anonymous" src="' + file.url + '">';
 // } else if (file.name.match(/\.wav|\.mp3/gi)) {
@@ -15,7 +15,7 @@ console.log(buf)
 //   html += '<br><iframe class="inline-iframe" src="' + file.url + '"></iframe></a>';
 // }
 
-//code at peer.send
+// code at peer.send
 
 // let blob = new Blob([data], {
 //   type: 'image/png'
@@ -34,7 +34,7 @@ console.log(buf)
 
 // a.remove()
 
-//FIXME: fix this code
+// FIXME: fix this code
 
 // if (parsed.initial || parsed.custom) {
 //   update(combaine(parsed))

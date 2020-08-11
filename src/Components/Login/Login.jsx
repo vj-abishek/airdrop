@@ -1,22 +1,22 @@
-import React, { useReducer, useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import { setUser } from '../../State/action'
-import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
+import React, { useReducer, useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
+import { setUser } from '../../State/action';
 
 function Login() {
   // eslint-disable-next-line
   const [socket, dispatch] = useReducer(setUser, '')
 
-  const [state, setState] = useState({ name: '' })
+  const [state, setState] = useState({ name: '' });
 
   const createUSer = (e) => {
-    e.preventDefault()
-    let name = state.name
+    e.preventDefault();
+    const { name } = state;
 
-    dispatch({ type: 'SET_NAME', name })
-  }
+    dispatch({ type: 'SET_NAME', name });
+  };
   return (
     <div className='container_for_div'>
       <Helmet>
@@ -78,6 +78,6 @@ function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default Login
+export default Login;

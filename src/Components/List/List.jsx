@@ -1,77 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import history from '../history'
-import { useParams } from 'react-router-dom'
-import socket from '../Functions/Users'
-import './List.css'
-import { Helmet } from 'react-helmet'
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import history from '../history';
+import socket from '../Functions/Users';
+import './List.css';
+import { Helmet } from 'react-helmet';
 
-//variable for redirection
-let click = false
+// variable for redirection
+let click = false;
 
 export default function List() {
-  //get ID from the URL
-  const { id } = useParams()
-  const userID = atob(id)
+  // get ID from the URL
+  const { id } = useParams();
+  const userID = atob(id);
   const [user, setUser] = useState({
     online: 1,
-  })
-  const [room, setRoom] = useState()
-  const [feedback, setfeedback] = useState(false)
+  });
+  const [room, setRoom] = useState();
+  const [feedback, setfeedback] = useState(false);
 
-  //feedback
+  // feedback
   if (room || feedback) {
-    window.navigator.vibrate(200)
+    window.navigator.vibrate(200);
   }
 
-  //effect
+  // effect
   useEffect(() => {
     const set = (data) => {
-      setRoom(data)
-    }
-    socket.on('join_room', set)
-    return () => socket.off('join_room', set)
-  }, [room])
+      setRoom(data);
+    };
+    socket.on('join_room', set);
+    return () => socket.off('join_room', set);
+  }, [room]);
 
   socket.on('users', (user) => {
     setUser({
       online: user.online_users,
       name: user.users,
-    })
-  })
+    });
+  });
 
-  //listen to events
+  // listen to events
 
-  const { name } = user
+  const { name } = user;
 
-  //handle click
+  // handle click
   const handleClick = (e) => {
-    e.stopPropagation() //to stop propagating events
-    if (userID === e.target.dataset['name']) return
+    e.stopPropagation(); // to stop propagating events
+    if (userID === e.target.dataset.name) return;
 
-    setfeedback(true)
-    click = !click
+    setfeedback(true);
+    click = !click;
     socket.emit('room_name', {
-      room: e.target.dataset['name'],
-      id: e.target.dataset['id'],
+      room: e.target.dataset.name,
+      id: e.target.dataset.id,
       name: userID,
-    })
-  }
+    });
+  };
 
   socket.on('Joined', (data) => {
     if (click) {
-      history.push(`/chat/${data.room}`)
+      history.push(`/chat/${data.room}`);
     } else {
-      history.push(`/chat/${data.room}#init`)
+      history.push(`/chat/${data.room}#init`);
     }
-  })
+  });
 
   const handleAccept = () => {
-    socket.emit('Join_by_ME', room)
-  }
+    socket.emit('Join_by_ME', room);
+  };
 
   const handleBack = () => {
-    window.location.href = '/'
-  }
+    window.location.href = '/';
+  };
 
   return (
     <>
@@ -86,12 +86,17 @@ export default function List() {
       <div className='list_style'>
         <div className='container_for_me'>
           <h3>
-            Your name is <q>{userID}</q>: ({user.online})
+            Your name is
+            {' '}
+            <q>{userID}</q>
+            : (
+            {user.online}
+            )
           </h3>
           <br />
           <ul style={{ listStyle: 'decimal-leading-zero' }}>
-            {name &&
-              name.map((data) => (
+            {name
+              && name.map((data) => (
                 <li
                   key={data.id}
                   data-id={data.id}
@@ -121,7 +126,11 @@ export default function List() {
           {room ? (
             <div style={{ textAlign: 'center' }}>
               <h4>
-                {room.name} wants to connect with you id:({room.room})
+                {room.name}
+                {' '}
+                wants to connect with you id:(
+                {room.room}
+                )
               </h4>
               <button className='btn_accept' onClick={handleAccept}>
                 Accept
@@ -137,5 +146,5 @@ export default function List() {
         </div>
       </div>
     </>
-  )
+  );
 }

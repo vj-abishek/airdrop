@@ -1,0 +1,1 @@
+yarn postcss src/Styles/tailwind.css -o src/Styles/main.css

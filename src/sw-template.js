@@ -2,7 +2,6 @@
  * This file is for custome service worker
  */
 
-
 /* eslint-disable */
 
 

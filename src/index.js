@@ -1,26 +1,31 @@
-import React from 'react'
-import { hydrate, render } from "react-dom";
-import './index.css'
-import App from './App'
+import React from 'react';
+import { render } from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import * as Sentry from '@sentry/browser';
-import * as serviceWorker from './serviceWorker'
+import App from './App';
+import reducer from './Store/reducers/rootReducers';
+import * as serviceWorker from './serviceWorker';
 
 // for crash report using sentry
-Sentry.init({dsn: "https://b4f289a04be74ee48871e66af6cbc0ff@o400302.ingest.sentry.io/5258603"});
-
-// ReactDOM.render(<App />, document.getElementById('root'))
-const rootElement = document.getElementById("root");
-if (rootElement.hasChildNodes()) {
-    hydrate(<App />, rootElement);
-} else {
-    render(<App />, rootElement);
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({ dsn: 'https://b4f289a04be74ee48871e66af6cbc0ff@o400302.ingest.sentry.io/5258603' });
 }
 
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk),
+
+);
+
+const rootElement = document.getElementById('root');
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>, rootElement,
+);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register()
-
-
-
-
+serviceWorker.register();

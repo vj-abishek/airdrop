@@ -7,9 +7,9 @@ const Typing = ({ show }) => (
     style={show ? { display: 'block' } : { display: 'none' }}
   >
     <div className='tiblock'>
-      <div className='tidot'></div>
-      <div className='tidot'></div>
-      <div className='tidot'></div>
+      <div className='tidot' />
+      <div className='tidot' />
+      <div className='tidot' />
     </div>
   </div>
 );
