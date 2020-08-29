@@ -1,9 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function Main({ href, children }) {
   return (
-    <a href={href} target="blank">
+    <NavLink to={href}>
       <div
         style={{ gridTemplateColumns: '50px 1fr 50px' }}
         className="grid p-3 p-1 items-center"
@@ -24,7 +25,7 @@ export default function Main({ href, children }) {
           </svg>
         </div>
       </div>
-    </a>
+    </NavLink>
   );
 }
 

@@ -1,8 +1,10 @@
 const init = {
   authenticated: false,
   isGuest: false,
+  isnewUser: false,
   isLoading: false,
   isLoginLoading: true,
+  error: null,
 };
 
 const authReducer = (state = init, action) => {
@@ -50,6 +52,18 @@ const authReducer = (state = init, action) => {
         authenticated: false,
         user: action.user,
         isLoginLoading: false,
+      };
+    case 'LOGOUT':
+      return {
+        ...state,
+        authenticated: false,
+        user: null,
+        isLoading: false,
+      };
+    case 'LOGOUT_ERROR':
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return state;

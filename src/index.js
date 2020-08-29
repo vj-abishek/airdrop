@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import * as Sentry from '@sentry/browser';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import reducer from './Store/reducers/rootReducers';
 import * as serviceWorker from './serviceWorker';
@@ -15,7 +16,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk),
+  composeWithDevTools(
+    applyMiddleware(thunk),
+  )
 
 );
 

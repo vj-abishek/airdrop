@@ -7,7 +7,7 @@ function Profile({ user }) {
   return (
     <div
       style={{ gridTemplateColumns: '60px 1fr' }}
-      className="grid p-3 gap-1 ml-2"
+      className="grid p-3 gap-1 cursor-pointer"
     >
       <div className="w-12 h-12 bg-secondary rounded-full">
         <img src={user.photoURL} className="rounded-full" alt="Your Profile" />
@@ -15,9 +15,9 @@ function Profile({ user }) {
       <div className="w-auto font-sans flex flex-col justify-between borderBorder pb-2">
         <div className="text-white text-lg">
           <span>{user.isAnonymous && '~ '}</span>
-          <span>{user.displayName}</span>
+          <span>{user?.displayName}</span>
         </div>
-        <div className=" text-gray-500 text-xs">
+        <div className="text-light text-xs">
           Last login -{' '}
           {user.metadata.lastSignInTime &&
             formatDistanceToNow(new Date(user.metadata.lastSignInTime), {
@@ -36,8 +36,7 @@ const mapStateToProps = (state) => ({
 Profile.defaultProps = {
   user: {
     displayName: 'Loading...',
-    photoURL:
-      'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/Guest%20(1).jpg?alt=media&token=3e3fb84b-eec0-40a4-97e6-354a408b9c66',
+    photoURL: '',
     isAnonymous: true,
     metadata: {
       lastSignInTime: '',

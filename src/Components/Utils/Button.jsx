@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useRipple } from 'react-use-ripple';
 
 export default function Button({ children }) {
+  const buttonRef = useRef();
+
+  useRipple(buttonRef);
   return (
-    <div
+    <button
+      type="button"
+      id="generateURl"
+      ref={buttonRef}
       style={{
         minHeight: '48px',
-        boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 28px',
         outline: 'none',
         cursor: 'pointer',
         paddingLeft: '30px',
         paddingRight: '30px',
       }}
-      className=" bg-accent  text-white rounded-full text-center font-sans text-bold my-2 w-full"
+      className=" bg-accent shadow-2xl  text-white rounded-full text-center font-sans text-bold my-2 w-full"
     >
-      <span style={{ lineHeight: '48px', textAlign: 'center' }}>
+      <span
+        id="generateURlspan"
+        style={{ lineHeight: '48px', textAlign: 'center' }}
+      >
         {children}
       </span>
-    </div>
+    </button>
   );
 }

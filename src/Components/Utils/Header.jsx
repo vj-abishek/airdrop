@@ -19,7 +19,7 @@ export default function Header({ children, back }) {
             tabIndex="0"
             onClick={handleClick}
             onKeyPress={handleClick}
-            className="outline-none cursor-pointer p-2 w-10 h-10 text-center  rounded-full hover:bg-secondary mr-3"
+            className="outline-none cursor-pointer p-2 w-10 h-10 text-center rounded-full hover:bg-secondary mr-3"
           >
             <svg viewBox="0 0 24 24" className="fill-current text-accent pr-3 ">
               <g>
@@ -31,7 +31,26 @@ export default function Header({ children, back }) {
           <span>{children}</span>
         </div>
       ) : (
-        <span>{children}</span>
+        <div className="p-1 flex items-center ">
+          {window.innerWidth <= 768 && (
+            <div className="mr-5">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.6161 12.4219C27.8862 -5.02801 3.32812 24 3.32812 24C3.32812 24 6.85509 18.8163 6.85509 12.4219C21.6161 2.58047 3.32812 0.84375 3.32812 0.84375C3.32812 0.84375 15.3459 29.8718 21.6161 12.4219Z"
+                  fill="#F4F4F9"
+                />
+              </svg>
+            </div>
+          )}
+
+          <span>{children}</span>
+        </div>
       )}
     </header>
   );

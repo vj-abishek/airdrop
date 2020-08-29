@@ -3,7 +3,8 @@ import firebase from '../../config/fb';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const GuestPhoto = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/Guest%20(1).jpg?alt=media&token=3e3fb84b-eec0-40a4-97e6-354a408b9c66';
+const GuestPhoto = ['https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634',
+  'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8'];
 
 // Check and add to the Database
 
@@ -27,7 +28,7 @@ const check = (user, object, dispatch, guest) => {
               console.log(user);
               firebase.auth().currentUser.updateProfile({
                 displayName: object.name,
-                photoURL: GuestPhoto,
+                photoURL: GuestPhoto[Math.floor(Math.random() * 2)],
               }).then(() => {
                 console.log('Success');
                 dispatch({ type: 'LOGIN_SUCCESS_GUEST', user });
@@ -121,7 +122,7 @@ const guest = () => (dispatch) => {
 const userState = () => (dispatch) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log('STATE_CHANGED:', user);
+      console.log('%c STATE_CHANGED:', ' color: #00b2d2', user);
       dispatch({ type: 'LOGIN_SUCCESS_STATE', user });
     } else {
       // No user is signed is
@@ -129,6 +130,17 @@ const userState = () => (dispatch) => {
     }
   });
 };
+
+const logout = () => (dispatch) => {
+  firebase.auth().signOut().then(() => {
+    dispatch({ type: 'LOGOUT' });
+    // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+    dispatch({ type: 'LOGOUT_ERROR', error });
+  });
+};
+
 export {
-  google, github, facebook, guest, userState,
+  google, github, facebook, guest, userState, logout,
 };
