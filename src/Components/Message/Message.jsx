@@ -31,7 +31,7 @@ export default function Message({ data, forwardedRef }) {
             style={{
               margin: '12px',
               fontSize: '14px',
-              overFlow: 'hidded',
+              overflow: 'hidden',
               overflowWrap: 'break-word',
             }}
           >
