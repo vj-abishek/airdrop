@@ -1,15 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Styles from '../../Styles/responsive.module.css';
 
-export default function Header({ children, back }) {
+export default function Header({ children, back, home }) {
   const history = useHistory();
   const handleClick = () => {
     history.goBack();
   };
 
   return (
-    <header className="z-50 borderBorder bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full">
+    <header
+      className={`${Styles.borderBorder} z-50 bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full`}
+    >
       {back ? (
         <div className="flex items-center ">
           <div
@@ -32,7 +35,7 @@ export default function Header({ children, back }) {
         </div>
       ) : (
         <div className="p-1 flex items-center ">
-          {window.innerWidth <= 768 && (
+          {window.innerWidth <= 768 && home && (
             <div className="mr-5">
               <svg
                 width="24"
@@ -58,9 +61,11 @@ export default function Header({ children, back }) {
 
 Header.defaultProps = {
   back: false,
+  home: false,
 };
 
 Header.propTypes = {
   back: PropTypes.bool,
   children: PropTypes.string.isRequired,
+  home: PropTypes.bool,
 };

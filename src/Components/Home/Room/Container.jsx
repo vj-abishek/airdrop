@@ -4,13 +4,14 @@ import { Ring } from 'react-spinners-css';
 import { nanoid } from 'nanoid';
 import Single from './Single';
 import { Fetch } from '../../../Store/Actions/Channel';
+import Styles from '../../../Styles/responsive.module.css';
 
-function Container({ f, data, load, fetch }) {
+function Container({ f, data, load, fetch, sidebar }) {
   const [id] = React.useState(nanoid);
 
   useEffect(() => {
     if (!fetch) {
-      console.log('Fetching...', fetch);
+      console.log('Fetching...');
       f();
     }
   }, [f, fetch]);
@@ -20,7 +21,9 @@ function Container({ f, data, load, fetch }) {
       <Ring color="#00b2d2" />
     </div>
   ) : (
-    <Single key={id} data={data} />
+    <div className={sidebar && Styles.borderLeft}>
+      <Single key={id} data={data} />
+    </div>
   );
 }
 

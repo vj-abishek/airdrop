@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Switch from 'react-switch';
 import PropTypes from 'prop-types';
+import Styles from '../../Styles/responsive.module.css';
 
 export default function ToggleButtons({ children, last }) {
   const [checked, setChecked] = useState(false);
@@ -10,12 +11,12 @@ export default function ToggleButtons({ children, last }) {
   return (
     <div
       style={{ gridTemplateColumns: '50px 1fr 50px' }}
-      className="grid p-3 p-1 items-center"
+      className="grid p-3 items-center"
     >
       {children}
 
       {last ? (
-        <div className="p-3 borderBorder">
+        <div className={`p-3 ${Styles.borderBorder}`}>
           <Switch
             checked={checked}
             onChange={handleChange}

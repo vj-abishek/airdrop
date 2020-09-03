@@ -1,14 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Button from '../../Utils/Button';
+import Styles from '../../../Styles/responsive.module.css';
 
 export default function Nav() {
   return (
     <>
-      <nav className=" flex text-white flex-row justify-around py-1 lg:w-64 lg:flex-col lg:p-3 shadow-md">
+      <nav className="flex text-white  flex-row justify-around py-1 lg:w-64 lg:flex-col lg:p-3 shadow-md">
         <NavLink to="/" className="hidden lg:block">
           <div
-            className="text-white text-lg pt-2  flex items-center justify-center rounded-full hover:bg-secondary"
+            className="text-white  text-lg pt-2  flex items-center justify-center rounded-full hover:bg-secondary"
             style={{ width: '50px', height: '50px', padding: '1px' }}
             title="Safeshare Logo"
           >
@@ -31,10 +32,7 @@ export default function Nav() {
           className="py-1 navlink"
           activeClassName="text-accent"
         >
-          <div
-            style={{ width: '-moz-fit-content', width: 'fit-content' }}
-            className="flex py-2 px-3 items-center"
-          >
+          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl ">
               <svg viewBox="0 0 24 24" className="w-6 fill-current ">
                 <g>
@@ -50,10 +48,7 @@ export default function Nav() {
           activeClassName="text-accent"
           className="py-1 navlink"
         >
-          <div
-            style={{ width: '-moz-fit-content', width: 'fit-content' }}
-            className="flex py-2 px-3 items-center"
-          >
+          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl">
               <svg viewBox="0 0 24 24" className="w-6 fill-current">
                 <g>
@@ -70,10 +65,7 @@ export default function Nav() {
           activeClassName="text-accent"
           className="py-1 navlink"
         >
-          <div
-            style={{ width: '-moz-fit-content', width: 'fit-content' }}
-            className="flex py-2 px-3 items-center"
-          >
+          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl ">
               <svg
                 width="24"

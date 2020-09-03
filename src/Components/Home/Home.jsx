@@ -5,18 +5,18 @@ import { NavLink } from 'react-router-dom';
 import Search from './Search/Search';
 import Room from './Room/Room';
 import { connect } from 'react-redux';
+import Content from '../Animation/Content';
 
 const Sidebar = lazy(() => import('../Sidebar/Sidebar'));
 
 const Home = ({ em, lo }) => {
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
+    <Suspense fallback={<Content />}>
       <main className="col-span-1 lg:col-span-3 grid grid-cols-3">
-        <div
-          style={{ height: '200vh' }}
-          className="col-span-3 lg:col-span-2 flex-shrink-0"
-        >
-          <Header>Home</Header>
+        <div className="col-span-3 lg:col-span-2 flex-shrink-0">
+          <Header back={false} home={true}>
+            Home
+          </Header>
 
           {!em && !lo && <Search />}
 

@@ -9,7 +9,12 @@ const fetchProfile = (id, dispatch) => {
         .get()
         .then((profile) => {
             if (profile.empty) return;
-            dispatch({ type: 'FETCH_SUCCESS', payload: { pro: profile.docs[0] } });
+            if (profile.docs[0] === undefined) {
+                dispatch({ type: 'FETCH_ERROR' });
+                console.log(profile.docs[0]);
+            } else {
+                dispatch({ type: 'FETCH_SUCCESS', payload: { pro: profile.docs[0] } });
+            }
         })
         .catch((err) => {
             console.log(err);
@@ -23,10 +28,11 @@ export const Fetch = () => (dispatch, getState) => {
     db.collection('channel')
         .where('both', 'array-contains', uid)
         .limit(5)
-        .onSnapshot((data) => {
+        .get()
+        .then((data) => {
             if (data.empty) {
-                dispatch({ type: 'FETCH_EMPTY' })
-            };
+                dispatch({ type: 'FETCH_EMPTY' });
+            }
             data.docs.forEach((value) => {
                 const id = value.data().both.filter((i) => i !== uid);
                 fetchProfile(id[0], dispatch);

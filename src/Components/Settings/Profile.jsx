@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
+import Styles from '../../Styles/responsive.module.css';
 
 function Profile({ user }) {
   return (
@@ -12,7 +13,9 @@ function Profile({ user }) {
       <div className="w-12 h-12 bg-secondary rounded-full">
         <img src={user.photoURL} className="rounded-full" alt="Your Profile" />
       </div>
-      <div className="w-auto font-sans flex flex-col justify-between borderBorder pb-2">
+      <div
+        className={`w-auto font-sans flex flex-col justify-between ${Styles.borderBorder} pb-2`}
+      >
         <div className="text-white text-lg">
           <span>{user.isAnonymous && '~ '}</span>
           <span>{user?.displayName}</span>

@@ -1,8 +1,9 @@
 import { useToasts } from 'react-toast-notifications';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
+import { sentNotification } from '../../Store/Actions/Login';
 
-const Toast = ({ aerror, ferror, smessage, nuser }) => {
+const Toast = ({ aerror, ferror, smessage, nuser, noti, sent }) => {
   const { addToast } = useToasts();
 
   useEffect(() => {
@@ -29,25 +30,35 @@ const Toast = ({ aerror, ferror, smessage, nuser }) => {
       });
     }
     if (nuser) {
-      const obj = {
-        message: 'Welcome to SafeShare. Invite your friend to get started',
-      };
-      addToast(obj.message, {
-        appearance: 'success',
-        autoDismiss: true,
-        autoDismissTimeout: 6000,
-      });
+      if (!noti) {
+        const obj = {
+          message: 'Welcome to SafeShare. Invite your friend to get started',
+        };
+        addToast(obj.message, {
+          appearance: 'success',
+          autoDismiss: true,
+          autoDismissTimeout: 6000,
+        });
+        sent();
+      }
     }
-  }, [ferror, aerror, smessage, nuser, addToast]);
+  }, [ferror, aerror, smessage, nuser, addToast, noti, sent]);
 
   return null;
 };
 
-const mapStateToProps = (state) => ({
-  aerror: state.authReducer.error,
-  ferror: state.firestoreReducer.error,
-  smessage: state.firestoreReducer.message,
-  nuser: state.authReducer.isnewUser,
-});
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    aerror: state.authReducer.error,
+    ferror: state.firestoreReducer.error,
+    smessage: state.firestoreReducer.message,
+    nuser: state.authReducer.isnewUser,
+    noti: state.authReducer.notified,
+  };
+};
 
-export default connect(mapStateToProps)(Toast);
+const mapDispatchToProps = (dispatch) => ({
+  sent: () => dispatch(sentNotification()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Toast);

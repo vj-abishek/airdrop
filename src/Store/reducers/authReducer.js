@@ -4,6 +4,7 @@ const init = {
   isnewUser: false,
   isLoading: false,
   isLoginLoading: true,
+  notified: false,
   error: null,
 };
 
@@ -52,6 +53,12 @@ const authReducer = (state = init, action) => {
         authenticated: false,
         user: action.user,
         isLoginLoading: false,
+      };
+
+    case 'SEND_NOTIFICATION':
+      return {
+        ...state,
+        notified: true,
       };
     case 'LOGOUT':
       return {

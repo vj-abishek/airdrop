@@ -2,7 +2,7 @@ const initialState = {
     generated: false,
     pending: true,
     error: false,
-    slug: 'Loading...',
+    slug: 'Generating...',
     invite: false,
     message: false,
 };

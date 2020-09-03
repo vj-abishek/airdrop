@@ -33,6 +33,11 @@ function Popup({ onClicks, show, add, slug, generated }) {
     }
   };
 
+  const Generate = () => {
+    setCopy(false);
+    add();
+  };
+
   return show
     ? createPortal(
         <div
@@ -45,60 +50,77 @@ function Popup({ onClicks, show, add, slug, generated }) {
           id="popupmain"
           className="fixed outline-none z-50 top-0 grid h-screen w-screen"
         >
-          <div className="w-11/12 lg:w-4/12 shadow-2xl rounded bg-secondary p-3">
-            <header className="flex justify-between">
-              <div className="flex-1 text-white  uppercase font-sans text-md font-bold">
-                Invite friends to your room
-              </div>
-              <div
-                tabIndex="0"
-                role="button"
-                aria-pressed={show}
-                onKeyDown={onClicks}
-                onClick={onClicks}
-                id="closeButtons"
-              >
-                <svg
+          <div className="w-11/12 lg:w-4/12 shadow-2xl rounded bg-secondary">
+            <div className="p-3">
+              <header className="flex justify-between">
+                <div className="flex-1 text-white  uppercase font-sans text-md font-bold">
+                  Invite friends to your room
+                </div>
+                <div
+                  tabIndex="0"
+                  role="button"
+                  aria-pressed={show}
+                  onKeyDown={onClicks}
+                  onClick={onClicks}
                   id="closeButtons"
-                  aria-hidden="false"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
                 >
-                  <path
-                    className="text-accent"
-                    fill="currentColor"
-                    d="M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z"
-                  />
-                </svg>
+                  <svg
+                    id="closeButtons"
+                    aria-hidden="false"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      className="text-accent"
+                      fill="currentColor"
+                      d="M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z"
+                    />
+                  </svg>
+                </div>
+              </header>
+              <div className="mt-3 text-accent text-sm">
+                Share this link with your friend to grant access to your room!
               </div>
-            </header>
-            <div className="mt-3 text-accent text-sm">
-              Share this link with your friend to grant access to your room!
+              <div className="flex justify-evenly mt-2 p-2 rounded bg-primary">
+                <div
+                  onClick={copyText}
+                  onKeyDown={copyText}
+                  tabIndex={0}
+                  role="button"
+                  ref={copyTextref}
+                  className="flex-1 text-white overflow-hidden"
+                >
+                  {generated ? `https://onlink.tk/${slug}` : slug}
+                </div>
+                <div
+                  onClick={copyText}
+                  onKeyDown={copyText}
+                  tabIndex={0}
+                  role="button"
+                  className="rounded  bg-accent text-white px-3 text-sm"
+                >
+                  {copied ? 'copied' : 'copy'}
+                </div>
+              </div>
+              <div className="text-accent text-xs mt-1">
+                Your invite link expires only when accepted.
+              </div>
             </div>
-            <div className="flex justify-evenly mt-2 p-2 rounded bg-primary">
+            <div
+              style={{ borderRadius: '0px 0px 0.25rem 0.25rem' }}
+              className="w-full border-bottom bg-primary text-white p-4 flex justify-evenly"
+            >
+              <div className="flex-1">Generate another URL</div>
               <div
-                onClick={copyText}
                 onKeyDown={copyText}
                 tabIndex={0}
                 role="button"
-                ref={copyTextref}
-                className="flex-1 text-white overflow-hidden"
+                onClick={Generate}
+                className="rounded-sm bg-secondary p-1 flex items-center text-white cursor-pointer px-3 text-sm"
               >
-                {generated ? `https://onlink.tk/${slug}` : slug}
+                Generate
               </div>
-              <div
-                onClick={copyText}
-                onKeyDown={copyText}
-                tabIndex={0}
-                role="button"
-                className="rounded bg-accent text-white px-3 text-sm"
-              >
-                {copied ? 'copied' : 'copy'}
-              </div>
-            </div>
-            <div className="text-accent text-xs mt-1">
-              Your invite link expires when accepted.
             </div>
           </div>
         </div>,
@@ -111,11 +133,9 @@ const mapDispatchToProps = (dispatch) => ({
   add: () => dispatch(addSlug()),
 });
 
-const mapStateToProps = (state) => {
-  return {
-    slug: state.firestoreReducer.slug,
-    generated: state.firestoreReducer.generated,
-  };
-};
+const mapStateToProps = (state) => ({
+  slug: state.firestoreReducer.slug,
+  generated: state.firestoreReducer.generated,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Popup);

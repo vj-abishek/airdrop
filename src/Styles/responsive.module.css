@@ -1,0 +1,9 @@
+.borderBorder{ border: 0px; border-bottom: 1px solid rgba(50, 82, 88,0.49); }
+.borderLeft{ border: 0px; border-left: 1px solid rgba(50, 82, 88,0.49); }
+.overFLow{ overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.picturE{width: 49px; height: 49px}
+.grid7{ grid-template-columns: 70px 1fr }
+.grid6{ grid-template-columns: 60px 1fr }
+.gray1{ color: #f1f1f2a1 }
+.width{width: -moz-fit-content; width: fit-content}
+.flexa{flex:1 1 0;}

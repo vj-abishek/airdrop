@@ -11,7 +11,7 @@ export default function GenerateUrl({ onClicks, show }) {
       id="generateURlWrapper"
       className="mt-8 cursor-pointer"
     >
-      <Button>Generate sharable url</Button>
+      <Button>Invite Friend</Button>
     </div>
   );
 }

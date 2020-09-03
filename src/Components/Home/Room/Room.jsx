@@ -3,7 +3,7 @@ import Container from './Container';
 
 export default function Room() {
   return (
-    <div className="w-full h-auto p-2 ">
+    <div className="w-full h-auto">
       <Container />
     </div>
   );

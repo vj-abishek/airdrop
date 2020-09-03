@@ -6,7 +6,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-
 import { connect } from 'react-redux';
 import { userState } from './Store/Actions/Login';
 import Loading from './Components/Animation/Loading';
@@ -15,60 +14,46 @@ import Content from './Components/Animation/Content';
 import Header from './Components/Home/Header/Header';
 import Toast from './Components/Utils/Toast';
 import './Styles/main.css';
-import './Styles/responsive.css';
 
-
-// Lazy load the components
 const Auth = lazy(() => import('./Components/Auth/Login'));
 const Home = lazy(() => import('./Components/Home/Home'));
 const About = lazy(() => import('./Components/About/About'));
 const Invite = lazy(() => import('./Components/Invite/Invite'));
-const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'));
-const Join = lazy(() => import('./Components/Join/Join'));
-const Chat = lazy(() => import('./Components/Chat/Chat'));
 const Settings = lazy(() => import('./Components/Settings/Settings'));
 const Create = lazy(() => import('./Components/Create/Create'));
 const Logout = lazy(() => import('./Components/Utils/Logout'));
 const Channel = lazy(() => import('./Components/Invite/Channel'));
+const Room = lazy(() => import('./Components/Channel/Channel'));
 const Page404 = lazy(() => import('./Components/404/FNF'));
 
+// TODO: Clean this when complete
+const Chat = lazy(() => import('./Components/Chat/Chat'));
+const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'));
+const Join = lazy(() => import('./Components/Join/Join'));
 
-
-function App({ loginState, init, aerror, ferror }) {
-  // Initilize the state
+function App({ loginState, init }) {
   useEffect(() => {
     init();
   }, [init]);
 
-  // const { addToast } = useToasts();
-
   const path = window.location.pathname;
-
   const slug = path.split('/')[2];
 
-  // if (aerror) {
-  //   addToast(aerror.message, { appearance: 'error', autoDismiss: true });
-  // }
-  // if (ferror) {
-  //   addToast(ferror.message, { appearance: 'error', autoDismiss: true });
-  // }
-
   return (
-    <Router >
+    <Router>
       {/* Wait for the AuthState */}
 
       {loginState.isLoginLoading && <Loading />}
 
-
       {/*  Check for Auth State and Redirect */}
 
-      {!loginState.isLoginLoading && !loginState.authenticated && !path.includes('/invite') && (
-        <Redirect to="/login" />
-      )}
+      {!loginState.isLoginLoading &&
+        !loginState.authenticated &&
+        !path.includes('/invite') && <Redirect to="/login" />}
 
-      {!loginState.isLoginLoading && loginState.authenticated && path.includes('/invite') && (
-        <Redirect to={"/channel/" + slug} />
-      )}
+      {!loginState.isLoginLoading &&
+        loginState.authenticated &&
+        path.includes('/invite') && <Redirect to={'/channel/' + slug} />}
 
       {/* Unauthenticated Route */}
       <Suspense fallback={<Content />}>
@@ -95,6 +80,7 @@ function App({ loginState, init, aerror, ferror }) {
               <Route path="/create" component={Create} />
               <Route path="/logout" component={Logout} />
               <Route path="/channel/:id" component={Channel} />
+              <Route path="/room/:id" component={Room} />
               <Route path="/qrcode" component={Qrcode} />
               <Route path="/j/:id" component={Join} />
               <Route path="/Chat/:id" component={Chat} />
@@ -103,30 +89,16 @@ function App({ loginState, init, aerror, ferror }) {
           </Suspense>
         </div>
       )}
-
     </Router>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loginState: state.authReducer,
-  };
-};
+const mapStateToProps = (state) => ({
+  loginState: state.authReducer,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    init: () => dispatch(userState()),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  init: () => dispatch(userState()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-// <Route path="/create_user_name" component={Login} />
-// <Route path="/list/:id" component={List} />
-//
-// <Route path="/auto" component={Auto} />
-// <Route path="/share" component={Share} />
-//
-//
-// <Route path="/toast" component={Toast} />

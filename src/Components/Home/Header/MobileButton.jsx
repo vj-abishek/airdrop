@@ -11,7 +11,7 @@ export default function MobileButton() {
       type="button"
       ref={buttonRef}
       style={{ right: '11%', bottom: '12%' }}
-      className="block shadow-2xl outline-none fixed z-30 lg:hidden bg-secondary h-12 w-12 flex justify-center items-center text-white rounded-full"
+      className=" shadow-2xl outline-none fixed z-30 lg:hidden bg-secondary h-12 w-12 flex justify-center items-center text-white rounded-full"
     >
       <svg
         className="w-9 h-9 fill-current text-accent"

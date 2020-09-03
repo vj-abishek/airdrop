@@ -131,6 +131,10 @@ const userState = () => (dispatch) => {
   });
 };
 
+const sentNotification = () => (dispatch) => {
+  dispatch({ type: 'SEND_NOTIFICATION' });
+};
+
 const logout = () => (dispatch) => {
   firebase.auth().signOut().then(() => {
     dispatch({ type: 'LOGOUT' });
@@ -142,5 +146,5 @@ const logout = () => (dispatch) => {
 };
 
 export {
-  google, github, facebook, guest, userState, logout,
+  google, github, facebook, guest, userState, logout, sentNotification
 };

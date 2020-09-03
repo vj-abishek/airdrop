@@ -44,7 +44,6 @@ export const addSlug = () => (dispatch, getState) => {
 
 export const fetchSlug = (slug) => async (dispatch) => {
     const doc = await getSlug(slug, dispatch);
-    if (!doc.docs[0]) return;
     if (doc) { dispatch({ type: 'FETCH_SUCCESS', payload: { doc: doc.docs[0].data() } }); }
 };
 
