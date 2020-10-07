@@ -3,3 +3,10 @@
   background-color: var(--color-secondary);
   border-radius: 999px;
 }
+
+.activated  > div {
+  color: var(--color-accent);
+  background-color: var(--color-secondary);
+  border-radius: 999px;
+}
+

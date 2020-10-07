@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { google, github, facebook, guest } from '../../Store/Actions/Login';
 import { Redirect } from 'react-router-dom';
+import Styles from '../../Styles/responsive.module.css';
 
 function Login({
   googleLogin,
@@ -15,12 +16,12 @@ function Login({
 
   return (
     <div className="font-sans flex flex-col sm:flex-row">
-      <div className="bg-color w-screen h-12 sm:h-screen sm:width-login sm:h-screen sm:order-2" />
-      <div className="p-4 font-medium w-full h-aut sm:w-auto py-20 p-6">
-        <header className="text-white font-semibold text-4xl font-normal center">
-          Safeshare
+      <div className="bg-color w-screen h-12 sm:h-screen sm:width-login sm:order-2" />
+      <div className="font-medium w-full h-aut sm:w-auto py-20 p-6">
+        <header className="text-white font-semibold text-4xl center">
+          Relp
         </header>
-        <h1 className="text-gray-600 text-xl">
+        <h1 className={`${Styles.gray1} text-xl`}>
           Login with one of the following:
         </h1>
         {loginState.isLoading ? (
@@ -36,7 +37,7 @@ function Login({
               e.preventDefault();
               googleLogin();
             }}
-            className="my-4 p-4 text-white w-full  bg-red-600 rounded-full"
+            className="my-4 p-4 text-white w-full bg-red-700 rounded-full"
           >
             <div className="flex items-center justify-center">
               <svg
@@ -120,6 +121,7 @@ function Login({
               guestLogin();
             }}
             type="submit"
+            id="Login"
             className="my-4 p-4 text-white w-full bg-secondary rounded-full"
           >
             Login as a Guest
@@ -143,7 +145,6 @@ function Login({
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     loginState: state.authReducer,
     loginError: state.authReducer.error,

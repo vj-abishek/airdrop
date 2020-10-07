@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Toggle from './ToggleButtons';
 
 export default function Section() {
+  const [checked, setChecked] = useState(true);
+
+  const Change = () => setChecked(!checked);
   return (
     <>
       {/* Notification Section */}
 
-      <Toggle>
+      <Toggle handleChange={Change} checked={checked}>
         <div className="w-12 h-12 text-white flex justify-center items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"

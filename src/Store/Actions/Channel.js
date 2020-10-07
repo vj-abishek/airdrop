@@ -1,19 +1,32 @@
 import firebase from '../../config/fb';
 import 'firebase/firestore';
+import socket from '../../Components/Functions/Users';
 
 const db = firebase.firestore();
 
-const fetchProfile = (id, dispatch) => {
+const fetchProfile = (id, dispatch, channelId, bobPublicKey, generated, from, slug, to) => {
     db.collection('users')
         .where('uid', '==', id)
         .get()
         .then((profile) => {
-            if (profile.empty) return;
+            if (profile.empty) {
+                dispatch({ type: 'FETCH_EMPTY' });
+            };
+
             if (profile.docs[0] === undefined) {
-                dispatch({ type: 'FETCH_ERROR' });
+                dispatch({ type: 'FETCH_EMPTY' });
                 console.log(profile.docs[0]);
             } else {
-                dispatch({ type: 'FETCH_SUCCESS', payload: { pro: profile.docs[0] } });
+                const final = {
+                    pro: profile.docs[0],
+                    channelId,
+                    bobPublicKey,
+                    generated,
+                    from,
+                    slug,
+                    to,
+                };
+                dispatch({ type: 'FETCH_SUCCESS', payload: { pro: final } });
             }
         })
         .catch((err) => {
@@ -34,10 +47,30 @@ export const Fetch = () => (dispatch, getState) => {
                 dispatch({ type: 'FETCH_EMPTY' });
             }
             data.docs.forEach((value) => {
-                const id = value.data().both.filter((i) => i !== uid);
-                fetchProfile(id[0], dispatch);
+                const id = value.data().both.find((i) => i !== uid);
+                const channelId = value.id;
+                const {
+                    bobPublicKey, generated, from, slug, to,
+                } = value.data();
+                fetchProfile(id, dispatch, channelId, bobPublicKey, generated, from, slug, to);
+                socket.emit('fetch status', { id, from: uid });
             });
         });
 };
 
-export const nothing = '';
+export const UpdateChannel = (data) => async (dispatch, getState) => {
+    const { visited } = getState().channelReducer;
+    const hash = visited.includes(data.slug);
+    if (hash) return;
+    try {
+        if (!hash) {
+            await db.collection('channel').doc(data.id).update({
+                generated: true,
+                bobPublicKey: '',
+            });
+            dispatch({ type: 'SUCCESS_IN_UPDATE', payload: { slug: data.slug } });
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};

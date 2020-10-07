@@ -17,7 +17,7 @@ export default function Button({ children }) {
         paddingLeft: '30px',
         paddingRight: '30px',
       }}
-      className=" bg-accent shadow-2xl  text-white rounded-full text-center font-sans text-bold my-2 w-full"
+      className="bg-secondary text-white rounded-full text-center font-sans text-bold my-2 w-full"
     >
       <span
         id="generateURlspan"

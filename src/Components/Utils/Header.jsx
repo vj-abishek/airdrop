@@ -11,7 +11,9 @@ export default function Header({ children, back, home }) {
 
   return (
     <header
-      className={`${Styles.borderBorder} z-50 bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full`}
+      className={`${home && window.innerWidth >= 768 && Styles.borderBorder} ${
+        home && window.innerWidth <= 768 && 'mt-10'
+      } z-50 bg-primary font-sans p-2 pl-4 text-lg text-white sticky font-bold top-0 w-full`}
     >
       {back ? (
         <div className="flex items-center ">
@@ -35,24 +37,9 @@ export default function Header({ children, back, home }) {
         </div>
       ) : (
         <div className="p-1 flex items-center ">
-          {window.innerWidth <= 768 && home && (
-            <div className="mr-5">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21.6161 12.4219C27.8862 -5.02801 3.32812 24 3.32812 24C3.32812 24 6.85509 18.8163 6.85509 12.4219C21.6161 2.58047 3.32812 0.84375 3.32812 0.84375C3.32812 0.84375 15.3459 29.8718 21.6161 12.4219Z"
-                  fill="#F4F4F9"
-                />
-              </svg>
-            </div>
-          )}
-
-          <span>{children}</span>
+          <span className={`${window.innerWidth <= 768 && home && 'text-2xl'}`}>
+            {(window.innerWidth <= 768 && 'Relp') || children}
+          </span>
         </div>
       )}
     </header>

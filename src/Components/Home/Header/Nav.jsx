@@ -29,8 +29,8 @@ export default function Nav() {
         <NavLink
           exact
           to="/"
-          className="py-1 navlink"
-          activeClassName="text-accent"
+          className="py-1 rounded-full navlink "
+          activeClassName="activated"
         >
           <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl ">
@@ -45,8 +45,8 @@ export default function Nav() {
         </NavLink>
         <NavLink
           to="/settings"
-          activeClassName="text-accent"
-          className="py-1 navlink"
+          activeClassName="activated"
+          className="py-1 rounded-full navlink"
         >
           <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl">
@@ -62,8 +62,8 @@ export default function Nav() {
         </NavLink>
         <NavLink
           to="/about"
-          activeClassName="text-accent"
-          className="py-1 navlink"
+          activeClassName="activated"
+          className="py-1 rounded-full navlink "
         >
           <div className={`${Styles.width} flex py-2 px-3 items-center`}>
             <div className="pr-3 text-2xl ">

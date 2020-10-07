@@ -1,37 +1,115 @@
 import crypto from 'crypto';
 import db from './User.model';
+import Slug from './Slug.model';
 
 class EndToEnd {
-    constructor(user, object) {
+    constructor() {
         this.peer = crypto.createECDH('secp256k1');
-        this.user = user;
-        this.object = object;
+        this.SharedSecret = '';
     }
 
     // Generate Keys
     generateKeys() {
         this.peer.generateKeys();
         const Publickey = this.peer.getPublicKey().toString('base64');
-        const obj = {
-            displayName: this.user.displayName || this.object.displayName,
-            photoURL: this.user.photoURL || this.object.photoURL,
-            id: this.user.uid,
-            isAnonymous: this.user.isAnonymous,
-            Publickey,
-        };
-
-        console.log(obj);
-
-        // Insert into the db
-        db.user.add(obj)
-            .then(() => console.log('Succes in inserting '))
-            .catch((err) => console.log(err));
+        const PrivateKey = this.peer.getPrivateKey().toString('base64');
+        return { Publickey, PrivateKey };
     }
 
     generateSharedSecret(publickey) {
-        this.peer.generateKeys();
+        this.generateKeys();
         const SharedSecret = this.peer.computeSecret(publickey, 'base64', 'hex');
-        console.log(SharedSecret);
+        this.SharedSecret = SharedSecret;
+        return this.peer.getPublicKey().toString('base64');
+    }
+
+    setChannel(channelId, deletes, slug) {
+        db.channel
+            .add({ SharedSecret: this.SharedSecret, id: channelId })
+            .then(async () => {
+                console.log('Success in insertation');
+                if (deletes) {
+                    const deleteCount = await Slug.slug.where('id').equalsIgnoreCase(slug).delete();
+                    console.log(`Deleted ${deleteCount} objects`);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    setPrivateKey(slug, channelId, bobPublicKey) {
+        return new Promise((res, rej) => {
+            try {
+                Slug.slug.where('id')
+                    .equalsIgnoreCase(slug)
+                    .toArray()
+                    .then((collection) => {
+                        const { PrivateKey } = collection[0];
+                        if (PrivateKey) {
+                            this.peer.setPrivateKey(PrivateKey, 'base64');
+                            const SharedSecret = this.peer.computeSecret(bobPublicKey, 'base64', 'hex');
+                            this.SharedSecret = SharedSecret;
+                            this.setChannel(channelId, true, slug);
+                            res('Success');
+                        }
+                    });
+            } catch (err) {
+                console.log(err);
+                rej(err);
+            }
+        });
+    }
+
+    getSharedSecret(channelId) {
+        return new Promise((res, rej) => {
+            try {
+                db.channel
+                    .where('id')
+                    .equalsIgnoreCase(channelId)
+                    .toArray()
+                    .then((key) => {
+                        const { SharedSecret } = key[0];
+                        this.something = '';
+                        res(SharedSecret);
+                    });
+            } catch (err) {
+                rej(err);
+            }
+        });
+    }
+
+    async encrypt(channelId, message) {
+        const SharedSecret = await this.getSharedSecret(channelId);
+
+        const IV = crypto.randomBytes(16);
+        const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(SharedSecret, 'hex'), IV);
+
+        let encrypted = cipher.update(JSON.stringify(message), 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+
+        const authTag = cipher.getAuthTag().toString('hex');
+
+        const payload = Buffer.from(IV.toString('hex') + encrypted + authTag, 'hex').toString('base64');
+        return payload;
+    }
+
+    async decrypt(channelId, encryptedMessage) {
+        const SharedSecret = await this.getSharedSecret(channelId);
+
+        const bobPayload = Buffer.from(encryptedMessage, 'base64').toString('hex');
+
+        const bobIv = bobPayload.substr(0, 32);
+        const bobEncrypted = bobPayload.substr(32, bobPayload.length - 32 - 32);
+        const bobAuthtag = bobPayload.substr(bobPayload.length - 32, 32);
+
+        const Decipher = crypto.createDecipheriv('aes-256-gcm', Buffer.from(SharedSecret, 'hex'), Buffer.from(bobIv, 'hex'));
+
+        Decipher.setAuthTag(Buffer.from(bobAuthtag, 'hex'));
+
+        let decrypt = Decipher.update(bobEncrypted, 'hex', 'utf8');
+        decrypt += Decipher.final('utf8');
+
+        return decrypt;
+
     }
 }
 

@@ -13,7 +13,11 @@ import { ToastProvider } from 'react-toast-notifications';
 import Content from './Components/Animation/Content';
 import Header from './Components/Home/Header/Header';
 import Toast from './Components/Utils/Toast';
+import socket from './Components/Functions/Users';
 import './Styles/main.css';
+import { RecieveMessage } from './Store/Actions/Message';
+import Peer from './Components/Channel/Chat/Utils/Peer';
+import { RecieveFiles } from './Store/Actions/Peer';
 
 const Auth = lazy(() => import('./Components/Auth/Login'));
 const Home = lazy(() => import('./Components/Home/Home'));
@@ -31,10 +35,32 @@ const Chat = lazy(() => import('./Components/Chat/Chat'));
 const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'));
 const Join = lazy(() => import('./Components/Join/Join'));
 
-function App({ loginState, init }) {
+function App({ loginState, init, recieveMessage, connected, reciveFiles }) {
   useEffect(() => {
     init();
   }, [init]);
+
+  useEffect(() => {
+    recieveMessage();
+  }, [recieveMessage]);
+
+  useEffect(() => {
+    const obj = {
+      uid: loginState.user?.uid || null,
+      displayName: loginState.user?.displayName || 'Anonymous',
+      online: true,
+    };
+
+    if (loginState.authenticated) {
+      Peer.Init();
+      Peer.on('connected', (data) => {
+        console.log('From the frontEnd');
+        connected(data);
+        reciveFiles(Peer.peer);
+      });
+      socket.emit('authenticated', obj);
+    }
+  }, [loginState, connected, reciveFiles]);
 
   const path = window.location.pathname;
   const slug = path.split('/')[2];
@@ -75,12 +101,12 @@ function App({ loginState, init }) {
           <Suspense fallback={<Content />}>
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route path="/r/:id" component={Room} />
               <Route path="/settings" component={Settings} />
               <Route path="/about" component={About} />
               <Route path="/create" component={Create} />
               <Route path="/logout" component={Logout} />
               <Route path="/channel/:id" component={Channel} />
-              <Route path="/room/:id" component={Room} />
               <Route path="/qrcode" component={Qrcode} />
               <Route path="/j/:id" component={Join} />
               <Route path="/Chat/:id" component={Chat} />
@@ -99,6 +125,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   init: () => dispatch(userState()),
+  connected: (bool) => dispatch({ type: 'PEER_CONNECTED', payload: bool }),
+  recieveMessage: () => dispatch(RecieveMessage()),
+  reciveFiles: (Peer) => dispatch(RecieveFiles(Peer)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

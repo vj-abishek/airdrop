@@ -87,6 +87,18 @@ if ('function' === typeof importScripts) {
             }
         });
 
+        self.addEventListener('notificationclick', function (event) {
+
+            switch (event.action) {
+                case 'open_url':
+                    clients.openWindow(event.notification.data.url);
+                    break;
+                default:
+                    clients.openWindow('http://locahost:3000');
+            }
+        }, false);
+
+
 
     } else {
         console.log('Workbox could not be loaded. No Offline support');

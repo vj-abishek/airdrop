@@ -6,6 +6,8 @@ const init = {
   isLoginLoading: true,
   notified: false,
   error: null,
+  waiting: false,
+  user: null,
 };
 
 const authReducer = (state = init, action) => {
@@ -15,6 +17,7 @@ const authReducer = (state = init, action) => {
         ...state,
         authenticated: true,
         user: action.user,
+        waiting: false,
         isLoading: false,
       };
 
@@ -23,7 +26,17 @@ const authReducer = (state = init, action) => {
         ...state,
         authenticated: true,
         user: action.user,
+        waiting: false,
         isLoginLoading: false,
+      };
+
+    case 'LOGIN_WAITING':
+      return {
+        ...state,
+        authenticated: false,
+        waiting: true,
+        user: action.user,
+        isLoading: true,
       };
 
     case 'LOGIN_ERROR':
@@ -45,6 +58,8 @@ const authReducer = (state = init, action) => {
         ...state,
         isnewUser: true,
         isLoading: true,
+        waiting: true,
+        user: action.user,
       };
 
     case 'NOT_LOGIN':

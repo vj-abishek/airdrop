@@ -47,16 +47,13 @@ const Toast = ({ aerror, ferror, smessage, nuser, noti, sent }) => {
   return null;
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    aerror: state.authReducer.error,
-    ferror: state.firestoreReducer.error,
-    smessage: state.firestoreReducer.message,
-    nuser: state.authReducer.isnewUser,
-    noti: state.authReducer.notified,
-  };
-};
+const mapStateToProps = (state) => ({
+  aerror: state.authReducer.error,
+  ferror: state.firestoreReducer.error,
+  smessage: state.firestoreReducer.message,
+  nuser: state.authReducer.isnewUser,
+  noti: state.authReducer.notified,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   sent: () => dispatch(sentNotification()),

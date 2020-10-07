@@ -1,11 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
-:root {
+
+@media (prefers-color-scheme: light) {
+  body {
+    --color-primary: #f4f4f9;
+    --color-secondary: #004552;
+    --color-accent: #00b2d2;
+    --color-white:  #061e23;
+    --color-light: #187A8C;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+ body{
   --color-primary: #061e23;
   --color-secondary: #004552;
   --color-accent: #00b2d2;
   --color-white: #f4f4f9;
-  --color-light:#187A8C;
-  /* ... */
+  --color-light: #187A8C;
+ }
 }
 
 html {
@@ -13,6 +25,15 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   scroll-behavior: smooth;
+}
+
+
+span > a{
+  color: #73eaff;
+}
+
+.otherStyle > a{
+  color:var(--color-accent);
 }
 
 .bg-color {
@@ -28,9 +49,7 @@ html {
   width: calc(100vw - 385px);
 }
 
-body {
-  background-color: var(--color-primary);
-}
+
 
 @tailwind base;
 @tailwind components;

@@ -45,8 +45,6 @@ export const setUser = (state = init, action) => {
       });
       return { ...state, nows };
     default:
-      // console.log('Default State')
-      console.log(state);
       return state;
   }
 };

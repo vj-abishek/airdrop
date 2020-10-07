@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid';
 import firebase from '../../config/fb';
+import E2E from '../../Components/Utils/EndToEnd';
+import ddb from '../../Components/Utils/Slug.model';
 import 'firebase/firestore';
 
 const db = firebase.firestore();
@@ -9,8 +11,10 @@ const getSlug = async (slug, dispatch) => new Promise((res, rej) => {
         .where('slug', '==', slug)
         .get()
         .then((doc) => {
-            if (!doc.empty) res(doc);
-            else res({ doc: false });
+            if (!doc.empty) {
+                // dispatch({ type: 'UPDATE_SLUG', payload: { slug } });
+                res(doc);
+            } else res({ doc: false });
         })
         .catch((err) => {
             dispatch({ type: 'FETCH_ERROR', payload: { err } });
@@ -31,10 +35,26 @@ export const addSlug = () => (dispatch, getState) => {
 
     };
 
-    db.collection('sharable_urls')
+    const root = db.collection('sharable_urls');
+
+    root
         .add(obj)
-        .then(() => {
-            dispatch({ type: 'WRITE_SUCCESS', payload: { slug } });
+        .then(async (e) => {
+            const e2e = new E2E();
+            const { Publickey, PrivateKey } = e2e.generateKeys();
+
+            console.log(PrivateKey, Publickey, slug);
+
+            await ddb.slug.add({ id: slug, PrivateKey });
+            console.log({ id: slug, PrivateKey });
+
+            root.doc(e.id).collection('keys')
+                .doc('key')
+                .set({ Publickey })
+                .then(() => {
+                    dispatch({ type: 'WRITE_SUCCESS', payload: { slug } });
+                })
+                .catch((err) => console.log(err));
         })
         .catch((err) => {
             console.log(err);
@@ -51,7 +71,7 @@ export const addChannel = (slug) => async (dispatch, getState) => {
     const { invite } = getState();
     const id = getState().authReducer.user.uid;
 
-    const addChanneltoRoom = (doc) => {
+    const addChanneltoRoom = async (doc) => {
         const data = doc.data();
 
         if (data.from === id) {
@@ -70,23 +90,32 @@ export const addChannel = (slug) => async (dispatch, getState) => {
             to: id,
             time: Date.now(),
             both: [data.from, id],
+            generated: false,
+            bobPublicKey: '',
+            slug: data.slug,
         };
 
-        db.collection('channel')
-            .add(obj)
-            .then(() => {
-                db.collection('sharable_urls')
-                    .doc(doc.id)
-                    .delete()
-                    .then(() => {
-                        console.log('%c Created and Deleted ', 'color:green');
-                        dispatch({ type: 'CREATED_CHANNEL', payload: slug });
-                    });
-            })
-            .catch((err) => {
-                console.log(('Error', err));
-                dispatch({ type: 'CHANNEL_ERROR', payload: err });
-            });
+        try {
+            const root = db.collection('sharable_urls');
+
+            const secretKey = await root.doc(doc.id).collection('keys').doc('key').get();
+            const e2e = new E2E();
+            const bobPublicKey = e2e.generateSharedSecret(secretKey.data().Publickey);
+            console.log('BobPublic', bobPublicKey);
+            obj.bobPublicKey = bobPublicKey;
+
+            const channelId = await db.collection('channel').add(obj);
+            e2e.setChannel(channelId.id);
+
+            await root.doc(doc.id).collection('keys').doc('key').delete();
+            await root.doc(doc.id).delete();
+
+            console.log('%c Created and Deleted ', 'color:green');
+            dispatch({ type: 'CREATED_CHANNEL', payload: slug });
+        } catch (err) {
+            console.log(('Error', err));
+            dispatch({ type: 'CHANNEL_ERROR', payload: err });
+        }
     };
 
     if (invite) {

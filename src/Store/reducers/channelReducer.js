@@ -3,12 +3,12 @@ const initialState = {
     channels: [],
     empty: false,
     fetch: false,
+    visited: [],
 };
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
         case 'FETCH_SUCCESS':
-            console.log('sdf', payload.pro);
             return {
                 ...state,
                 loading: false,
@@ -27,7 +27,13 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 channels: [],
                 loading: false,
+                fetch: false,
                 empty: true,
+            };
+        case 'SUCCESS_IN_UPDATE':
+            return {
+                ...state,
+                visited: [...state.visited, payload.slug],
             };
         default:
             return state;

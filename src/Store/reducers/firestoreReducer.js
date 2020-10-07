@@ -22,6 +22,13 @@ export default (state = initialState, { type, payload }) => {
                 error: { message: 'Cannot Fetch the slug' },
                 message: payload.error,
             };
+        case 'UPDATE_SLUG':
+            return {
+                ...state,
+                generated: false,
+                pending: true,
+                slug: payload.slug,
+            };
         case 'FETCH_SUCCESS':
             return {
                 ...state,
@@ -46,6 +53,17 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 createdRoom: false,
                 error: payload,
+            };
+
+        case 'GENERAL_ERROR':
+            return {
+                ...state,
+                error: payload,
+            };
+        case 'GENERAL_SUCCESS':
+            return {
+                ...state,
+                message: payload,
             };
 
         default:

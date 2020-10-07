@@ -18,7 +18,7 @@ function Profile({ user }) {
       >
         <div className="text-white text-lg">
           <span>{user.isAnonymous && '~ '}</span>
-          <span>{user?.displayName}</span>
+          <span>{user?.displayName || 'Github User'}</span>
         </div>
         <div className="text-light text-xs">
           Last login -{' '}
@@ -49,7 +49,7 @@ Profile.defaultProps = {
 
 Profile.propTypes = {
   user: PropTypes.shape({
-    displayName: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
     photoURL: PropTypes.string.isRequired,
     isAnonymous: PropTypes.bool,
     metadata: PropTypes.shape({

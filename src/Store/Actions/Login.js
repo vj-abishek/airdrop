@@ -3,8 +3,8 @@ import firebase from '../../config/fb';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const GuestPhoto = ['https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634',
-  'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8'];
+const photo1 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634';
+const photh2 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8';
 
 // Check and add to the Database
 
@@ -19,18 +19,17 @@ const check = (user, object, dispatch, guest) => {
         console.log('User Exists...');
       } else {
         dispatch({ type: 'ADDED_USER', user });
+
         db.collection('users')
           .doc(user.uid)
           .set(object)
           .then(() => {
             console.log('Added the user');
             if (guest) {
-              console.log(user);
               firebase.auth().currentUser.updateProfile({
-                displayName: object.name,
-                photoURL: GuestPhoto[Math.floor(Math.random() * 2)],
+                displayName: object.displayName,
+                photoURL: object.photoURL,
               }).then(() => {
-                console.log('Success');
                 dispatch({ type: 'LOGIN_SUCCESS_GUEST', user });
               }).catch((err) => {
                 console.error(err);
@@ -61,7 +60,7 @@ const loginFunc = (provider, dispatch) => {
       const { user } = result;
       console.log(user, token);
       const object = {
-        name: user.displayName,
+        displayName: user.displayName,
         email: user.email,
         token,
         isAnonymous: user.isAnonymous,
@@ -69,6 +68,8 @@ const loginFunc = (provider, dispatch) => {
         uid: user.uid,
         joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
+      dispatch({ type: 'LOGIN_WAITING', user });
+
       check(user, object, dispatch, false);
       // ...
     })
@@ -99,13 +100,15 @@ const guest = () => (dispatch) => {
     .auth()
     .signInAnonymously()
     .then((result) => {
+      dispatch({ type: 'LOGIN_WAITING' });
       const { user } = result;
       const name = `G-${nanoid(5)}`;
+      const photoURL = (Math.floor(Math.random() * 2) === 0) ? photo1 : photh2;
       const object = {
         uid: user.uid,
-        name,
+        displayName: name,
         isAnonymous: user.isAnonymous,
-        photoURL: GuestPhoto,
+        photoURL,
         joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
 
@@ -119,11 +122,13 @@ const guest = () => (dispatch) => {
     });
 };
 
-const userState = () => (dispatch) => {
+const userState = () => (dispatch, getState) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       console.log('%c STATE_CHANGED:', ' color: #00b2d2', user);
-      dispatch({ type: 'LOGIN_SUCCESS_STATE', user });
+      if (!getState().authReducer.waiting) {
+        dispatch({ type: 'LOGIN_SUCCESS_STATE', user });
+      }
     } else {
       // No user is signed is
       dispatch({ type: 'NOT_LOGIN', user });
@@ -146,5 +151,5 @@ const logout = () => (dispatch) => {
 };
 
 export {
-  google, github, facebook, guest, userState, logout, sentNotification
+  google, github, facebook, guest, userState, logout, sentNotification,
 };

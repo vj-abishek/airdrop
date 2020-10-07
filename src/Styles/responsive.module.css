@@ -5,5 +5,115 @@
 .grid7{ grid-template-columns: 70px 1fr }
 .grid6{ grid-template-columns: 60px 1fr }
 .gray1{ color: #f1f1f2a1 }
+.tick{color:#e2e2e2}
 .width{width: -moz-fit-content; width: fit-content}
 .flexa{flex:1 1 0;}
+.conversation{display: grid;grid-template-rows: auto 1fr auto;}
+.Chat{
+    height: calc(100vh - 120px);
+    max-height: 100%;
+    overflow-x: hidden;
+    position: relative;
+    bottom:0px;
+    overflow-y: auto;
+}
+.Chat > div{
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.neomorphism{
+    border-radius: 50px;
+    background: #004552;
+    box-shadow:  20px 20px 60px #003b46, 
+                 -20px -20px 60px #004f5e;
+}
+
+.input{
+    position: relative;
+    z-index: 1;
+    height: 24px;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-weight: 400;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    outline: none;
+    user-select: text;
+    background-color:transparent;
+}
+.no{
+    user-select: none;
+    pointer-events: none;
+    vertical-align: initial;
+    outline: none;
+    position: absolute;
+    z-index: 2;
+}
+
+.message{
+
+    background-color:var(--color-secondary);
+    color:var(--color-white);
+    padding-right: 20px;
+    padding: 6px 7px 8px 9px;
+    box-sizing: border-box;
+    border-radius: 7.5px;
+    max-width: 85%;
+    font-size: 14.2px;
+    user-select: text;
+    box-shadow: 0 1px .5px rgba(0,0,0,.13);
+    line-height: 19px;
+}
+
+.other{
+    background-color:#172729;
+    color:var(--color-white);
+}
+.meta{
+    height: 15px;
+    white-space: nowrap;
+    float: right;
+    margin: -12px 0 -5px 4px;
+    position: relative; 
+}
+.meta span{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.text_wrapper_sanitize img{
+    border-radius:5px;
+}
+
+.text_wrapper_sanitize > *{
+    word-wrap: break-word;
+}
+
+.hwx{
+    width: 74px;
+    display: inline-block;
+    width: 54px;
+    vertical-align: middle;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-secondary);
+    border-radius:16px;
+}
+::-webkit-scrollbar-track {
+    background-color: initial;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-primary);
+}
+::-webkit-scrollbar {
+    width: 6px!important;
+    height: 6px!important;
+
+}

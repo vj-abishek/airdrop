@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Switch from 'react-switch';
 import PropTypes from 'prop-types';
 import Styles from '../../Styles/responsive.module.css';
 
-export default function ToggleButtons({ children, last }) {
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = () => setChecked(!checked);
-
+export default function ToggleButtons({
+  children,
+  last,
+  checked,
+  handleChange,
+}) {
   return (
     <div
       style={{ gridTemplateColumns: '50px 1fr 50px' }}
@@ -20,8 +21,8 @@ export default function ToggleButtons({ children, last }) {
           <Switch
             checked={checked}
             onChange={handleChange}
-            onColor="#86d3ff"
-            onHandleColor="#2693e6"
+            onColor="#2693e6"
+            onHandleColor="#f2f2f9"
             offColor="#004552"
             handleDiameter={20}
             uncheckedIcon={false}
@@ -35,8 +36,8 @@ export default function ToggleButtons({ children, last }) {
           <Switch
             checked={checked}
             onChange={handleChange}
-            onColor="#86d3ff"
-            onHandleColor="#2693e6"
+            onColor="#2693e6"
+            onHandleColor="#f2f2f9"
             offColor="#004552"
             handleDiameter={20}
             uncheckedIcon={false}
@@ -52,6 +53,8 @@ export default function ToggleButtons({ children, last }) {
 
 ToggleButtons.defaultProps = {
   last: false,
+  checked: false,
+  handleChange: () => {},
 };
 
 ToggleButtons.propTypes = {
@@ -59,5 +62,7 @@ ToggleButtons.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.element,
   ]).isRequired,
+  handleChange: PropTypes.func,
   last: PropTypes.bool,
+  checked: PropTypes.bool,
 };

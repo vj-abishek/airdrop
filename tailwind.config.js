@@ -21,8 +21,27 @@ module.exports = {
         accent: '#00B2D2',
         light: '#f1f1f2a1',
       },
+      screens: {
+        light: { raw: '(prefers-color-scheme: light)' },
+        dark: { raw: '(prefers-color-scheme: dark)' },
+      },
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    ({ addBase, config }) => {
+      addBase({
+        body: {
+          color: config('theme.colors.black'),
+          backgroundColor: config('theme.colors.white'),
+        },
+        '@screen dark': {
+          body: {
+            color: config('theme.colors.white'),
+            backgroundColor: config('theme.colors.primary'),
+          },
+        },
+      });
+    },
+  ],
 };
