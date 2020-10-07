@@ -30,11 +30,6 @@ const Channel = lazy(() => import('./Components/Invite/Channel'));
 const Room = lazy(() => import('./Components/Channel/Channel'));
 const Page404 = lazy(() => import('./Components/404/FNF'));
 
-// TODO: Clean this when complete
-const Chat = lazy(() => import('./Components/Chat/Chat'));
-const Qrcode = lazy(() => import('./Components/QRcode/Qrcode'));
-const Join = lazy(() => import('./Components/Join/Join'));
-
 function App({ loginState, init, recieveMessage, connected, reciveFiles }) {
   useEffect(() => {
     init();
@@ -107,9 +102,6 @@ function App({ loginState, init, recieveMessage, connected, reciveFiles }) {
               <Route path="/create" component={Create} />
               <Route path="/logout" component={Logout} />
               <Route path="/channel/:id" component={Channel} />
-              <Route path="/qrcode" component={Qrcode} />
-              <Route path="/j/:id" component={Join} />
-              <Route path="/Chat/:id" component={Chat} />
               <Route component={Page404} />
             </Switch>
           </Suspense>
