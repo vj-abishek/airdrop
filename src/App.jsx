@@ -102,9 +102,6 @@ function App({ loginState, init, recieveMessage, connected, reciveFiles }) {
               <Route path="/create" component={Create} />
               <Route path="/logout" component={Logout} />
               <Route path="/channel/:id" component={Channel} />
-              <Route path="/qrcode" component={Qrcode} />
-              <Route path="/j/:id" component={Join} />
-              <Route path="/Chat/:id" component={Chat} />
               <Route component={Page404} />
             </Switch>
           </Suspense>
