@@ -1,6 +1,9 @@
 import io from 'socket.io-client';
 
-// const socket = io.connect('https://abigo-facetime.herokuapp.com/', { transports: ['websocket'] });
-const socket = io.connect(`http://${window.location.hostname}:8080`, { transports: ['websocket'] });
+const connectionString = (window.location.hostname === 'localhost') ?
+    `http://${window.location.hostname}:8080` :
+    'https://relp-server.herokuapp.com/';
+
+const socket = io.connect(connectionString, { transports: ['websocket'] });
 
 export default socket;
