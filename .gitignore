@@ -25,5 +25,3 @@ yarn-debug.log*
 yarn-error.log*
 
 build.zip
-
-/src/config/**
