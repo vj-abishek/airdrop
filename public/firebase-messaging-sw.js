@@ -9,14 +9,14 @@ importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js')
 
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
+    apiKey: "AIzaSyC9Cy-mfY_ZQQS6UK9G6dv42GglYT0ftws",
     authDomain: 'abigo-share.firebaseapp.com',
     databaseURL: 'https://abigo-share.firebaseio.com',
     projectId: 'abigo-share',
     storageBucket: 'abigo-share.appspot.com',
-    messagingSenderId: process.env.REACT_APP_SENDER_ID,
-    appId: process.env.REACT_APP_ID,
-    measurementId: process.env.REACT_APP_MEASURMENT_ID,
+    messagingSenderId: "545112504838",
+    appId: "1:545112504838:web:9b145eef919fd2988ce187",
+    measurementId: "G-F5TTLBY3M2",
 };
 firebase.initializeApp(firebaseConfig);
 
