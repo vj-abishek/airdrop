@@ -6,7 +6,7 @@ import Styles from '../../../../Styles/responsive.module.css';
 export default function Header() {
   return (
     <header
-      className={`flex flex-row bg-primary px-3 sticky top-0 w-full items-center justify-between ${Styles.borderBorder}`}
+      className={`flex flex-row bg-primary px-3 sticky z-50 top-0 w-full items-center justify-between ${Styles.borderBorder}`}
     >
       <div className="flex justify-between">
         <BackButon />
