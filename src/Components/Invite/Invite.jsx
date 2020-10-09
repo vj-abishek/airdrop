@@ -29,7 +29,7 @@ function Invite({ fetchL, invite, login, guestL, LoginState }) {
             fill="#F4F4F9"
           />
         </svg>
-        <span className=" font-bold uppercase font-sans pl-3"> SafeShare</span>
+        <span className=" font-bold uppercase font-sans pl-3"> Relp</span>
       </header>
 
       <div

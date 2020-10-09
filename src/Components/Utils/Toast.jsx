@@ -32,7 +32,7 @@ const Toast = ({ aerror, ferror, smessage, nuser, noti, sent }) => {
     if (nuser) {
       if (!noti) {
         const obj = {
-          message: 'Welcome to SafeShare. Invite your friend to get started',
+          message: 'Welcome to Relp. Invite your friend to get started',
         };
         addToast(obj.message, {
           appearance: 'success',
