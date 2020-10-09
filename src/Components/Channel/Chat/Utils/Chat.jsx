@@ -51,10 +51,11 @@ export default function Chat({ data, uid }) {
       >
         <div className="font-sans ">
           <span
+            style={{ fontSize: '0.9rem' }}
             onClick={openTab}
             className={`${Styles.text_wrapper_sanitize} ${
               !(data.from === uid) && 'otherStyle'
-            } text-base`}
+            }`}
             dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
           />
           <span className={Styles.hwx} />
