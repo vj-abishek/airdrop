@@ -49,6 +49,7 @@
     "test-sw": "yarn build && serve build",
     "build:css": "postcss src/Styles/tailwind.css -o src/Styles/main.css",
     "lint": "eslint src/**/*.js src/**/*.jsx",
+    "format": "npm run prettier -- --write",
     "prettier": "prettier \"src/**/*.{js,jsx,css,json}\"",
     "eject": "react-scripts eject"
   },
@@ -61,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,css,ts}": [
+    "**/*.{js,jsx,css}": [
       "npm run format"
     ]
   },
