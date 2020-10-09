@@ -2,31 +2,24 @@ import { nanoid } from 'nanoid';
 import firebase from '../../config/fb';
 import E2E from '../../Components/Utils/EndToEnd';
 import ddb from '../../Components/Utils/Slug.model';
-import 'firebase/firestore';
-
-if (process.env.NODE_ENV === 'production') {
-  firebase.firestore().enablePersistence()
-    .catch(console.error);
-}
 
 const db = firebase.firestore();
 
-const getSlug = async (slug, dispatch) =>
-  new Promise((res, rej) => {
-    db.collection('sharable_urls')
-      .where('slug', '==', slug)
-      .get()
-      .then((doc) => {
-        if (!doc.empty) {
-          // dispatch({ type: 'UPDATE_SLUG', payload: { slug } });
-          res(doc);
-        } else res({ doc: false });
-      })
-      .catch((err) => {
-        dispatch({ type: 'FETCH_ERROR', payload: { err } });
-        rej(err, { doc: false });
-      });
-  });
+const getSlug = async (slug, dispatch) => new Promise((res, rej) => {
+  db.collection('sharable_urls')
+    .where('slug', '==', slug)
+    .get()
+    .then((doc) => {
+      if (!doc.empty) {
+        // dispatch({ type: 'UPDATE_SLUG', payload: { slug } });
+        res(doc);
+      } else res({ doc: false });
+    })
+    .catch((err) => {
+      dispatch({ type: 'FETCH_ERROR', payload: { err } });
+      rej(err, { doc: false });
+    });
+});
 
 export const addSlug = () => (dispatch, getState) => {
   const slug = nanoid(7);

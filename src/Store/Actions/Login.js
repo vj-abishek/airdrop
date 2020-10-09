@@ -1,15 +1,9 @@
 import { nanoid } from 'nanoid';
 import firebase from '../../config/fb';
 import 'firebase/auth';
-import 'firebase/firestore';
 
 const photo1 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634';
 const photh2 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8';
-
-if (process.env.NODE_ENV === 'production') {
-  firebase.firestore().enablePersistence()
-    .catch(console.error);
-}
 
 // Check and add to the Database
 
