@@ -38,13 +38,12 @@ export default function Chat({ data, uid }) {
     }
   };
 
-  // useEffect(() => {
-  //  setEmoji(pattern.match(data.message));
-  // }, [data]);
   return (
     <div
       className={`flex ${
-        !(data.from === uid) ? ' justify-start m-1 ml-4' : 'justify-end m-1 mr-4'
+        !(data.from === uid)
+          ? ' justify-start m-1 ml-4'
+          : 'justify-end m-1 mr-4'
       } `}
     >
       <div
@@ -55,7 +54,7 @@ export default function Chat({ data, uid }) {
             onClick={openTab}
             className={`${Styles.text_wrapper_sanitize} ${
               !(data.from === uid) && 'otherStyle'
-            }`}
+            } font-base`}
             dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
           />
           <span className={Styles.hwx} />
