@@ -1,13 +1,9 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actionsname: Node CI
 
-name: Node.js CI
+name: Node CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request] # Run on Push and Pull Requests
 
 jobs:
   build:
@@ -16,14 +12,17 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [10.x] # Only run the 10.x build
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - run: npm install -g yarn
+    - name: yarn install, build, and test
+      run: |
+        yarn
+        yarn build
+        yarn test
