@@ -4,6 +4,9 @@ import E2E from '../../Components/Utils/EndToEnd';
 import ddb from '../../Components/Utils/Slug.model';
 import 'firebase/firestore';
 
+firebase.firestore().enablePersistence()
+  .catch(console.error);
+
 const db = firebase.firestore();
 
 const getSlug = async (slug, dispatch) =>
