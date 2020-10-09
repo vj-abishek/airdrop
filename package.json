@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^3.0.0",
     "@sentry/browser": "^5.15.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -44,7 +45,7 @@
     "start": "yarn build:css && react-scripts start",
     "build-sw": "node ./src/sw-build.js",
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
-    "build": "yarn build:css && react-scripts build && npm run build-sw && npm run clean-cra-sw",
+    "build": "NODE_ENV=production  yarn build:css && react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "test": "react-scripts test",
     "test-sw": "yarn build && serve build",
     "build:css": "postcss src/Styles/tailwind.css -o src/Styles/main.css",
