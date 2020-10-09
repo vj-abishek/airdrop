@@ -77,26 +77,21 @@ export default function List() {
     <>
       <Helmet>
         <title>Auto Create - Safeshare.live</title>
-        <link rel='canonical' href='https://safeshare.live/' />
+        <link rel="canonical" href="https://safeshare.live/" />
         <meta
-          name='description'
-          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+          name="description"
+          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
         />
       </Helmet>
-      <div className='list_style'>
-        <div className='container_for_me'>
+      <div className="list_style">
+        <div className="container_for_me">
           <h3>
-            Your name is
-            {' '}
-            <q>{userID}</q>
-            : (
-            {user.online}
-            )
+            Your name is <q>{userID}</q>: ({user.online})
           </h3>
           <br />
           <ul style={{ listStyle: 'decimal-leading-zero' }}>
-            {name
-              && name.map((data) => (
+            {name &&
+              name.map((data) => (
                 <li
                   key={data.id}
                   data-id={data.id}
@@ -126,19 +121,16 @@ export default function List() {
           {room ? (
             <div style={{ textAlign: 'center' }}>
               <h4>
-                {room.name}
-                {' '}
-                wants to connect with you id:(
-                {room.room}
-                )
+                {room.name} wants to connect with you id:(
+                {room.room})
               </h4>
-              <button className='btn_accept' onClick={handleAccept}>
+              <button className="btn_accept" onClick={handleAccept}>
                 Accept
               </button>
             </div>
           ) : (
             <div style={{ textAlign: 'center' }}>
-              <button className='btn_accept' onClick={handleBack}>
+              <button className="btn_accept" onClick={handleBack}>
                 Back
               </button>
             </div>

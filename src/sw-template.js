@@ -4,142 +4,139 @@
 
 /* eslint-disable */
 
-
 if ('function' === typeof importScripts) {
-    importScripts(
-        'https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js'
+  importScripts(
+    'https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js',
+  );
+  /* global workbox */
+  if (workbox) {
+    console.log('Workbox is loaded');
+
+    /* injection point for manifest files.  */
+    workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+
+    /* custom cache rules*/
+    workbox.routing.registerNavigationRoute('/index.html', {
+      blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
+    });
+
+    workbox.routing.registerRoute(
+      /\.(?:png|gif|jpg|jpeg)$/,
+      workbox.strategies.cacheFirst({
+        cacheName: 'images',
+        plugins: [
+          new workbox.expiration.Plugin({
+            maxEntries: 60,
+            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+          }),
+        ],
+      }),
     );
-    /* global workbox */
-    if (workbox) {
-        console.log('Workbox is loaded');
 
-        /* injection point for manifest files.  */
-        workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+    // This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
 
-        /* custom cache rules*/
-        workbox.routing.registerNavigationRoute('/index.html', {
-            blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
-        });
+    const CACHE = 'pwabuilder-offline-page';
 
-        workbox.routing.registerRoute(
-            /\.(?:png|gif|jpg|jpeg)$/,
-            workbox.strategies.cacheFirst({
-                cacheName: 'images',
-                plugins: [
-                    new workbox.expiration.Plugin({
-                        maxEntries: 60,
-                        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-                    }),
-                ],
-            })
-        );
+    const offlineFallbackPage = 'index.html';
 
+    self.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+      }
+    });
 
-        // This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
+    self.addEventListener('install', async (event) => {
+      event.waitUntil(
+        caches.open(CACHE).then((cache) => cache.add(offlineFallbackPage)),
+      );
+    });
 
-        const CACHE = "pwabuilder-offline-page";
-
-        const offlineFallbackPage = "index.html";
-
-        self.addEventListener("message", (event) => {
-            if (event.data && event.data.type === "SKIP_WAITING") {
-                self.skipWaiting();
-            }
-        });
-
-        self.addEventListener('install', async (event) => {
-            event.waitUntil(
-                caches.open(CACHE)
-                    .then((cache) => cache.add(offlineFallbackPage))
-            );
-        });
-
-        if (workbox.navigationPreload.isSupported()) {
-            workbox.navigationPreload.enable();
-        }
-
-        workbox.routing.registerRoute(
-            new RegExp('/*'),
-            new workbox.strategies.StaleWhileRevalidate({
-                cacheName: CACHE
-            })
-        );
-
-        self.addEventListener('fetch', (event) => {
-            if (event.request.mode === 'navigate') {
-                event.respondWith((async () => {
-                    try {
-                        const preloadResp = await event.preloadResponse;
-
-                        if (preloadResp) {
-                            return preloadResp;
-                        }
-
-                        const networkResp = await fetch(event.request);
-                        return networkResp;
-                    } catch (error) {
-
-                        const cache = await caches.open(CACHE);
-                        const cachedResp = await cache.match(offlineFallbackPage);
-                        return cachedResp;
-                    }
-                })());
-            }
-        });
-
-        self.addEventListener('notificationclick', function (event) {
-
-            switch (event.action) {
-                case 'open_url':
-                    clients.openWindow(event.notification.data.url);
-                    break;
-                default:
-                    clients.openWindow('http://locahost:3000');
-            }
-        }, false);
-
-
-
-    } else {
-        console.log('Workbox could not be loaded. No Offline support');
+    if (workbox.navigationPreload.isSupported()) {
+      workbox.navigationPreload.enable();
     }
 
+    workbox.routing.registerRoute(
+      new RegExp('/*'),
+      new workbox.strategies.StaleWhileRevalidate({
+        cacheName: CACHE,
+      }),
+    );
+
+    self.addEventListener('fetch', (event) => {
+      if (event.request.mode === 'navigate') {
+        event.respondWith(
+          (async () => {
+            try {
+              const preloadResp = await event.preloadResponse;
+
+              if (preloadResp) {
+                return preloadResp;
+              }
+
+              const networkResp = await fetch(event.request);
+              return networkResp;
+            } catch (error) {
+              const cache = await caches.open(CACHE);
+              const cachedResp = await cache.match(offlineFallbackPage);
+              return cachedResp;
+            }
+          })(),
+        );
+      }
+    });
+
+    self.addEventListener(
+      'notificationclick',
+      function (event) {
+        switch (event.action) {
+          case 'open_url':
+            clients.openWindow(event.notification.data.url);
+            break;
+          default:
+            clients.openWindow('http://locahost:3000');
+        }
+      },
+      false,
+    );
+  } else {
+    console.log('Workbox could not be loaded. No Offline support');
+  }
 }
 
 // My fuction to share files
 const handleFileshare = (e) => {
-    e.respondWith(Response.redirect('/auto'))
+  e.respondWith(Response.redirect('/auto'));
 
-    // // Eg, if it's cross-origin.
-    // if (!e.clientId) return;
+  // // Eg, if it's cross-origin.
+  // if (!e.clientId) return;
 
-    e.waitUntil(
-        (async function () {
-            const data = await e.request.formData()
-            const client = await self.clients.get(e.resultingClientId);
+  e.waitUntil(
+    (async function () {
+      const data = await e.request.formData();
+      const client = await self.clients.get(e.resultingClientId);
 
-            // e.clients.matchAll().then(function (clients) {
-            //     clients.forEach(function (client) {
-            //         const file = data.get('file')
+      // e.clients.matchAll().then(function (clients) {
+      //     clients.forEach(function (client) {
+      //         const file = data.get('file')
 
-            //         client.postMessage({ file })
-            //     });
-            // })
+      //         client.postMessage({ file })
+      //     });
+      // })
 
-            const file = data.get('file')
-            client.postMessage({ file })
-        })()
-    )
-}
+      const file = data.get('file');
+      client.postMessage({ file });
+    })(),
+  );
+};
 
 addEventListener('fetch', (e) => {
-    const url = new URL(e.request.url)
+  const url = new URL(e.request.url);
 
-    if (
-        url.origin === location.origin &&
-        url.pathname === '/share-target' &&
-        e.request.method === 'POST'
-    ) {
-        handleFileshare(e)
-    }
-})
+  if (
+    url.origin === location.origin &&
+    url.pathname === '/share-target' &&
+    e.request.method === 'POST'
+  ) {
+    handleFileshare(e);
+  }
+});

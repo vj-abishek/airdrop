@@ -3,8 +3,10 @@ import firebase from '../../config/fb';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const photo1 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634';
-const photh2 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8';
+const photo1 =
+  'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634';
+const photh2 =
+  'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8';
 
 // Check and add to the Database
 
@@ -26,15 +28,19 @@ const check = (user, object, dispatch, guest) => {
           .then(() => {
             console.log('Added the user');
             if (guest) {
-              firebase.auth().currentUser.updateProfile({
-                displayName: object.displayName,
-                photoURL: object.photoURL,
-              }).then(() => {
-                dispatch({ type: 'LOGIN_SUCCESS_GUEST', user });
-              }).catch((err) => {
-                console.error(err);
-                dispatch({ type: 'LOGIN_ERROR', err });
-              });
+              firebase
+                .auth()
+                .currentUser.updateProfile({
+                  displayName: object.displayName,
+                  photoURL: object.photoURL,
+                })
+                .then(() => {
+                  dispatch({ type: 'LOGIN_SUCCESS_GUEST', user });
+                })
+                .catch((err) => {
+                  console.error(err);
+                  dispatch({ type: 'LOGIN_ERROR', err });
+                });
             } else {
               dispatch({ type: 'LOGIN_SUCCESS', user });
             }
@@ -103,7 +109,7 @@ const guest = () => (dispatch) => {
       dispatch({ type: 'LOGIN_WAITING' });
       const { user } = result;
       const name = `G-${nanoid(5)}`;
-      const photoURL = (Math.floor(Math.random() * 2) === 0) ? photo1 : photh2;
+      const photoURL = Math.floor(Math.random() * 2) === 0 ? photo1 : photh2;
       const object = {
         uid: user.uid,
         displayName: name,
@@ -141,15 +147,17 @@ const sentNotification = () => (dispatch) => {
 };
 
 const logout = () => (dispatch) => {
-  firebase.auth().signOut().then(() => {
-    dispatch({ type: 'LOGOUT' });
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
-    dispatch({ type: 'LOGOUT_ERROR', error });
-  });
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      dispatch({ type: 'LOGOUT' });
+      // Sign-out successful.
+    })
+    .catch((error) => {
+      // An error happened.
+      dispatch({ type: 'LOGOUT_ERROR', error });
+    });
 };
 
-export {
-  google, github, facebook, guest, userState, logout, sentNotification,
-};
+export { google, github, facebook, guest, userState, logout, sentNotification };

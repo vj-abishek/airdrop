@@ -10,12 +10,12 @@ export default class Ad extends React.Component {
       <div style={{ margin: 'auto' }}>
         {/* Horizontal Ad  */}
         <ins
-          className='adsbygoogle'
+          className="adsbygoogle"
           style={{ display: 'block' }}
-          data-ad-client='ca-pub-4314629461501774'
-          data-ad-slot='8928267796'
-          data-ad-format='auto'
-          data-full-width-responsive='true'
+          data-ad-client="ca-pub-4314629461501774"
+          data-ad-slot="8928267796"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
         />
       </div>
     );

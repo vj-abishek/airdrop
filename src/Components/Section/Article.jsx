@@ -3,12 +3,12 @@ import React from 'react';
 export default function Article() {
   return (
     <article>
-      <p className='about'>ABOUT SafeShare</p>
+      <p className="about">ABOUT SafeShare</p>
       <br />
-      <div className='about-section'>
-        <div className='back-drop'>
+      <div className="about-section">
+        <div className="back-drop">
           <i
-            className='material-icons'
+            className="material-icons"
             style={{ fontSize: '50px', color: '#3F3D56', marginTop: '10px' }}
           >
             security
@@ -21,8 +21,8 @@ export default function Article() {
             our server. This website is based on
             <a
               style={{ color: '#000' }}
-              href='https://en.wikipedia.org/wiki/WebRTC'
-              target='blank'
+              href="https://en.wikipedia.org/wiki/WebRTC"
+              target="blank"
             >
               {' '}
               WEBRTC
@@ -33,9 +33,9 @@ export default function Article() {
           </p>
         </div>
 
-        <div className='back-drop'>
+        <div className="back-drop">
           <i
-            className='material-icons'
+            className="material-icons"
             style={{ fontSize: '50px', color: ' #3F3D56', marginTop: '10px' }}
           >
             chat
@@ -48,9 +48,9 @@ export default function Article() {
             chat with each other and share your desired files
           </p>
         </div>
-        <div className='back-drop'>
+        <div className="back-drop">
           <i
-            className='material-icons'
+            className="material-icons"
             style={{ fontSize: '50px', color: '#3F3D56', marginTop: '10px' }}
           >
             near_me

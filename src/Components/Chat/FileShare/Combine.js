@@ -6,7 +6,9 @@ export const combaine = (data) => {
     case data.initial === true:
       data.id = 'v4()';
       data.type = 'text/plain';
-      data.message = `Sending a file with size ${formatBytes(data.fileSize)}...`;
+      data.message = `Sending a file with size ${formatBytes(
+        data.fileSize,
+      )}...`;
       data.Recieved = `Recieved | ${(data.chunk / data.chunks) * 100}%`;
       //   console.log('chunk:', data.chunk, 'Chunks:', chunks)
       //   console.log(`Recieved | ${(data.chunk / data.chunks) * 100}%`)

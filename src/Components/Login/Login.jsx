@@ -7,7 +7,7 @@ import { setUser } from '../../State/action';
 
 function Login() {
   // eslint-disable-next-line
-  const [socket, dispatch] = useReducer(setUser, '')
+  const [socket, dispatch] = useReducer(setUser, '');
 
   const [state, setState] = useState({ name: '' });
 
@@ -18,17 +18,17 @@ function Login() {
     dispatch({ type: 'SET_NAME', name });
   };
   return (
-    <div className='container_for_div'>
+    <div className="container_for_div">
       <Helmet>
         <title>Create Name - SafeShare.live</title>
-        <link rel='canonical' href='https://safeshare.live/' />
+        <link rel="canonical" href="https://safeshare.live/" />
         <meta
-          name='description'
-          content='SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime'
+          name="description"
+          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
         />
       </Helmet>
-      <div className='Create_user'>
-        <div className='aboutsection_of_me'>
+      <div className="Create_user">
+        <div className="aboutsection_of_me">
           <h2 style={{ marginLeft: '15px' }}>Why use SafeShare?</h2>
           <br />
           <ul>
@@ -50,29 +50,29 @@ function Login() {
             </li>
           </ul>
         </div>
-        <div className='login_section'>
+        <div className="login_section">
           <h2 style={{ color: '#3F3D56' }}>Create User</h2>
           <ul>
             <li>Step 1: Create a temporary username</li>
             <li>Step 2: Choose the user to whom you want to send the file</li>
           </ul>
-          <form autoComplete='off' onSubmit={createUSer}>
+          <form autoComplete="off" onSubmit={createUSer}>
             <TextField
-              id='outlined-basic'
-              label='Choose temporary Name'
-              variant='outlined'
+              id="outlined-basic"
+              label="Choose temporary Name"
+              variant="outlined"
               onChange={(e) => setState({ name: e.target.value })}
               autoFocus
             />
             <br />
             <br />
 
-            <Button variant='contained' color='primary' type='submit'>
+            <Button variant="contained" color="primary" type="submit">
               Create Me
             </Button>
             <Button style={{ marginLeft: '10px' }}>
               {' '}
-              <Link to='/qrcode'>Generate Qrcode</Link>
+              <Link to="/qrcode">Generate Qrcode</Link>
             </Button>
           </form>
         </div>

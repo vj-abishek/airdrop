@@ -8,21 +8,16 @@ import { Provider } from 'react-redux';
 import reducer from './Store/reducers/rootReducers';
 import Login from './Components/Auth/Login';
 
-const store = createStore(
-  reducer,
-  applyMiddleware(thunk),
-
-);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 describe('Login test', () => {
   render(
     <Provider store={store}>
       <Login />
-    </Provider>
+    </Provider>,
   );
 
   test('Should render all Login Buttons', () => {
-
     expect(screen.getByText('Google')).toBeInTheDocument();
     expect(screen.getByText('Github')).toBeInTheDocument();
     expect(screen.getByText('Facebook')).toBeInTheDocument();
@@ -30,6 +25,6 @@ describe('Login test', () => {
   });
 
   test('Should be clickable', () => {
-    screen.debug()
+    screen.debug();
   });
 });

@@ -29,9 +29,12 @@ export const share_file = async (file_data) => {
   while (chunk <= chunks) {
     const offset = chunk * chunkSize;
 
-    const buffer = await new Blob([file_data.slice(offset, offset + chunkSize)], {
-      type: file_data.type,
-    }).arrayBuffer();
+    const buffer = await new Blob(
+      [file_data.slice(offset, offset + chunkSize)],
+      {
+        type: file_data.type,
+      },
+    ).arrayBuffer();
     FileArray.push(buffer);
 
     if (chunk === chunks) {

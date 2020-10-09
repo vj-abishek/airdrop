@@ -18,10 +18,7 @@ export default function Test() {
       {message.map((data) => (
         <div key={data.id}>
           <p style={{ color: '#fff', marginLeft: '5px' }}>
-            <span style={{ color: '#ababab' }}>{data.name}</span>
-            {' '}
-            :
-            {' '}
+            <span style={{ color: '#ababab' }}>{data.name}</span> :{' '}
             {data.message}
           </p>
         </div>

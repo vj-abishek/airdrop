@@ -62,8 +62,8 @@ article {
   /* background-color: red; */
 }
 
-button{
-   -webkit-tap-highlight-color: transparent;
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .about {
@@ -80,11 +80,11 @@ p {
 }
 
 .about-section {
-  display:grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-gap:1em;
-  justify-items: center;  
-  overflow-x:auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
+  justify-items: center;
+  overflow-x: auto;
   margin: 20px;
 }
 
@@ -332,15 +332,14 @@ imageCOntainEE img {
   }
 }
 
-
-.back-drop{
+.back-drop {
   background: #ebebeb;
-  box-shadow: 1px 4px 5px rgba(0,0,0,0.1);
+  box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
-@media(max-width:720px){
-  .back-drop{
+@media (max-width: 720px) {
+  .back-drop {
     margin-bottom: 15px;
   }
 }

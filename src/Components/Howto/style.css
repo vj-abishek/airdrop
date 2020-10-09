@@ -1,11 +1,9 @@
-
 @media (max-width: 425px) {
   iframe {
     height: 315px;
     width: 400px;
   }
 }
-
 
 @media (max-width: 375px) {
   iframe {
@@ -14,22 +12,20 @@
   }
 }
 
-
 @media (max-width: 320px) {
   iframe {
     height: 215px;
     width: 300px;
   }
 }
-.youtube-dl{
-  min-width:300px;
+.youtube-dl {
+  min-width: 300px;
   background-color: #fff;
-  border-radius:10px;
-  box-shadow: 1px 4px 5px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.1);
   display: inline-block;
-  margin:auto;
-
+  margin: auto;
 }
-iframe{
+iframe {
   border-radius: 10px;
 }

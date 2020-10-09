@@ -5,7 +5,7 @@ import { setUser } from '../../State/action';
 
 export default function AutoPage() {
   // eslint-disable-next-line
-  const [socket, dispatch] = useReducer(setUser, '')
+  const [socket, dispatch] = useReducer(setUser, '');
   const [name, setName] = useState();
 
   useEffect(() => {
