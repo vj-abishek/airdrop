@@ -6,6 +6,7 @@ class EndToEnd {
   constructor() {
     this.peer = crypto.createECDH('secp256k1');
     this.SharedSecret = '';
+    this.secrets = new Map();
   }
 
   // Generate Keys
@@ -76,7 +77,7 @@ class EndToEnd {
           .toArray()
           .then((key) => {
             const { SharedSecret } = key[0];
-            this.something = '';
+            this.secrets.set(channelId, SharedSecret);
             res(SharedSecret);
           });
       } catch (err) {
@@ -86,8 +87,12 @@ class EndToEnd {
   }
 
   async encrypt(channelId, message) {
-    const SharedSecret = await this.getSharedSecret(channelId);
-
+    let SharedSecret;
+    if (this.secrets.has(channelId)) {
+      SharedSecret = this.secrets.get(channelId);
+    } else {
+      SharedSecret = await this.getSharedSecret(channelId);
+    }
     const IV = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(
       'aes-256-gcm',
@@ -108,7 +113,12 @@ class EndToEnd {
   }
 
   async decrypt(channelId, encryptedMessage) {
-    const SharedSecret = await this.getSharedSecret(channelId);
+    let SharedSecret;
+    if (this.secrets.has(channelId)) {
+      SharedSecret = this.secrets.get(channelId);
+    } else {
+      SharedSecret = await this.getSharedSecret(channelId);
+    }
 
     const bobPayload = Buffer.from(encryptedMessage, 'base64').toString('hex');
 
