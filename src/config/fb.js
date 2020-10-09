@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import 'firebase/analytics';
-import 'firebase/firebase';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,10 +15,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 if (process.env.NODE_ENV === 'production') {
+  import('firebase/firebase').then(() => {
+    firebase.firestore().enablePersistence()
+      .catch(console.error);
+  }).catch(console.error);
+
   firebase.analytics();
 
-  firebase.firestore().enablePersistence()
-    .catch(console.error);
+
 
 }
 
