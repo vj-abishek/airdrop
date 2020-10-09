@@ -127,7 +127,7 @@ function Login({
             Login as a Guest
           </button>
         </form>
-        <p className="px-2 text-gray-600">
+        <p className={`px-2 ${Styles.gray1}`}>
           Or looking for version 1?
           <span>
             <a
