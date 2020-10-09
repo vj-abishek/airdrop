@@ -23,8 +23,4 @@ describe('Login test', () => {
     expect(screen.getByText('Facebook')).toBeInTheDocument();
     expect(screen.getByText('Login as a Guest')).toBeInTheDocument();
   });
-
-  test('Should be clickable', () => {
-    screen.debug();
-  });
 });
