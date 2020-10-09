@@ -1,7 +1,9 @@
 /**  eslint disable */
 
 module.exports = {
-  purge: [],
+  purge: [
+    './src/**/*.jsx',
+  ],
   theme: {
     extend: {
       fontFamily: {
