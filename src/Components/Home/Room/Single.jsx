@@ -14,7 +14,11 @@ const Utils = ({ TypingIndication, snapShot, status }) => {
   }, [TypingIndication, snapShot]);
 
   if (typing === 'CONTENT')
-    return <span className="text-accent text-sm">typing...</span>;
+    return (
+      <span style={{ fontSize: '13px' }} className="text-accent">
+        typing...
+      </span>
+    );
   else if (status?.status.includes('Online')) return 'Active now';
   else {
     if (status?.LastSeen)
