@@ -6,15 +6,25 @@ import Single from './Single';
 import { Fetch } from '../../../Store/Actions/Channel';
 import Styles from '../../../Styles/responsive.module.css';
 
-function Container({ f, data, load, fetch, sidebar, user, userStatus }) {
+function Container({
+  f,
+  data,
+  load,
+  fetch,
+  sidebar,
+  user,
+  userStatus,
+  waiting,
+}) {
   const [id] = React.useState(nanoid);
 
   useEffect(() => {
-    if (!fetch || data.includes(undefined) || data.length === 0) {
+    console.log(waiting);
+    if (!fetch && !waiting) {
       console.log('Fetching...');
       f();
     }
-  }, [f, fetch, data]);
+  }, [f, fetch, data, waiting]);
 
   return load ? (
     <div className="w-full flex justify-center">
@@ -31,6 +41,7 @@ const mapStateToProps = (state) => ({
   data: state.channelReducer.channels,
   load: state.channelReducer.loading,
   fetch: state.channelReducer.fetch,
+  waiting: state.firestoreReducer.waiting,
   user: state.authReducer.user,
   userStatus: state.messageReducer.userStatus,
 });

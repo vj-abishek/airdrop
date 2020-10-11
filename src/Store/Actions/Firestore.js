@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import firebase from '../../config/fb';
 import E2E from '../../Components/Utils/EndToEnd';
 import ddb from '../../Components/Utils/Slug.model';
+import socket from '../../Components/Functions/Users';
 
 const db = firebase.firestore();
 
@@ -11,9 +12,15 @@ const getSlug = async (slug, dispatch) => new Promise((res, rej) => {
     .get()
     .then((doc) => {
       if (!doc.empty) {
-        // dispatch({ type: 'UPDATE_SLUG', payload: { slug } });
         res(doc);
-      } else res({ doc: false });
+      } else {
+        const err = {
+          message: 'Your invite is invalid. Try again',
+        };
+        dispatch({ type: 'FETCH_ERROR', payload: err });
+        dispatch({ type: 'CHANNEL_ERROR', payload: err });
+        rej(err);
+      }
     })
     .catch((err) => {
       dispatch({ type: 'FETCH_ERROR', payload: { err } });
@@ -63,15 +70,21 @@ export const addSlug = () => (dispatch, getState) => {
 };
 
 export const fetchSlug = (slug) => async (dispatch) => {
-  const doc = await getSlug(slug, dispatch);
-  if (doc) {
-    dispatch({ type: 'FETCH_SUCCESS', payload: { doc: doc.docs[0].data() } });
+  try {
+    const doc = await getSlug(slug, dispatch);
+    if (doc) {
+      dispatch({ type: 'FETCH_SUCCESS_WAITING', payload: { doc: doc.docs[0].data() } });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 
 export const addChannel = (slug) => async (dispatch, getState) => {
   const { invite } = getState();
   const id = getState().authReducer.user.uid;
+
+  dispatch({ type: 'FETCH_WAITING' });
 
   const addChanneltoRoom = async (doc) => {
     const data = doc.data();
@@ -118,6 +131,7 @@ export const addChannel = (slug) => async (dispatch, getState) => {
 
       console.log('%c Created and Deleted ', 'color:green');
       dispatch({ type: 'CREATED_CHANNEL', payload: slug });
+      socket.emit('created channel', { to: data.from, from: id });
     } catch (err) {
       console.log(('Error', err));
       dispatch({ type: 'CHANNEL_ERROR', payload: err });
@@ -128,9 +142,13 @@ export const addChannel = (slug) => async (dispatch, getState) => {
     const { doc } = invite;
     addChanneltoRoom(doc);
   } else {
-    const doc = await getSlug(slug, dispatch);
-    if (!doc.docs[0]) return;
+    try {
+      const doc = await getSlug(slug, dispatch);
+      if (!doc.docs[0]) return;
 
-    if (doc) addChanneltoRoom(doc.docs[0]);
+      if (doc) addChanneltoRoom(doc.docs[0]);
+    } catch (err) {
+      console.log(err);
+    }
   }
 };

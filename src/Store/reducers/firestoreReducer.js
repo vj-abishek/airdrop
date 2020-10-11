@@ -2,6 +2,7 @@ const initialState = {
   generated: false,
   pending: true,
   error: false,
+  waiting: false,
   slug: 'Generating...',
   invite: false,
   message: false,
@@ -34,6 +35,12 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         invite: payload.doc,
       };
+    case 'FETCH_SUCCESS_WAITING':
+      return {
+        ...state,
+        invite: payload.doc,
+        waiting: true,
+      };
     case 'FETCH_ERROR':
       return {
         ...state,
@@ -41,11 +48,17 @@ export default (state = initialState, { type, payload }) => {
         createdRoom: false,
         error: payload.err,
       };
+    case 'FETCH_WAITING':
+      return {
+        ...state,
+        waiting: true,
+      };
     case 'CREATED_CHANNEL':
       return {
         ...state,
         createdRoom: payload.slug,
         message: { message: 'Created channel successfully.' },
+        waiting: false,
       };
 
     case 'CHANNEL_ERROR':

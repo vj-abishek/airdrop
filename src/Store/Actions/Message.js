@@ -176,4 +176,9 @@ export const RecieveMessage = () => (dispatch) => {
     console.log(data);
     dispatch({ type: 'INDICATE_CHANNEL', payload: data });
   });
+
+  socket.on('created channel', () => {
+    console.log('Refreshing fom the server');
+    dispatch({ type: 'REFRESH' });
+  });
 };

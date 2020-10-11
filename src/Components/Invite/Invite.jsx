@@ -9,7 +9,9 @@ function Invite({ fetchL, invite, login, guestL, LoginState }) {
   const { id } = useParams();
 
   useEffect(() => {
-    fetchL(id);
+    if (id) {
+      fetchL(id);
+    }
   }, [fetchL, id]);
 
   return (
