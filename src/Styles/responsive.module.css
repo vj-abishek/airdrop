@@ -115,6 +115,7 @@
 
 .text_wrapper_sanitize img {
   border-radius: 5px;
+  margin:5px 0 5px 0;
 }
 
 .text_wrapper_sanitize > * {
