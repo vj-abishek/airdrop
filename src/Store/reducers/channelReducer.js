@@ -27,8 +27,16 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         channels: [],
         loading: false,
-        fetch: false,
+        fetch: true,
         empty: true,
+      };
+    case 'REFRESH':
+      console.log('Im refrshing...');
+      return {
+        ...state,
+        channels: [],
+        loading: true,
+        fetch: false,
       };
     case 'SUCCESS_IN_UPDATE':
       return {

@@ -1,5 +1,4 @@
 import firebase from '../../config/fb';
-import 'firebase/firestore';
 import socket from '../../Components/Functions/Users';
 
 const db = firebase.firestore();
