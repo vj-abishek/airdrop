@@ -30,8 +30,12 @@ export default (state = initialState, { type, payload }) => {
         fetch: true,
         empty: true,
       };
+    case 'FETCH_WAITING':
+      return {
+        ...state,
+        loading: true,
+      };
     case 'REFRESH':
-      console.log('Im refrshing...');
       return {
         ...state,
         channels: [],

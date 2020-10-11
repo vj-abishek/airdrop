@@ -19,7 +19,6 @@ function Container({
   const [id] = React.useState(nanoid);
 
   useEffect(() => {
-    console.log(waiting);
     if (!fetch && !waiting) {
       console.log('Fetching...');
       f();
