@@ -70,6 +70,11 @@ const Photo = ({ user, Ustatus, TypingIndication }) => {
       )}
 
       <div
+        style={{
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+        }}
         className={`pl-3 text-white text-base justify-center font-bold flex flex-col ${Styles.overFLow}`}
       >
         <span>

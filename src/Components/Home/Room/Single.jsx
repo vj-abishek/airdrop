@@ -101,6 +101,11 @@ const Single = ({
               </div>
             </div>
             <div
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
               className={`w-auto font-sans flex flex-col py-3 justify-between ${
                 !cond && Styles.borderBorder
               }`}

@@ -77,10 +77,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.4.0",
     "postcss-cli": "^7.1.1",
-    "prettier": "^2.1.2",
     "react-snap": "^1.23.0",
     "tailwindcss": "^1.5.2"
   }
