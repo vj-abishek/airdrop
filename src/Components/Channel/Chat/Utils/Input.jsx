@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import autosize from 'autosize';
 import {
   sendmessage,
   TypingIndication,
@@ -13,6 +14,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const [indicate, setIndicate] = useState('');
 
   const { id } = useParams();
+
+  const Textarea = useRef(null);
+
+  useEffect(() => {
+    autosize(Textarea);
+  }, []);
 
   useEffect(() => {
     if (emoji === '') return;
@@ -75,9 +82,16 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
         }}
         className="flex-1 outline-none ml-3 flex items-center bg-secondary rounded-full"
       >
-        <input
+        <textarea
+          style={{
+            maxHeight: '80px',
+            minHeight: '24px',
+            resize: 'none',
+            boxSizing: 'border-box',
+          }}
+          ref={Textarea}
           placeholder="Type a message"
-          type="text"
+          rows={1}
           value={message}
           spellCheck="false"
           onBlur={handleBlur}
