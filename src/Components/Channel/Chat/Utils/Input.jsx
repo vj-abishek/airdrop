@@ -90,7 +90,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
             boxSizing: 'border-box',
           }}
           ref={Textarea}
-          placeholder="Type a message"
+          placeholder="Message"
           rows={1}
           value={message}
           spellCheck="false"
