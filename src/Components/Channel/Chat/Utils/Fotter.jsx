@@ -125,7 +125,7 @@ function Fotter({
           height: '60px',
           transition: 'all 1s',
         }}
-        className="bg-primary sticky px-3 py-2 bottom-0 w-full flex flex-row justify-between items-center "
+        className="bg-primary sticky px-2 lg:px-3 py-2 bottom-0 w-full flex flex-row justify-between items-center "
       >
         <div className="flex flex-row items-center justify-around">
           <svg

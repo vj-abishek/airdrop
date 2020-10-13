@@ -78,7 +78,6 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "postcss-cli": "^7.1.1",
-    "react-snap": "^1.23.0",
     "tailwindcss": "^1.5.2"
   }
 }
