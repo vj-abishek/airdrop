@@ -85,8 +85,11 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   };
 
   const handleKeyPress = (e) => {
-    if (e.ctrlKey && e.charCode === 13) {
+    if (!e.ctrlKey && e.charCode === 13) {
       handleSubmit();
+    }
+    if (e.ctrlKey && e.charCode === 13) {
+      setMessage((current) => `${current} \n`);
     }
   };
   return (
@@ -126,7 +129,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       >
         <button
           type="submit"
-          title="Ctrl + Enter to send "
+          title="Enter to send "
           onClick={handleSubmit}
           className="outline-none"
         >
