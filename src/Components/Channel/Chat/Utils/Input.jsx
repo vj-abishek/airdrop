@@ -85,8 +85,9 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   };
 
   const handleKeyPress = (e) => {
-    if (!e.ctrlKey && e.charCode === 13) {
+    if (!e.ctrlKey && e.charCode === 13 && window.innerWidth >= 768) {
       handleSubmit();
+      setMessage('');
     }
     if (e.ctrlKey && e.charCode === 13) {
       setMessage((current) => `${current} \n`);
