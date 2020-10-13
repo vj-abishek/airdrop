@@ -37,6 +37,7 @@
 .conversation {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  overflow-x: hidden;
 }
 .Chat {
   height: calc(100vh - 120px);
