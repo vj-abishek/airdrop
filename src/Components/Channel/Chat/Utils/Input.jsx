@@ -64,6 +64,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
     );
     setMessage('');
     setIndicate('NO_CONTENT');
+    Textarea.current.focus();
     typingIndication({ channel: id, type: 'NO_CONTENT' });
     indicateMessage(id, 'NO_CONTENT');
   };
