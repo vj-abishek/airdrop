@@ -42,8 +42,8 @@ export default function Chat({ data, uid }) {
     <div
       className={`flex ${
         !(data.from === uid)
-          ? ' justify-start m-1 ml-3'
-          : 'justify-end m-1 mr-3'
+          ? ' justify-start m-1 ml-2'
+          : 'justify-end m-1 mr-2'
       } `}
     >
       <div
