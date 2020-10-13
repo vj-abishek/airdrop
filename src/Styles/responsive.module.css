@@ -39,7 +39,7 @@
   grid-template-rows: auto 1fr auto;
 }
 .Chat {
-  height: calc(100vh - 110px);
+  height: calc(100vh - 130px);
   overflow-x: hidden;
   position: relative;
   bottom: 0px;
