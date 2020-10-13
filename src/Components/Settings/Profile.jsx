@@ -21,7 +21,7 @@ function Profile({ user }) {
           <span>{user?.displayName || 'Github User'}</span>
         </div>
         <div className="text-light text-xs">
-          Last login
+          Last login{' '}
           {user.metadata.lastSignInTime &&
             formatDistanceToNow(new Date(user.metadata.lastSignInTime), {
               addSuffix: true,
