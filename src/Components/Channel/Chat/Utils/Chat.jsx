@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import marked from 'marked';
 import Styles from '../../../../Styles/responsive.module.css';
 
-marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
+// marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
 function sanitize(text) {
   return marked(
