@@ -37,11 +37,10 @@
 .conversation {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  overflow-x: hidden;
 }
 .Chat {
   height: calc(100vh - 120px);
-  min-height: auto;
+  max-height: 100%;
   overflow-x: hidden;
   position: relative;
   bottom: 0px;
