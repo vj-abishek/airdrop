@@ -16,6 +16,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const { id } = useParams();
 
   const Textarea = useRef(null);
+  const Form = useRef(null);
 
   useEffect(() => {
     autosize(Textarea);
@@ -25,6 +26,14 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
     if (emoji === '') return;
     setMessage((m) => `${m} ${emoji.emoji}`);
   }, [emoji]);
+
+  useEffect(() => {
+    const handlePress = () => {
+      Textarea.current.focus();
+    };
+    window.addEventListener('keypress', handlePress);
+    return () => window.removeEventListener('keypress', handlePress);
+  }, []);
 
   const handleChange = ({ target }) => {
     const parsed = target.value.trim();
@@ -44,7 +53,9 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const parsed = message.trim();
     if (parsed === '' && indicate === 'NO_CONTENT') return;
 
@@ -72,6 +83,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const handleBlur = () => {
     typingIndication({ channel: id, type: 'NO_CONTENT' });
   };
+
+  const handleKeyPress = (e) => {
+    if (e.ctrlKey && e.charCode === 13) {
+      handleSubmit();
+    }
+  };
   return (
     <>
       <form
@@ -81,6 +98,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           padding: '11px 12px 11px',
           cursor: 'text',
         }}
+        ref={Form}
         className="flex-1 outline-none ml-3 flex items-center bg-secondary rounded-full"
       >
         <textarea
@@ -97,6 +115,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           spellCheck="false"
           onBlur={handleBlur}
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           className={`${Styles.input} text-white text-base`}
         />
       </form>
@@ -105,7 +124,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           indicate === 'CONTENT' ? 'text-accent' : Styles.gray1
         } mx-2 outline-none flex items-center `}
       >
-        <button type="submit" onClick={handleSubmit} className="outline-none">
+        <button
+          type="submit"
+          title="Ctrl + Enter to send "
+          onClick={handleSubmit}
+          className="outline-none"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
