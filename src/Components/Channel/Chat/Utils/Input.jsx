@@ -76,7 +76,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
         channel: id,
       },
     );
+
+    // reset everything
+
     setMessage('');
+    Textarea.current.value = '';
+    autosize.update(Textarea.current);
     setIndicate('NO_CONTENT');
     Textarea.current.focus();
     typingIndication({ channel: id, type: 'NO_CONTENT' });
@@ -89,12 +94,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
 
   const handleKeyPress = (e) => {
     if (!e.ctrlKey && e.charCode === 13 && window.innerWidth >= 768) {
+      e.preventDefault();
       handleSubmit();
-      setMessage('');
     }
     if (e.ctrlKey && e.charCode === 13) {
-      setMessage((current) => `${current} \n`);
-      Textarea.current.focus();
+      Textarea.current.value = `${Textarea.current.value} \n`;
+      autosize.update(Textarea.current);
     }
   };
   return (
