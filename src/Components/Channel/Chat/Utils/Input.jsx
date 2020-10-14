@@ -57,7 +57,10 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       e.preventDefault();
     }
     const parsed = message.trim();
-    if (parsed === '' && indicate === 'NO_CONTENT') return;
+    if (parsed === '' && indicate === 'NO_CONTENT') {
+      Textarea.current.focus();
+      return;
+    }
 
     const nan = nanoid(25);
     sendMessage(
