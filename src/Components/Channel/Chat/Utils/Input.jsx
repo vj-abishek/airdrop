@@ -16,7 +16,6 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const { id } = useParams();
 
   const Textarea = useRef(null);
-  const Form = useRef(null);
 
   useEffect(() => {
     autosize(Textarea.current);
@@ -110,13 +109,12 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           minHeight: '40px',
           cursor: 'text',
         }}
-        ref={Form}
-        className="flex-1 px-1 outline-none ml-1 flex items-center bg-primary rounded-full"
+        className="flex-1 px-1 outline-none ml-1 flex items-center bg-primary"
       >
         <textarea
           style={{
             maxHeight: '90px',
-            minHeight: '24px',
+            minHeight: '18px',
             resize: 'none',
             boxSizing: 'border-box',
           }}
