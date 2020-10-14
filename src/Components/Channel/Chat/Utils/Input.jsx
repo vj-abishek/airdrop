@@ -103,7 +103,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           cursor: 'text',
         }}
         ref={Form}
-        className="flex-1 px-1 outline-none ml-1 flex items-center bg-secondary rounded-full"
+        className="flex-1 px-1 outline-none ml-1 flex items-center bg-primary rounded-full"
       >
         <textarea
           style={{
