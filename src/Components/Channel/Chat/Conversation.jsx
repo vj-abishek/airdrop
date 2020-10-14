@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Header from './Utils/Header';
@@ -18,12 +18,14 @@ function Conversation({
   currentChannel,
 }) {
   const ChatBox = useRef(null);
+  const [iteration, setIteration] = useState(0);
 
   const handleScroll = (e) => {
-    if (e.target.scrollTop <= 20) {
+    if (e.target.scrollTop < 100 && iteration > 0) {
       next(channelId);
       console.log('Sending...');
     }
+    setIteration((i) => i + 1);
   };
 
   useEffect(() => {
