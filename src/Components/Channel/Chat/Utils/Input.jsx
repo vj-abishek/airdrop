@@ -107,7 +107,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       >
         <textarea
           style={{
-            maxHeight: '80px',
+            maxHeight: '90px',
             minHeight: '24px',
             resize: 'none',
             boxSizing: 'border-box',
