@@ -122,10 +122,10 @@ function Fotter({
         style={{
           border: '0px',
           borderTop: '1px solid rgba(50, 82, 88,0.49)',
-          height: '60px',
+          minHeight: '60px',
           transition: 'all 1s',
         }}
-        className="bg-primary sticky px-2 lg:px-3 py-2 bottom-0 w-full flex flex-row justify-between items-center "
+        className="bg-secondary sticky px-2 lg:px-3 bottom-0 w-full flex flex-row justify-between items-center "
       >
         <div className="flex flex-row items-center justify-around">
           <svg

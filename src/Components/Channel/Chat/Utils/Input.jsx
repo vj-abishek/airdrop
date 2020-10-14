@@ -19,7 +19,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const Form = useRef(null);
 
   useEffect(() => {
-    autosize(Textarea);
+    autosize(Textarea.current);
   }, []);
 
   useEffect(() => {
@@ -90,7 +90,8 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       setMessage('');
     }
     if (e.ctrlKey && e.charCode === 13) {
-      setMessage((current) => `${current} \n`);
+      setMessage((current) => `${current} Pressend the button`);
+      Textarea.current.focus();
     }
   };
   return (
@@ -98,12 +99,11 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       <form
         onSubmit={handleSubmit}
         style={{
-          height: '40px',
-          padding: '11px 12px 11px',
+          minHeight: '40px',
           cursor: 'text',
         }}
         ref={Form}
-        className="flex-1 outline-none ml-3 flex items-center bg-secondary rounded-full"
+        className="flex-1 px-1 outline-none ml-1 flex items-center bg-secondary rounded-full"
       >
         <textarea
           style={{
