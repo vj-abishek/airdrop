@@ -93,7 +93,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       setMessage('');
     }
     if (e.ctrlKey && e.charCode === 13) {
-      setMessage((current) => `${current} Pressend the button`);
+      setMessage((current) => `${current} \n`);
       Textarea.current.focus();
     }
   };
