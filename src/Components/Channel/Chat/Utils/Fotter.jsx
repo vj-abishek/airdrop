@@ -3,24 +3,12 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
-import SimplePeerFiles from 'simple-peer-files';
 import sha1 from 'simple-sha1';
-import Peer from './Peer';
-import { SendFiles } from '../../../../Store/Actions/Peer';
+import { SendFile, SendFiles } from '../../../../Store/Actions/Peer';
 import Styles from '../../../../Styles/responsive.module.css';
 import Input from './Input';
 
-const spf = new SimplePeerFiles();
-
-function Fotter({
-  indicateFull,
-  peerStatus,
-  uid,
-  channelId,
-  channel,
-  connected,
-  sendFiles,
-}) {
+function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
   const file = useRef(null);
   const [showEmoji, setShowEmoji] = useState(false);
   const [emoji, setEmoji] = useState('');
@@ -50,51 +38,15 @@ function Fotter({
   const handleFileChange = (e) => {
     if (!e.target.files[0]) return;
 
-    if (!peerStatus) {
-      const [to] = channel.filter((id) => id.channelId === channelId);
-
-      const finalTo = to.from === uid ? to.to : to.from;
-      Peer.Signal(uid, finalTo);
-
-      Peer.peer.on('connect', () => {
-        console.log('Connected');
-        connected(true);
-      });
-    }
-
     const [FileList] = e.target.files;
 
     const shareID = sha1.sync(FileList.name + FileList.size);
     console.log(shareID);
-    sendFiles(shareID, channelId);
+    sendInfo(shareID, channelId, FileList);
+    const url = URL.createObjectURL(FileList);
 
-    console.log(URL.createObjectURL(FileList));
-
-    // for (let i = 0; i < FileList.length; i += 1) {
-    // }
-    console.log(Peer.state.connected);
-    if (Peer.state.connected) {
-      console.log('Sending File... after connnected');
-      // peer is the SimplePeer object connection to receiver
-      spf.send(Peer.peer, shareID, FileList).then((transfer) => {
-        transfer.on('progress', (sentBytes) => {
-          console.log(sentBytes);
-        });
-        transfer.start();
-      });
-    } else {
-      Peer.peer.on('connect', () => {
-        console.log('Sending File... when connnected');
-
-        // peer is the SimplePeer object connection to receiver
-        spf.send(Peer.peer, shareID, FileList).then((transfer) => {
-          transfer.on('progress', (sentBytes) => {
-            console.log(sentBytes);
-          });
-          transfer.start();
-        });
-      });
-    }
+    console.log(url);
+    sendFile(FileList, url, shareID, id);
   };
 
   return (
@@ -147,13 +99,7 @@ function Fotter({
             />
           </svg>
           <button type="button" title="Pick a file" onClick={handleClickFile}>
-            <input
-              type="file"
-              ref={file}
-              onChange={handleFileChange}
-              multiple="multiple"
-              hidden
-            />
+            <input type="file" ref={file} onChange={handleFileChange} hidden />
             <svg
               title="Send files"
               className={`${
@@ -180,14 +126,14 @@ function Fotter({
 
 const mapStateToProps = (state) => ({
   indicateFull: state.messageReducer.data,
-  peerStatus: state.peerReducer.connected,
-  uid: state.authReducer.user.uid,
   channel: state.channelReducer.channels,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  connected: (bool) => dispatch({ type: 'PEER_CONNECTED', payload: bool }),
-  sendFiles: (shareID, channelId) => dispatch(SendFiles(shareID, channelId)),
+  sendInfo: (shareID, channelId, FileList) =>
+    dispatch(SendFiles(shareID, channelId, FileList)),
+  sendFile: (FileList, url, shareID, id) =>
+    dispatch(SendFile(FileList, url, shareID, id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Fotter);

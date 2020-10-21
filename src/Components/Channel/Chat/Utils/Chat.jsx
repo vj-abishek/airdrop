@@ -26,6 +26,71 @@ function sanitize(text) {
   );
 }
 
+const Utils = ({ data, openTab, uid }) => {
+  if (/^image/gi.test(data.type)) {
+    return (
+      <>
+        <div
+          style={{
+            width: '336px',
+            height: '336px',
+            maxWidth: '336px',
+          }}
+          className="font-sans"
+        >
+          <div
+            style={{
+              width: '330px',
+              height: '330px',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#242323',
+              position: 'relative',
+              maxWidth: '100%',
+              borderRadius: '6px',
+              cursor: 'pointer',
+            }}
+          >
+            <img
+              style={{ borderRadius: '10px' }}
+              src={data.url}
+              alt={data.message}
+            />
+          </div>
+          <span className={Styles.hwx} />
+        </div>
+        <div className={Styles.meta}>
+          <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
+            {format(new Date(data.time), 'hh:mm a') || NaN}
+          </span>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      <div className="font-sans">
+        <span
+          style={{ fontSize: '0.9rem' }}
+          onClick={openTab}
+          className={`${Styles.text_wrapper_sanitize} ${
+            !(data.from === uid) && 'otherStyle'
+          }`}
+          dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
+        />
+        <span className={Styles.hwx} />
+      </div>
+      <div className={Styles.meta}>
+        <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
+          {format(new Date(data.time), 'hh:mm a') || NaN}
+        </span>
+      </div>
+    </>
+  );
+};
+
 export default function Chat({ data, uid }) {
   // const [emoji, setEmoji] = useState([]);
   const openTab = (e) => {
@@ -49,22 +114,7 @@ export default function Chat({ data, uid }) {
       <div
         className={`${Styles.message} ${!(data.from === uid) && Styles.other}`}
       >
-        <div className="font-sans ">
-          <span
-            style={{ fontSize: '0.9rem' }}
-            onClick={openTab}
-            className={`${Styles.text_wrapper_sanitize} ${
-              !(data.from === uid) && 'otherStyle'
-            }`}
-            dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
-          />
-          <span className={Styles.hwx} />
-        </div>
-        <div className={Styles.meta}>
-          <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
-            {format(new Date(data.time), 'HH:mm a') || NaN}
-          </span>
-        </div>
+        <Utils data={data} openTab={openTab} uid={uid} />
       </div>
     </div>
   );

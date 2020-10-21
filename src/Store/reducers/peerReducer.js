@@ -1,6 +1,8 @@
 const initialState = {
   connected: false,
   shareID: null,
+  current: null,
+  err: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -14,6 +16,16 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         shareID: payload,
+      };
+    case 'CURRENT_CHANNEL':
+      return {
+        ...state,
+        current: payload.res,
+      };
+    case 'ERROR_WHILE_SENDING':
+      return {
+        ...state,
+        err: payload,
       };
     default:
       return state;

@@ -36,6 +36,7 @@ const Single = ({
   hashTable,
   userStatus,
   TypingIndication,
+  uid,
 }) => {
   const { id } = useParams();
 
@@ -71,7 +72,12 @@ const Single = ({
       }
 
       return (
-        <Link to={`/r/${snapShot.channelId}`} key={snapShot.channelId}>
+        <Link
+          to={`/r/${snapShot.channelId}/${
+            snapShot.from === uid ? '#init' : ''
+          }`}
+          key={snapShot.channelId}
+        >
           <div
             className={`grid ${
               Styles.grid7
@@ -138,6 +144,7 @@ const mapStateToProps = (state) => {
   return {
     hashTable: state.channelReducer.visited,
     TypingIndication: state.messageReducer.data,
+    uid: state.authReducer.user.uid,
   };
 };
 

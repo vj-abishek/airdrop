@@ -38,6 +38,7 @@ export const addSlug = () => (dispatch, getState) => {
     displayName,
     photoURL,
     time: Date.now(),
+    origin: window.location.origin,
   };
 
   const root = db.collection('sharable_urls');

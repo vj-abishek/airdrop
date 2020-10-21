@@ -1,26 +1,69 @@
 import Peer from 'simple-peer';
 import { EventEmitter } from 'events';
+import SimplePeerFiles from 'simple-peer-files';
 import socket from '../../../Functions/Users';
+
+const spf = new SimplePeerFiles();
 
 class SimpleSignal extends EventEmitter {
   constructor() {
     super();
     this.state = {
-      answer: {},
-      offer: {},
+      answer: null,
+      offer: null,
       peer: null,
       connected: false,
+      shareID: null,
     };
-    this.emit('testing');
-  }
 
-  Signal(from, to) {
     this.peer = new Peer({
-      initiator: true,
+      initiator: window.location.hash === '#init',
       trickle: false,
     });
     this.peer.on('signal', (data) => {
-      this.state.offer = data;
+      if (data.type === 'offer') {
+        this.state.offer = data;
+        this.emit('got offer');
+      }
+    });
+
+    socket.on('shareID', ({
+      shareID, channelID, rest
+    }) => {
+      console.log(shareID, rest);
+      this.emit('shareID', shareID);
+      this.state.shareID = shareID;
+      // peer is the SimplePeer object connection to sender
+      spf.receive(this.peer, this.state.shareID).then((transfer) => {
+        transfer.on('progress', (sentBytes) => {
+          console.log(sentBytes);
+        });
+
+        transfer.on('done', (file) => {
+          const url = URL.createObjectURL(file);
+          this.emit('recieved', {
+            url, shareID, channelID, type: rest.type, name: rest.name,
+          });
+        });
+
+        // Call readyToSend() in the sender side
+        this.peer.send('heySenderYouCanSendNow');
+      });
+    });
+
+    // this.peer.on('data', console.log);
+
+    console.log('Calles consruct');
+  }
+
+  Signal(from, to) {
+    console.log('called signal');
+    if (this.connected) {
+      this.peer.destroy();
+      this.emit('newConnection');
+    }
+    this.emit('instance', this.peer);
+    this.on('got offer', () => {
       console.log('Sending data first attempt');
       socket.emit('offer', {
         from,
@@ -42,13 +85,11 @@ class SimpleSignal extends EventEmitter {
   }
 
   Init() {
+    console.log('Init signal');
     // listen to socket
     socket.on('backOffer', (data) => {
       this.state.offer = JSON.parse(data.payload);
-      this.peer = new Peer({
-        initiator: false,
-        trickle: false,
-      });
+      this.emit('instance', this.peer);
       console.log(this.state.offer);
       this.peer.on('signal', (answer) => {
         this.state.answer = answer;
@@ -59,7 +100,6 @@ class SimpleSignal extends EventEmitter {
         });
       });
       this.peer.signal(this.state.offer);
-
       this.peer.on('connect', () => {
         console.log('Finally Connected 😀🎉🎊🥳');
         this.print();
@@ -67,7 +107,19 @@ class SimpleSignal extends EventEmitter {
         return this.emit('connected', this.state.connected);
       });
     });
+    this.on('newConnection', () => {
+      this.emit('connected', false);
+    });
     return this.emit('connected', false);
+  }
+
+  Send(FileList, shareID) {
+    spf.send(this.peer, shareID, FileList).then((transfer) => {
+      transfer.on('progress', (sentBytes) => {
+        console.log(sentBytes);
+      });
+      transfer.start();
+    });
   }
 
   print() {

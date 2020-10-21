@@ -22,7 +22,7 @@ const Utils = ({ TypingIndication, id, status }) => {
   }
 };
 
-const Photo = ({ user, Ustatus, TypingIndication }) => {
+const Photo = ({ user, Ustatus, TypingIndication, peerStatus }) => {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [status, setStatus] = useState();
@@ -60,9 +60,12 @@ const Photo = ({ user, Ustatus, TypingIndication }) => {
                   width: '13px',
                   height: '13px',
                   border: '2px solid #000',
+                  transition: 'all 1s',
                 }}
                 title="Online"
-                className="rounded-full absolute bottom-0 right-0 bg-accent"
+                className={`rounded-full absolute bottom-0 right-0 ${
+                  peerStatus ? 'bg-purple-600' : 'bg-accent'
+                } `}
               />
             )}
           </div>
@@ -84,12 +87,11 @@ const Photo = ({ user, Ustatus, TypingIndication }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.channelReducer.channels,
-    Ustatus: state.messageReducer.userStatus,
-    TypingIndication: state.messageReducer.data,
-  };
-};
+const mapStateToProps = (state) => ({
+  user: state.channelReducer.channels,
+  Ustatus: state.messageReducer.userStatus,
+  TypingIndication: state.messageReducer.data,
+  peerStatus: state.peerReducer.connected,
+});
 
 export default connect(mapStateToProps)(Photo);

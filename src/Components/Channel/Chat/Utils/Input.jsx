@@ -70,6 +70,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
         stored: true,
         messageId: nan,
         time: Date.now(),
+        type: 'text/plain',
       },
       {
         channel: id,
@@ -79,7 +80,6 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
     // reset everything
 
     setMessage('');
-    Textarea.current.value = '';
     autosize.update(Textarea.current);
     setIndicate('NO_CONTENT');
     Textarea.current.focus();

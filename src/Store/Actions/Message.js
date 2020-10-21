@@ -167,7 +167,7 @@ export const RecieveMessage = () => (dispatch) => {
     dispatch({ type: 'RECIEVED_TYPING_INDICATION', payload: e });
   });
 
-  socket.on('shareID', (shareID) => {
+  socket.on('shareID', ({ shareID }) => {
     console.log(shareID);
     dispatch({ type: 'SET_SHAREID', payload: shareID });
   });
