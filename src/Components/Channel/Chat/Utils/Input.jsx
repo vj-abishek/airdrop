@@ -8,6 +8,7 @@ import {
   TypingIndication,
 } from '../../../../Store/Actions/Message';
 import Styles from '../../../../Styles/responsive.module.css';
+import { isMobile } from '../../../Utils/helper';
 
 function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const [message, setMessage] = useState('');
@@ -56,12 +57,14 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       e.preventDefault();
     }
     const parsed = message.trim();
-    if (parsed === '' && indicate === 'NO_CONTENT') {
+    console.log(parsed);
+    if ((parsed === '' && indicate === 'NO_CONTENT') || message === '') {
       Textarea.current.focus();
       return;
     }
 
     const nan = nanoid(25);
+    console.log(nan, message === '');
     sendMessage(
       {
         message,
@@ -92,7 +95,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   };
 
   const handleKeyPress = (e) => {
-    if (!e.ctrlKey && e.charCode === 13 && window.innerWidth >= 768) {
+    if (!e.ctrlKey && e.charCode === 13 && !isMobile) {
       e.preventDefault();
       handleSubmit();
     }
