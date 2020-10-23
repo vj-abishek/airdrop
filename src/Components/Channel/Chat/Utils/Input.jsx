@@ -10,9 +10,7 @@ import {
 import Styles from '../../../../Styles/responsive.module.css';
 import { isMobile } from '../../../Utils/helper';
 
-function Input({
- sendMessage, indicateMessage, emoji, typingIndication,
-}) {
+function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
   const [message, setMessage] = useState('');
   const [indicate, setIndicate] = useState('');
 
@@ -59,14 +57,12 @@ function Input({
       e.preventDefault();
     }
     const parsed = message.trim();
-    console.log(parsed);
     if ((parsed === '' && indicate === 'NO_CONTENT') || message === '') {
       Textarea.current.focus();
       return;
     }
 
     const nan = nanoid(25);
-    console.log(nan, message === '');
     sendMessage(
       {
         message,
@@ -166,7 +162,8 @@ function Input({
 
 const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message, details) => dispatch(sendmessage(message, details)),
-  indicateMessage: (channelId, type) => dispatch({
+  indicateMessage: (channelId, type) =>
+    dispatch({
       type: 'TYPING_INDICATION',
       payload: { channelId, type },
     }),

@@ -34,7 +34,7 @@ class SimpleSignal extends EventEmitter {
         this.emit('transfer started', payload);
         transfer.on('progress', (sentBytes) => {
           console.log(sentBytes);
-          this.emit('progress', { sentBytes, shareID: payload.messages.shareID });
+          this.emit('receive progress', { sentBytes, shareID: payload.messages.shareID });
         });
 
         transfer.on('done', (file) => {
@@ -123,7 +123,7 @@ class SimpleSignal extends EventEmitter {
       spf.send(this.peer, shareID, FileList).then((transfer) => {
         transfer.on('progress', (sentBytes) => {
           console.log(sentBytes);
-          this.emit('progress', sentBytes);
+          this.emit('send progress', sentBytes);
         });
         transfer.start();
       });

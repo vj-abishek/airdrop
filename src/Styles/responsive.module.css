@@ -156,6 +156,22 @@
   filter: blur(10px);
 }
 
+.progress_ring__circle {  
+  transition: 0.35s stroke-dashoffset;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.progress_ring{
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width:100px;
+  height: 100px;
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
   border-radius: 16px;
@@ -167,6 +183,6 @@
   background: var(--color-primary);
 }
 ::-webkit-scrollbar {
-  width: 6px !important;
-  height: 6px !important;
+  width: 5px !important;
+  height: 5px !important;
 }

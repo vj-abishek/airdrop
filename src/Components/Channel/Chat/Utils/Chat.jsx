@@ -1,9 +1,10 @@
 import React from 'react';
 import { format } from 'date-fns';
 import DOMPurify from 'dompurify';
+import { Circle } from 'rc-progress';
 import marked from 'marked';
-import Styles from '../../../../Styles/responsive.module.css';
 import { connect } from 'react-redux';
+import Styles from '../../../../Styles/responsive.module.css';
 
 marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
@@ -32,6 +33,15 @@ const Utils = ({ data, openTab, uid, status }) => {
     return (
       <>
         <div className={`${Styles.img_container_real} font-sans`}>
+          {data.shareID === status.shareID && status.progress !== 100 && (
+            <div className={Styles.progress_ring}>
+              <Circle
+                percent={status.progress}
+                strokeWidth="4"
+                strokeColor="#004552"
+              />
+            </div>
+          )}
           <div
             className={`${Styles.inside} ${
               data.shareID === status.shareID &&

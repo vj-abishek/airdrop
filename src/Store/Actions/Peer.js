@@ -91,7 +91,7 @@ export const SendFile = (FileList, url, shareID, channelID) => (dispatch, getSta
 
   Peer.Send(false, FileList, shareID);
   dispatch({ type: 'PROGRESS', payload: { sentBytes: 0, shareID } });
-  Peer.on('progress', (data) => {
+  Peer.on('send progress', (data) => {
     dispatch({ type: 'PROGRESS', payload: { sentBytes: data, shareID } });
   });
 };
@@ -102,13 +102,14 @@ export const RecieveFile = () => (dispatch) => {
       dispatch({ type: 'ON_MESSAGE', payload });
     });
 
+    Peer.on('receive progress', (data) => {
+      console.log('recieve progresss', data)
+      dispatch({ type: 'PROGRESS', payload: data });
+    });
+
     Peer.on('recieved', ({ url, payload }) => {
       dispatch({ type: 'SET_URL', payload: { url, payload } });
       dispatch({ type: 'PROGRESS', payload: { sentBytes: 100, shareID: payload.shareID } });
-    });
-
-    Peer.on('progress', (data) => {
-      dispatch({ type: 'PROGRESS', payload: data });
     });
   }
 };
