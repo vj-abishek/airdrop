@@ -63,6 +63,7 @@ const DownloadComponent = ({ status, data }) => {
     </a>
   );
 };
+
 const Utils = ({ data, openTab, uid, status }) => {
   if (/^image/gi.test(data.type)) {
     return (

@@ -18,7 +18,7 @@ const getId = (channelID, state) => {
 };
 
 export const InitSignal = (uid, to) => (dispatch) => {
-  Peer = new SimpleSignal();
+  Peer = new SimpleSignal(uid);
   console.log('Im the initiator. Happy');
   Peer.Signal(uid, to);
 
@@ -28,8 +28,10 @@ export const InitSignal = (uid, to) => (dispatch) => {
   });
 };
 
-export const InitOther = () => (dispatch) => {
-  Peer = new SimpleSignal();
+export const InitOther = () => (dispatch, getState) => {
+  const { uid } = getState().authReducer.user;
+
+  Peer = new SimpleSignal(uid);
   console.log('Called me');
   Peer.Init();
   Peer.on('connected', () => {
@@ -80,6 +82,7 @@ export const SendFile = (FileList, url, shareID, channelID) => (dispatch, getSta
         url: 'placeholder',
         type: FileList.type,
         name: FileList.name,
+        size: FileList.size,
         time: Date.now(),
         shareID,
         from: uid,

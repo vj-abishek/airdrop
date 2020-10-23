@@ -1,12 +1,15 @@
 import Peer from 'simple-peer';
 import { EventEmitter } from 'events';
+import * as streamSaver from 'streamsaver';
+import db from './Settings.model';
+import * as ponyfill from 'web-streams-polyfill/ponyfill'
 import SimplePeerFiles from 'simple-peer-files';
 import socket from '../../../Functions/Users';
 
 const spf = new SimplePeerFiles();
 
 class SimpleSignal extends EventEmitter {
-  constructor() {
+  constructor(uid) {
     super();
     this.state = {
       answer: null,
@@ -14,7 +17,24 @@ class SimpleSignal extends EventEmitter {
       peer: null,
       connected: false,
       shareID: null,
+      autoDownload: false,
     };
+
+    this.uid = uid;
+
+    this.params = window.location.pathname.split('/')[2];
+
+
+    db.uid
+      .where('id')
+      .equalsIgnoreCase(this.uid)
+      .toArray()
+      .then(data => {
+        console.log(data);
+        if (data) {
+          this.state.autoDownload = data[0].autoDownload;
+        }
+      }).catch(err => console.log);
 
     this.peer = new Peer({
       initiator: window.location.hash === '#init',
@@ -42,9 +62,22 @@ class SimpleSignal extends EventEmitter {
           console.log(url);
           this.emit('recieved', { url, payload });
         });
+        console.log(this.state.autoDownload)
 
-        // Call readyToSend() in the sender side
-        this.peer.send('heySenderYouCanSendNow');
+        if (this.state.autoDownload) {
+          const fileStream = transfer.createReadStream();
+          streamSaver.WritableStream = ponyfill.WritableStream;
+          const downloadStream = streamSaver.createWriteStream(payload.messages.name, {
+            size: payload.messages.size
+          });
+
+          const writer = downloadStream.getWriter()
+
+          fileStream
+            .on('data', chunk => writer.write(chunk))
+            .on('end', () => writer.close())
+        }
+
       });
 
     })

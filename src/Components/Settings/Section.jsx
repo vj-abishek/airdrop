@@ -1,6 +1,6 @@
 import React from 'react';
 import Notification from './Notification';
-import SaveChat from './SaveChat';
+// import SaveChat from './SaveChat';
 import Download from './Download';
 
 export default function Section() {
@@ -10,7 +10,7 @@ export default function Section() {
       <Notification />
 
       {/* Save Chat */}
-      <SaveChat />
+      {/* <SaveChat /> */}
 
       {/* Auto Donwnload */}
       <Download />

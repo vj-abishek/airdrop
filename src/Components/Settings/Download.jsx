@@ -1,11 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import db from '../Channel/Chat/Utils/Settings.model';
 import Toggle from './ToggleButtons';
 import Styles from '../../Styles/responsive.module.css';
 
-export default function Section() {
+function Section({ uid }) {
   const [checked, setChecked] = useState(false);
+  const [hasInDb, setHasInDb] = useState(false);
 
-  const Change = () => setChecked(!checked);
+  useEffect(() => {
+    try {
+      db.uid
+        .where('id')
+        .equalsIgnoreCase(uid)
+        .toArray()
+        .then((data) => {
+          console.log(data);
+          if (data) {
+            setChecked(data[0].autoDownload);
+            setHasInDb(true);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [checked, uid, hasInDb]);
+
+  const Change = () => {
+    console.log(hasInDb);
+    if (hasInDb) {
+      console.log('Im herer');
+      db.uid
+        .update(uid, {
+          id: uid,
+          autoDownload: !checked,
+        })
+        .then(() => {
+          console.log('success');
+          setChecked(!checked);
+        });
+    } else {
+      db.uid
+        .add({
+          id: uid,
+          autoDownload: !checked,
+        })
+        .then(() => {
+          console.log('Success');
+          setChecked(!checked);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
   return (
     <>
       {/* Notification Section */}
@@ -31,3 +77,9 @@ export default function Section() {
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  uid: state.authReducer.user.uid,
+});
+
+export default connect(mapStateToProps)(Section);
