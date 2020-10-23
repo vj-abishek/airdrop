@@ -6,7 +6,7 @@
 - [x] Push notifications
 - [x] Can see online status and typing status
 - [x] Messages works offline
-- [ ] File transfering (working on it)
+- [x] File transfering 
 
 ## Old SafeShare Repo:
 [old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
