@@ -27,41 +27,44 @@ class SimpleSignal extends EventEmitter {
       }
     });
 
-    socket.on('shareID', ({
-      shareID, channelID, rest
-    }) => {
-      console.log(shareID, rest);
-      this.emit('shareID', shareID);
-      this.state.shareID = shareID;
+    this.on('got meta data', (parsed) => {
       // peer is the SimplePeer object connection to sender
-      spf.receive(this.peer, this.state.shareID).then((transfer) => {
+      const { payload } = parsed;
+      spf.receive(this.peer, payload.messages.shareID).then((transfer) => {
+        this.emit('transfer started', payload);
         transfer.on('progress', (sentBytes) => {
           console.log(sentBytes);
+          this.emit('progress', { sentBytes, shareID: payload.messages.shareID });
         });
 
         transfer.on('done', (file) => {
           const url = URL.createObjectURL(file);
-          this.emit('recieved', {
-            url, shareID, channelID, type: rest.type, name: rest.name,
-          });
+          console.log(url);
+          this.emit('recieved', { url, payload });
         });
 
         // Call readyToSend() in the sender side
         this.peer.send('heySenderYouCanSendNow');
       });
-    });
 
-    // this.peer.on('data', console.log);
+    })
+    this.peer.on('data', (data) => {
+      try {
+        const parsed = JSON.parse(data);
+        if (parsed?.type === 'text/relp') {
+          console.log(parsed);
+          this.emit('got meta data', parsed);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
 
     console.log('Calles consruct');
   }
 
   Signal(from, to) {
     console.log('called signal');
-    if (this.connected) {
-      this.peer.destroy();
-      this.emit('newConnection');
-    }
     this.emit('instance', this.peer);
     this.on('got offer', () => {
       console.log('Sending data first attempt');
@@ -113,13 +116,18 @@ class SimpleSignal extends EventEmitter {
     return this.emit('connected', false);
   }
 
-  Send(FileList, shareID) {
-    spf.send(this.peer, shareID, FileList).then((transfer) => {
-      transfer.on('progress', (sentBytes) => {
-        console.log(sentBytes);
+  Send(TextMessage, FileList, shareID) {
+    if (TextMessage) {
+      this.peer.send(JSON.stringify(TextMessage));
+    } else {
+      spf.send(this.peer, shareID, FileList).then((transfer) => {
+        transfer.on('progress', (sentBytes) => {
+          console.log(sentBytes);
+          this.emit('progress', sentBytes);
+        });
+        transfer.start();
       });
-      transfer.start();
-    });
+    }
   }
 
   print() {

@@ -105,6 +105,7 @@
   float: right;
   margin: -12px 0 -5px 4px;
   position: relative;
+  z-index:1;
 }
 .meta span {
   display: inline-block;
@@ -125,6 +126,34 @@
   display: inline-block;
   width: 54px;
   vertical-align: middle;
+}
+.img_container_real {
+  width: inherit;
+  height: 336px;
+  border-radius: 7.5px;
+  box-sizing: border-box;
+  max-width: 336px;
+  position: relative;
+  z-index: 0;
+}
+
+.inside {
+  width: 330px;
+  height: 330px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #242323;
+  position: relative;
+  max-width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  filter:blur(0px);
+}
+
+.blur{
+  filter: blur(10px);
 }
 
 ::-webkit-scrollbar-thumb {

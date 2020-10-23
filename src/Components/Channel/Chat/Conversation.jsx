@@ -68,8 +68,8 @@ function Conversation({
   }, [currentRoom, channelId, currentTo, uid, peerStatus, Signal, Recieve]);
 
   useEffect(() => {
-    if (currentChannel && currentTo) {
-      const status = currentStatus.get(currentTo.to).status || 'Offline';
+    if (currentChannel && currentTo && currentStatus.has(currentTo.to)) {
+      const { status } = currentStatus.get(currentTo.to);
       if (status.status === 'Online' && currentChannel === channelId) {
         console.log('Both are in the same room');
         setCurrentRoom(currentChannel);

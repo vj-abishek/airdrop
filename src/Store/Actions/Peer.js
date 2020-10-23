@@ -55,6 +55,7 @@ export const SendFile = (FileList, url, shareID, channelID) => (dispatch, getSta
     dispatch({ type: 'ERROR_WHILE_SENDING', payload: 'NOT_CONNECTED' });
     return;
   }
+  const messageId = nanoid(25);
   const obj = {
     messages: {
       type: FileList.type,
@@ -63,36 +64,51 @@ export const SendFile = (FileList, url, shareID, channelID) => (dispatch, getSta
       url,
       shareID,
       from: uid,
-      messageId: nanoid(25),
+      messageId,
       to,
     },
     channel: channelID,
   };
   dispatch({ type: 'ON_MESSAGE', payload: obj });
 
-  Peer.Send(FileList, shareID);
+  // Send meta data
+  Peer.Send({
+    type: 'text/relp',
+    payload: {
+      channel: obj.channel,
+      messages: {
+        url: 'placeholder',
+        type: FileList.type,
+        name: FileList.name,
+        time: Date.now(),
+        shareID,
+        from: uid,
+        messageId,
+        to,
+      },
+    },
+  });
+
+  Peer.Send(false, FileList, shareID);
+  dispatch({ type: 'PROGRESS', payload: { sentBytes: 0, shareID } });
+  Peer.on('progress', (data) => {
+    dispatch({ type: 'PROGRESS', payload: { sentBytes: data, shareID } });
+  });
 };
 
 export const RecieveFile = () => (dispatch) => {
   if (Peer) {
-    Peer.on('recieved', ({
-      url, shareID, channelID, type, name,
-    }) => {
-      const obj = {
-        messages: {
-          type,
-          name,
-          time: Date.now(),
-          url,
-          shareID,
-          from: 'uid',
-          messageId: nanoid(25),
-        },
-        channel: channelID,
-      };
-      console.log(obj);
-      console.log('From frontend', url);
-      dispatch({ type: 'ON_MESSAGE', payload: obj });
+    Peer.on('transfer started', (payload) => {
+      dispatch({ type: 'ON_MESSAGE', payload });
+    });
+
+    Peer.on('recieved', ({ url, payload }) => {
+      dispatch({ type: 'SET_URL', payload: { url, payload } });
+      dispatch({ type: 'PROGRESS', payload: { sentBytes: 100, shareID: payload.shareID } });
+    });
+
+    Peer.on('progress', (data) => {
+      dispatch({ type: 'PROGRESS', payload: data });
     });
   }
 };

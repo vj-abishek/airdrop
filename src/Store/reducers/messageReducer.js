@@ -35,6 +35,13 @@ export default produce((draft, { type, payload }) => {
       return draft;
     }
 
+    case 'SET_URL': {
+      const { messages } = draft.data.get(payload.payload.channel);
+      const len = messages.length - 1;
+      messages[len].url = payload.url;
+      return draft;
+    };
+
     case 'USER_STATUS_DISK':
       if (!(payload && payload.uid)) return draft;
       draft.userStatus.set(payload.uid, { status: payload });

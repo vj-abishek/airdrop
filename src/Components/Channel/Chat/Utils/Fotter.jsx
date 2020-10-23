@@ -42,7 +42,7 @@ function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
 
     const shareID = sha1.sync(FileList.name + FileList.size);
     console.log(shareID);
-    sendInfo(shareID, channelId, FileList);
+    // sendInfo(shareID, channelId, FileList);
     const url = URL.createObjectURL(FileList);
 
     console.log(url);

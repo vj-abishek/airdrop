@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import DOMPurify from 'dompurify';
 import marked from 'marked';
 import Styles from '../../../../Styles/responsive.module.css';
+import { connect } from 'react-redux';
 
 marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
@@ -26,38 +27,19 @@ function sanitize(text) {
   );
 }
 
-const Utils = ({ data, openTab, uid }) => {
+const Utils = ({ data, openTab, uid, status }) => {
   if (/^image/gi.test(data.type)) {
     return (
       <>
-        <div
-          style={{
-            width: '336px',
-            height: '336px',
-            maxWidth: '336px',
-          }}
-          className="font-sans"
-        >
+        <div className={`${Styles.img_container_real} font-sans`}>
           <div
-            style={{
-              width: '330px',
-              height: '330px',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#242323',
-              position: 'relative',
-              maxWidth: '100%',
-              borderRadius: '6px',
-              cursor: 'pointer',
-            }}
+            className={`${Styles.inside} ${
+              data.shareID === status.shareID &&
+              status.progress !== 100 &&
+              Styles.blur
+            }`}
           >
-            <img
-              style={{ borderRadius: '10px' }}
-              src={data.url}
-              alt={data.message}
-            />
+            <img src={data.url} alt={data.name} title={data.name} />
           </div>
           <span className={Styles.hwx} />
         </div>
@@ -91,7 +73,7 @@ const Utils = ({ data, openTab, uid }) => {
   );
 };
 
-export default function Chat({ data, uid }) {
+function Chat({ data, uid, status }) {
   // const [emoji, setEmoji] = useState([]);
   const openTab = (e) => {
     e.preventDefault();
@@ -107,15 +89,21 @@ export default function Chat({ data, uid }) {
     <div
       className={`flex ${
         !(data.from === uid)
-          ? ' justify-start m-1 ml-3'
-          : 'justify-end m-1 mr-3'
+          ? ' justify-start m-1 ml-2 lg:ml-3'
+          : 'justify-end m-1 mr-2 lg:mr-3'
       } `}
     >
       <div
         className={`${Styles.message} ${!(data.from === uid) && Styles.other}`}
       >
-        <Utils data={data} openTab={openTab} uid={uid} />
+        <Utils data={data} openTab={openTab} uid={uid} status={status} />
       </div>
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  status: state.peerReducer,
+});
+
+export default connect(mapStateToProps)(Chat);

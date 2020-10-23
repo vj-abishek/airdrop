@@ -3,6 +3,8 @@ const initialState = {
   shareID: null,
   current: null,
   err: null,
+  progress: 100,
+  type: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -21,6 +23,17 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         current: payload.res,
+      };
+    case 'PROGRESS':
+      return {
+        ...state,
+        shareID: payload.shareID,
+        progress: payload.sentBytes,
+      };
+    case 'SHOW_PLACEHOLDER':
+      return {
+        ...state,
+        type: payload.type,
       };
     case 'ERROR_WHILE_SENDING':
       return {

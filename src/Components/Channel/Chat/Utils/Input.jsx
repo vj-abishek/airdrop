@@ -10,7 +10,9 @@ import {
 import Styles from '../../../../Styles/responsive.module.css';
 import { isMobile } from '../../../Utils/helper';
 
-function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
+function Input({
+ sendMessage, indicateMessage, emoji, typingIndication,
+}) {
   const [message, setMessage] = useState('');
   const [indicate, setIndicate] = useState('');
 
@@ -83,6 +85,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
     // reset everything
 
     setMessage('');
+    Textarea.current.value = '';
     autosize.update(Textarea.current);
     setIndicate('NO_CONTENT');
     Textarea.current.focus();
@@ -163,8 +166,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
 
 const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message, details) => dispatch(sendmessage(message, details)),
-  indicateMessage: (channelId, type) =>
-    dispatch({
+  indicateMessage: (channelId, type) => dispatch({
       type: 'TYPING_INDICATION',
       payload: { channelId, type },
     }),
