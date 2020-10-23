@@ -27,6 +27,32 @@ function sanitize(text) {
     }),
   );
 }
+const DownloadComponent = ({ status, data }) => (
+  <a
+    href={data.url}
+    download={data.name}
+    title={`Download"${data.name}"`}
+    className={`text-gray-600 mx-1 ${
+      data.shareID === status.shareID && status.progress !== 100 && 'hidden'
+    } ${Styles.download}`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 34 34"
+      width="29"
+      height="29"
+    >
+      <path
+        fill="currentColor"
+        d="M17 2c8.3 0 15 6.7 15 15s-6.7 15-15 15S2 25.3 2 17 8.7 2 17 2m0-1C8.2 1 1 8.2 1 17s7.2 16 16 16 16-7.2 16-16S25.8 1 17 1z"
+      />
+      <path
+        fill="currentColor"
+        d="M22.4 17.5h-3.2v-6.8c0-.4-.3-.7-.7-.7h-3.2c-.4 0-.7.3-.7.7v6.8h-3.2c-.6 0-.8.4-.4.8l5 5.3c.5.7 1 .5 1.5 0l5-5.3c.7-.5.5-.8-.1-.8z"
+      />
+    </svg>
+  </a>
+);
 
 const Utils = ({ data, openTab, uid, status }) => {
   if (/^image/gi.test(data.type)) {
@@ -61,25 +87,71 @@ const Utils = ({ data, openTab, uid, status }) => {
       </>
     );
   }
+  if (data.type === 'application/pdf') {
+    return (
+      <div className="flex flex-row items-center justify-around">
+        <div className={`${Styles.other_img} ${Styles.pdf}`} />
+        <div style={{ fontSize: '0.9rem' }} className="font-sans mx-2">
+          {data.name}
+        </div>
+        {data.shareID === status.shareID && status.progress !== 100 && (
+          <div
+            style={{ width: '29px', height: '29px', minWidth: '29px' }}
+            className="mx-1"
+          >
+            <Circle
+              percent={status.progress}
+              strokeWidth="4"
+              strokeColor="#00b2d2"
+            />
+          </div>
+        )}
+        <DownloadComponent status={status} data={data} />
+      </div>
+    );
+  }
+  if (data.type === 'text/plain') {
+    return (
+      <>
+        <div className="font-sans">
+          <span
+            style={{ fontSize: '0.9rem' }}
+            onClick={openTab}
+            className={`${Styles.text_wrapper_sanitize} ${
+              !(data.from === uid) && 'otherStyle'
+            }`}
+            dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
+          />
+          <span className={Styles.hwx} />
+        </div>
+        <div className={Styles.meta}>
+          <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
+            {format(new Date(data.time), 'hh:mm a') || NaN}
+          </span>
+        </div>
+      </>
+    );
+  }
   return (
-    <>
-      <div className="font-sans">
-        <span
-          style={{ fontSize: '0.9rem' }}
-          onClick={openTab}
-          className={`${Styles.text_wrapper_sanitize} ${
-            !(data.from === uid) && 'otherStyle'
-          }`}
-          dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
-        />
-        <span className={Styles.hwx} />
+    <div className="flex flex-row items-center justify-around">
+      <div className={Styles.other_img} />
+      <div style={{ fontSize: '0.9rem' }} className="font-sans mx-2">
+        {data.name}
       </div>
-      <div className={Styles.meta}>
-        <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
-          {format(new Date(data.time), 'hh:mm a') || NaN}
-        </span>
-      </div>
-    </>
+      {data.shareID === status.shareID && status.progress !== 100 && (
+        <div
+          style={{ width: '29px', height: '29px', minWidth: '29px' }}
+          className="mx-1"
+        >
+          <Circle
+            percent={status.progress}
+            strokeWidth="4"
+            strokeColor="#00b2d2"
+          />
+        </div>
+      )}
+      <DownloadComponent status={status} data={data} />
+    </div>
   );
 };
 
