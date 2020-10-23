@@ -156,11 +156,6 @@
   filter: blur(10px);
 }
 
-.progress_ring__circle {  
-  transition: 0.35s stroke-dashoffset;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
 
 .progress_ring{
   position: absolute;
