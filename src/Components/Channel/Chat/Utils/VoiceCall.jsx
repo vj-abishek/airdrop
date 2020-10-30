@@ -2,10 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dismissCall } from '../../../../Store/Actions/Peer';
+import Call from '../../../Utils/Call';
+
+const call = new Call();
 
 function VoiceCall({ user, setCallStatus }) {
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [status, setStatus] = useState('Connecting to');
+
+  useEffect(() => {
+    const handler = () => {
+      setStatus('Connected');
+    };
+    call.on('connected', handler);
+
+    return () => call.off('connected', handler);
+  }, [status]);
 
   useEffect(() => {
     try {
@@ -25,7 +38,7 @@ function VoiceCall({ user, setCallStatus }) {
       className="absolute w-full py-2 text-sm px-6 z-20 bg-gray-700 flex flex-row justify-between items-center "
     >
       <div className="text-base">
-        Connecting to
+        {status}
         <span className="font-bold">
           {' '}
           {data?.isAnonymous && '~'}

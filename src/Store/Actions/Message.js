@@ -1,6 +1,5 @@
 import socket from '../../Components/Functions/Users';
 import E2E from '../../Components/Utils/EndToEnd';
-import Call from '../../Components/Utils/Call';
 import db from '../../Components/Utils/Message.model';
 
 const e2e = new E2E();
@@ -169,9 +168,9 @@ export const RecieveMessage = () => (dispatch) => {
   });
 
   socket.on('call by', ({ from, to }) => {
-    const call = new Call();
+    // const call = new Call();
 
-    call.Init();
+    // call.Init();
     dispatch({ type: 'YOU_HAVE_CALL', payload: { from, to } });
   });
 

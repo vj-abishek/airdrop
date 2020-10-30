@@ -137,7 +137,7 @@ export const Call = (bool, channelId) => (dispatch, getState) => {
 
   const call = new CallBy();
 
-  call.Call(from, to);
+  call.Init();
 
   socket.emit('call by', {
     from: {
