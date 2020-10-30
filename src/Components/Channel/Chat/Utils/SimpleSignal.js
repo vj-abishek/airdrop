@@ -66,6 +66,7 @@ class SimpleSignal extends EventEmitter {
 
         if (this.state.autoDownload) {
           const fileStream = transfer.createReadStream();
+          console.log(transfer);
           streamSaver.WritableStream = ponyfill.WritableStream;
           const downloadStream = streamSaver.createWriteStream(payload.messages.name, {
             size: payload.messages.size

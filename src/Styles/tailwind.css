@@ -17,6 +17,7 @@
     --color-accent: #00b2d2;
     --color-white: #f4f4f9;
     --color-light: #187a8c;
+    --color-gray: #f1f1f2a1;
   }
 }
 
@@ -47,6 +48,12 @@ span > a {
 }
 .width-login {
   width: calc(100vw - 385px);
+}
+.ptr--icon{
+  color: var(--color-gray) !important;
+}
+.ptr--text{  
+  color: var(--color-gray) !important;
 }
 
 @tailwind base;

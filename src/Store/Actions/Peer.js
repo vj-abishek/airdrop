@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import SimpleSignal from '../../Components/Channel/Chat/Utils/SimpleSignal';
 import socket from '../../Components/Functions/Users';
+import CallBy from '../../Components/Utils/Call';
 import firebase from '../../config/fb';
 import 'firebase/database';
 
@@ -14,7 +15,7 @@ const getId = (channelID, state) => {
     (id) => id.channelId === channelID,
   );
   const finalTo = to.from === uid ? to.to : to.from;
-  return finalTo;
+  return { finalTo, uid };
 };
 
 export const InitSignal = (uid, to) => (dispatch) => {
@@ -41,7 +42,7 @@ export const InitOther = () => (dispatch, getState) => {
 };
 
 export const SendFiles = (shareID, channelID, FileList) => (_, getState) => {
-  const finalTo = getId(channelID, getState);
+  const { finalTo } = getId(channelID, getState);
   if (finalTo) {
     socket.emit('shareID', {
       shareID, finalTo, channelID, type: FileList.type, name: FileList.name,
@@ -50,8 +51,7 @@ export const SendFiles = (shareID, channelID, FileList) => (_, getState) => {
 };
 
 export const SendFile = (FileList, url, shareID, channelID) => (dispatch, getState) => {
-  const { uid } = getState().authReducer.user;
-  const to = getId(channelID, getState);
+  const { finalTo: to, uid } = getId(channelID, getState);
 
   if (Peer === null) {
     dispatch({ type: 'ERROR_WHILE_SENDING', payload: 'NOT_CONNECTED' });
@@ -106,7 +106,7 @@ export const RecieveFile = () => (dispatch) => {
     });
 
     Peer.on('receive progress', (data) => {
-      console.log('recieve progresss', data)
+      console.log('recieve progresss', data);
       dispatch({ type: 'PROGRESS', payload: data });
     });
 
@@ -129,4 +129,38 @@ export const getCurrentChannel = (to) => (dispatch) => {
   realTimeDB.ref(to).on('value', (snapshot) => {
     dispatch({ type: 'CURRENT_CHANNEL', payload: { res: snapshot.val() } });
   });
+};
+
+export const Call = (bool, channelId) => (dispatch, getState) => {
+  const { finalTo: to, uid: from } = getId(channelId, getState);
+  const { displayName, photoURL } = getState().authReducer.user;
+
+  const call = new CallBy();
+
+  call.Call(from, to);
+
+  socket.emit('call by', {
+    from: {
+      from,
+      displayName,
+      photoURL,
+    },
+    to,
+  });
+  dispatch({ type: 'SET_VOICE_CALL', payload: bool });
+};
+
+export const dismissCall = (val) => (dispatch, getState) => {
+  const { uid } = getState().authReducer.user;
+  const { from } = getState().peerReducer.callStatus;
+  console.log(from);
+  socket.emit('dismiss call', { to: from, from: uid });
+  dispatch({ type: 'DISMISS_CALL' });
+};
+
+export const joinCall = () => (dispatch, getState) => {
+  const { uid } = getState().authReducer.user;
+  const { from } = getState().peerReducer.callStatus;
+  socket.emit('join call', { to: from, from: uid });
+  dispatch({ type: 'WAITING_FOR_RTC' });
 };

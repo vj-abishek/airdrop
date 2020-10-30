@@ -5,6 +5,8 @@ const initialState = {
   err: null,
   progress: 100,
   type: null,
+  isCall: false,
+  callStatus: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -34,6 +36,22 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         type: payload.type,
+      };
+    case 'SET_VOICE_CALL':
+      return {
+        ...state,
+        isCall: payload,
+      };
+    case 'YOU_HAVE_CALL':
+      return {
+        ...state,
+        callStatus: payload,
+      };
+    case 'DISMISS_CALL':
+      return {
+        ...state,
+        callStatus: null,
+        isCall: false,
       };
     case 'ERROR_WHILE_SENDING':
       return {

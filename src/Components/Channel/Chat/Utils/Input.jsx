@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import sha1 from 'simple-sha1';
 import { nanoid } from 'nanoid';
 import autosize from 'autosize';
 import {
@@ -9,8 +10,15 @@ import {
 } from '../../../../Store/Actions/Message';
 import Styles from '../../../../Styles/responsive.module.css';
 import { isMobile } from '../../../Utils/helper';
+import { SendFile } from '../../../../Store/Actions/Peer';
 
-function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
+function Input({
+  sendMessage,
+  indicateMessage,
+  emoji,
+  typingIndication,
+  sendFile,
+}) {
   const [message, setMessage] = useState('');
   const [indicate, setIndicate] = useState('');
 
@@ -34,6 +42,20 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
     window.addEventListener('keypress', handlePress);
     return () => window.removeEventListener('keypress', handlePress);
   }, []);
+
+  useEffect(() => {
+    document.onpaste = (e) => {
+      Textarea.current.focus();
+      const clipboard = e;
+      if (clipboard.clipboardData.items[0].getAsFile()) {
+        const FileList = clipboard.clipboardData.items[0].getAsFile();
+        const url = URL.createObjectURL(FileList);
+
+        const shareID = sha1.sync(FileList.name + FileList.size);
+        sendFile(FileList, url, shareID, id);
+      }
+    };
+  }, [id, sendFile]);
 
   const handleChange = ({ target }) => {
     const parsed = target.value.trim();
@@ -103,6 +125,11 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
       autosize.update(Textarea.current);
     }
   };
+
+  // const handlePaste = (e) => {
+  //   ;
+  // };
+
   return (
     <>
       <form
@@ -128,6 +155,7 @@ function Input({ sendMessage, indicateMessage, emoji, typingIndication }) {
           onBlur={handleBlur}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
+          // onPaste={handlePaste}
           className={`${Styles.input} text-white text-base`}
         />
       </form>
@@ -168,6 +196,8 @@ const mapDispatchToProps = (dispatch) => ({
       payload: { channelId, type },
     }),
   typingIndication: (status) => dispatch(TypingIndication(status)),
+  sendFile: (FileList, url, shareID, id) =>
+    dispatch(SendFile(FileList, url, shareID, id)),
 });
 
 export default connect(null, mapDispatchToProps)(Input);

@@ -5,6 +5,7 @@ import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
 import Chat from './Utils/Chat';
 import Fotter from './Utils/Fotter';
+import VoiceCallUI from './Utils/VoiceCall';
 import { Pagnination } from '../../../Store/Actions/Message';
 import {
   getCurrentChannel,
@@ -28,6 +29,7 @@ function Conversation({
   Signal,
   peerStatus,
   Recieve,
+  isCall,
 }) {
   const ChatBox = useRef(null);
   const [iteration, setIteration] = useState(0);
@@ -88,6 +90,7 @@ function Conversation({
   return (
     <div className={`${Styles.conversation} relative `}>
       <Header />
+      {isCall && <VoiceCallUI />}
       <div id="ChatBox" ref={ChatBox} onScroll={handleScroll}>
         <ScrollToBottom
           scrollToEnd={{ behavior: 'smooth' }}
@@ -115,6 +118,7 @@ const mapStateToProps = (state) => ({
   currentChannel: state.peerReducer.current,
   currentStatus: state.messageReducer.userStatus,
   peerStatus: state.peerReducer.connected,
+  isCall: state.peerReducer.isCall,
 });
 
 const mapDispatchToProps = (dispatch) => ({
