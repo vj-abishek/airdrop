@@ -7,7 +7,7 @@
 - [x] Can see online status and typing status
 - [x] Messages works offline
 - [x] File transfering 
-- [ ] Audio/Video call
+- [x] Voice call
 
 ## Old SafeShare Repo:
 [old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
