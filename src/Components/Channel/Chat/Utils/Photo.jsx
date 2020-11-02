@@ -15,9 +15,14 @@ const Utils = ({ TypingIndication, id, status }) => {
   else if (status?.status.includes('Online')) return 'Active now';
   else {
     if (status?.LastSeen)
-      return `Active ${formatDistanceToNow(status.LastSeen, {
-        addSuffix: true,
-      })}`;
+      return (
+        <div className={Styles.overFLow}>{`Active ${formatDistanceToNow(
+          status.LastSeen,
+          {
+            addSuffix: true,
+          },
+        )}`}</div>
+      );
     else return '';
   }
 };
