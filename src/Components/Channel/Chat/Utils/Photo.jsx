@@ -77,9 +77,11 @@ const Photo = ({ user, Ustatus, TypingIndication, peerStatus }) => {
         </>
       )}
 
+      {/* Used 164 because 56+44+12+12+40 = 164 */}
+      {/* Where 56 44 40 are size of elements in chat header and 12 12 is padding around */}
       <div
         style={{
-          maxWidth: '190px',
+          maxWidth: `${window.innerWidth - 164}px`,
         }}
         className={`pl-3 text-white text-base justify-center font-bold flex flex-col ${Styles.overFLow}`}
       >
