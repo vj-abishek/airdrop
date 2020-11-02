@@ -73,9 +73,12 @@ const Photo = ({ user, Ustatus, TypingIndication, peerStatus }) => {
       )}
 
       <div
+        style={{
+          maxWidth: '190px',
+        }}
         className={`pl-3 text-white text-base justify-center font-bold flex flex-col ${Styles.overFLow}`}
       >
-        <span>
+        <span className={Styles.overFLow}>
           {data?.isAnonymous && '~'}
           {data?.displayName}
         </span>
