@@ -93,7 +93,7 @@ function Conversation({
       {isCall && <VoiceCallUI />}
       <div
         id="ChatBox"
-        style={{ maxWidth: `${window.innerWidth}` }}
+        style={{ maxWidth: `${window.innerWidth}px` }}
         ref={ChatBox}
         onScroll={handleScroll}
       >
