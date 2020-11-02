@@ -70,12 +70,14 @@ function App({
 
   // pull-to-refresh
   useEffect(() => {
-    PullToRefresh.init({
-      mainElement: 'body',
-      onRefresh() {
-        window.location.reload();
-      },
-    });
+    if (!window.location.pathname.includes('/r')) {
+      PullToRefresh.init({
+        mainElement: 'body',
+        onRefresh() {
+          window.location.reload();
+        },
+      });
+    }
     return () => PullToRefresh.destroyAll();
   }, []);
 
