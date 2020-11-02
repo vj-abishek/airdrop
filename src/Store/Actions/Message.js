@@ -3,6 +3,7 @@ import E2E from '../../Components/Utils/EndToEnd';
 import db from '../../Components/Utils/Message.model';
 
 const e2e = new E2E();
+const messageTone = document.querySelector('#message-tone');
 
 export const sendmessage = (message, details) => async (dispatch, getState) => {
   const { uid, displayName, photoURL } = getState().authReducer.user;
@@ -115,7 +116,8 @@ export const RecieveMessage = () => (dispatch) => {
         ...parsed,
       };
       console.log('New message recieved', parsed);
-      if (window.location.pathname !== `/r/${message.channel}`) {
+      if (!(window.location.pathname === `/r/${message.channel}`)) {
+        messageTone.play();
         const n = new Notification(`${message.displayName}`, {
           icon: message.photoURL,
           body: parsed.message,
