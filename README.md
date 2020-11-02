@@ -8,6 +8,7 @@
 - [x] Messages works offline
 - [x] File transfering 
 - [x] Voice call
+- [ ] Bug fix
 
 ## Old SafeShare Repo:
 [old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
