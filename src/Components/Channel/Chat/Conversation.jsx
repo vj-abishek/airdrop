@@ -91,7 +91,12 @@ function Conversation({
     <div className={`${Styles.conversation} relative `}>
       <Header />
       {isCall && <VoiceCallUI />}
-      <div id="ChatBox" ref={ChatBox} onScroll={handleScroll}>
+      <div
+        id="ChatBox"
+        style={{ maxWidth: `${window.innerWidth}` }}
+        ref={ChatBox}
+        onScroll={handleScroll}
+      >
         <ScrollToBottom
           scrollToEnd={{ behavior: 'smooth' }}
           className={`${Styles.Chat} pb-2`}
