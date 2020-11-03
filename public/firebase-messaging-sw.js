@@ -33,10 +33,15 @@ messaging.setBackgroundMessageHandler(function (payload) {
         body: `You got a new message from ${parsed.displayName}`,
         icon: parsed.photoURL,
         vibrate: [300, 100, 400, 100, 400, 100, 400],
-        data: { url: `http://localhost:3000/r/${parsed.channel}` },
+        data: { url: `https://relp.now.sh/r/${parsed.channel}` },
         actions: [{ action: "open_url", title: "Read Message" }],
-        click_action: `http://localhost:3000/r/${parsed.channel}`
+        click_action: `https://relp.now.sh/r/${parsed.channel}`
     };
+
+    self.addEventListener('notificationclick', function(event) {
+        event.notification.close();
+        event.waitUntil(self.clients.openWindow(`https://relp.now.sh/r/${parsed.channel}`));
+    });
 
     return self.registration.showNotification(notificationTitle, notificationOptions);
 });
