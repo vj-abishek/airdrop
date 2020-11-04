@@ -126,10 +126,6 @@ function Input({
     }
   };
 
-  // const handlePaste = (e) => {
-  //   ;
-  // };
-
   return (
     <>
       <form
@@ -155,7 +151,6 @@ function Input({
           onBlur={handleBlur}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          // onPaste={handlePaste}
           className={`${Styles.input} text-white text-base`}
         />
       </form>

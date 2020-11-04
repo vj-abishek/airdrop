@@ -121,6 +121,7 @@
 
 .text_wrapper_sanitize > * {
   word-wrap: break-word;
+  white-space:pre-wrap;
 }
 
 .hwx {

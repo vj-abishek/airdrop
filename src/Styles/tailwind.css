@@ -29,12 +29,18 @@ html {
   outline: none;
 }
 
-span > a {
+p > a {
   color: #73eaff;
+}
+p > a:hover {
+  text-decoration: underline;
 }
 
 .otherStyle > a {
   color: var(--color-accent);
+}
+.otherStyle > a:hover {
+  text-decoration: underline;
 }
 
 .bg-color {

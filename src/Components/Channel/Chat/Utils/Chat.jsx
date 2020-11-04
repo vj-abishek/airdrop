@@ -6,7 +6,7 @@ import marked from 'marked';
 import { connect } from 'react-redux';
 import Styles from '../../../../Styles/responsive.module.css';
 
-marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
+// marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
 function sanitize(text) {
   return marked(
@@ -122,24 +122,24 @@ const Utils = ({ data, openTab, uid, status }) => {
   }
   if (data.type === 'text/plain') {
     return (
-      <>
-        <div className="font-sans">
-          <span
-            style={{ fontSize: '0.9rem' }}
-            onClick={openTab}
-            className={`${Styles.text_wrapper_sanitize} ${
-              !(data.from === uid) && 'otherStyle'
-            }`}
-            dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
-          />
-          <span className={Styles.hwx} />
-        </div>
-        <div className={Styles.meta}>
+      <div className="flex">
+        <div
+          style={{
+            fontSize: '0.9rem',
+            wordBreak: 'break-word',
+          }}
+          onClick={openTab}
+          className={`${Styles.text_wrapper_sanitize} ${
+            !(data.from === uid) && 'otherStyle'
+          }`}
+          dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
+        ></div>
+        <div style={{ alignSelf: 'flex-end' }} className={`${Styles.meta}`}>
           <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
             {format(new Date(data.time), 'hh:mm a') || NaN}
           </span>
         </div>
-      </>
+      </div>
     );
   }
   return (
