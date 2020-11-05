@@ -54,10 +54,15 @@ function Section({ handleErr, handleSuccess, uid }) {
         if (result.length === 1 && result[0].notification) {
           setNotificationInDB(result[0].notification);
           setHasInDb(true);
-        } else {
+          return;
+        }
+        if (result.length === 1 && result[0].notification === undefined) {
           setNotificationInDB(false);
           setHasInDb(true);
+          return;
         }
+
+        setNotificationInDB(false);
       } catch (err) {
         console.log(err);
         setNotificationInDB(false);

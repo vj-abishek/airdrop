@@ -15,8 +15,13 @@ function Section({ uid }) {
         .equalsIgnoreCase(uid)
         .toArray()
         .then((data) => {
-          if (data.length === 1) {
+          if (data.length === 1 && data[0].autoDownload) {
             setChecked(data[0].autoDownload);
+            setHasInDb(true);
+            return;
+          }
+          if (data.length === 1 && data[0].autoDownload === undefined) {
+            setChecked(false);
             setHasInDb(true);
           }
         });
