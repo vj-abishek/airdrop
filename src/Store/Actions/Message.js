@@ -116,8 +116,7 @@ export const RecieveMessage = () => (dispatch) => {
         ...parsed,
       };
       console.log('New message recieved', parsed);
-      if (window.location.pathname !== `/r/${message.channel}`) {
-        console.log('document focus', document.hasFocus());
+      if (!window.location.href.includes(message.channel)) {
         messageTone.play();
         const n = new Notification(`${message.displayName}`, {
           icon: message.photoURL,
