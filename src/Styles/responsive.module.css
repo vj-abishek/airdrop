@@ -119,7 +119,7 @@
   margin:5px 0 5px 0;
 }
 
-.text_wrapper_sanitize > * {
+.text_wrapper_sanitize > p {
   word-wrap: break-word;
   white-space:pre-wrap;
 }

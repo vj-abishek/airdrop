@@ -15,28 +15,24 @@ function Section({ uid }) {
         .equalsIgnoreCase(uid)
         .toArray()
         .then((data) => {
-          console.log(data);
-          if (data) {
+          if (data.length === 1) {
             setChecked(data[0].autoDownload);
             setHasInDb(true);
           }
         });
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
   }, [checked, uid, hasInDb]);
 
   const Change = () => {
-    console.log(hasInDb);
     if (hasInDb) {
-      console.log('Im herer');
       db.uid
         .update(uid, {
           id: uid,
           autoDownload: !checked,
         })
         .then(() => {
-          console.log('success');
           setChecked(!checked);
         });
     } else {
@@ -46,7 +42,6 @@ function Section({ uid }) {
           autoDownload: !checked,
         })
         .then(() => {
-          console.log('Success');
           setChecked(!checked);
         })
         .catch((err) => console.log(err));

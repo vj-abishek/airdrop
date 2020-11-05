@@ -125,7 +125,7 @@ const Utils = ({ data, openTab, uid, status }) => {
       <div className="flex">
         <div
           style={{
-            fontSize: '0.9rem',
+            fontSize: '0.777em',
             wordBreak: 'break-word',
           }}
           onClick={openTab}
