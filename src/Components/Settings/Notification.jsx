@@ -25,7 +25,6 @@ function Section({ handleErr, handleSuccess, uid }) {
       if (Notification.permission === 'granted') {
         setChecked((c) => !c);
         if (notificationInDb === false) {
-          handleSuccess('Notifications Enabled 🥳🥳');
           const token = await messaging.getToken();
           console.log(token);
           if (hasInDb) {
