@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Toggle from './ToggleButtons';
 import firebase from '../../config/fb';
+import db from '../Channel/Chat/Utils/Settings.model';
 import 'firebase/messaging';
 import socket from '../Functions/Users';
 
@@ -16,12 +17,55 @@ try {
 
 function Section({ handleErr, handleSuccess, uid }) {
   const [checked, setChecked] = useState(false);
+  const [hasInDb, setHasInDb] = useState(false);
+  const [notificationInDb, setNotificationInDB] = useState(null);
 
   useEffect(() => {
-    if (Notification.permission === 'granted') {
-      setChecked((c) => !c);
+    async function effect() {
+      if (Notification.permission === 'granted') {
+        setChecked((c) => !c);
+        if (notificationInDb === false) {
+          handleSuccess('Notifications Enabled 🥳🥳');
+          const token = await messaging.getToken();
+          console.log(token);
+          if (hasInDb) {
+            await db.uid.update(uid, {
+              notification: true,
+            });
+          } else {
+            db.uid
+              .add({
+                id: uid,
+                notification: true,
+              })
+              .catch((err) => console.log(err));
+          }
+          socket.emit('notification token', { uid, token });
+        }
+      }
     }
-  }, []);
+    effect();
+  }, [notificationInDb, handleSuccess, hasInDb, uid]);
+
+  useEffect(() => {
+    async function effect() {
+      try {
+        const result = await db.uid.where('id').equalsIgnoreCase(uid).toArray();
+
+        if (result.length === 1 && result[0].notification) {
+          setNotificationInDB(result[0].notification);
+          setHasInDb(true);
+        } else {
+          setNotificationInDB(false);
+          setHasInDb(true);
+        }
+      } catch (err) {
+        console.log(err);
+        setNotificationInDB(false);
+      }
+    }
+    effect();
+  }, [hasInDb, notificationInDb, uid]);
 
   useEffect(() => {
     // Code to get refresh Token
@@ -56,6 +100,19 @@ function Section({ handleErr, handleSuccess, uid }) {
         handleSuccess('Notifications Enabled 🥳🥳');
         const token = await messaging.getToken();
         console.log(token);
+        if (hasInDb) {
+          await db.uid.update(uid, {
+            id: uid,
+            notification: true,
+          });
+        } else {
+          db.uid
+            .add({
+              id: uid,
+              notification: true,
+            })
+            .catch((err) => console.log(err));
+        }
         socket.emit('notification token', { uid, token });
       }
 
