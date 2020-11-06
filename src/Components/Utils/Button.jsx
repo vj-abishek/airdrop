@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { useRipple } from 'react-use-ripple';
 
 export default function Button({ children }) {
@@ -6,7 +7,9 @@ export default function Button({ children }) {
 
   useRipple(buttonRef);
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
       type="button"
       id="generateURl"
       ref={buttonRef}
@@ -25,6 +28,6 @@ export default function Button({ children }) {
       >
         {children}
       </span>
-    </button>
+    </motion.button>
   );
 }

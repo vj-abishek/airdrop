@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Button from '../../Utils/Button';
 import Styles from '../../../Styles/responsive.module.css';
 
@@ -32,7 +33,11 @@ export default function Nav() {
           className="py-1 rounded-full navlink "
           activeClassName="activated"
         >
-          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`${Styles.width} flex py-2 px-3 items-center`}
+          >
             <div className="pr-3 text-2xl ">
               <svg viewBox="0 0 24 24" className="w-6 fill-current ">
                 <g>
@@ -41,14 +46,18 @@ export default function Nav() {
               </svg>
             </div>
             <div className="text-xl font-bold hidden lg:block"> Home </div>
-          </div>
+          </motion.div>
         </NavLink>
         <NavLink
           to="/settings"
           activeClassName="activated"
           className="py-1 rounded-full navlink"
         >
-          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`${Styles.width} flex py-2 px-3 items-center`}
+          >
             <div className="pr-3 text-2xl">
               <svg viewBox="0 0 24 24" className="w-6 fill-current">
                 <g>
@@ -58,14 +67,18 @@ export default function Nav() {
               </svg>
             </div>
             <div className="text-xl font-bold hidden lg:block">Settings</div>
-          </div>
+          </motion.div>
         </NavLink>
         <NavLink
           to="/about"
           activeClassName="activated"
           className="py-1 rounded-full navlink "
         >
-          <div className={`${Styles.width} flex py-2 px-3 items-center`}>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`${Styles.width} flex py-2 px-3 items-center`}
+          >
             <div className="pr-3 text-2xl ">
               <svg
                 width="24"
@@ -91,7 +104,7 @@ export default function Nav() {
               </svg>
             </div>
             <div className="text-xl font-bold hidden lg:block"> About </div>
-          </div>
+          </motion.div>
         </NavLink>
         <NavLink to="/create" className="hidden lg:block lg:mt-2">
           <Button>Invite Friends</Button>
