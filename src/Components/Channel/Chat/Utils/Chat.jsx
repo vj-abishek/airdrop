@@ -123,12 +123,19 @@ const Utils = ({ data, openTab, uid, status }) => {
   if (data.type === 'text/plain') {
     return (
       <>
-        <div className="flex">
+        <div
+          className="flex"
+          style={{
+            fontFamily: "'Open Sans', sans-serif",
+          }}
+        >
           <div
             style={{
               fontSize: '14.2px',
             }}
             onClick={openTab}
+            role="presentation"
+            onKeyPress={(e) => console.log(e)}
             className={`${Styles.text_wrapper_sanitize} ${
               !(data.from === uid) && 'otherStyle'
             }`}
