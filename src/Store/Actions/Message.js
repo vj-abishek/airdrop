@@ -47,7 +47,7 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
 export const SyncMessages = (channelId) => async (dispatch, getState) => {
   const { data } = getState().messageReducer;
 
-  if (data.has(channelId) && data.get(channelId).fetch) return;
+  if (data.has(channelId) && data.get(channelId).needFetch === false) return;
 
   try {
     const c = await db.message.where('channel').equals(channelId).count();
@@ -60,7 +60,9 @@ export const SyncMessages = (channelId) => async (dispatch, getState) => {
     console.log(fetch);
     dispatch({
       type: 'ON_MESSAGE',
-      payload: { channel: channelId, messages: fetch, next: c - 20 },
+      payload: {
+        channel: channelId, messages: fetch, next: c - 20, needFetch: false,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -83,7 +85,9 @@ export const Pagnination = (channelId) => async (dispatch, getState) => {
     console.log(fetch);
     dispatch({
       type: 'SET_MESSAGE_PAGINATION',
-      payload: { channel: channelId, messages: fetch, next: next - 20 },
+      payload: {
+        channel: channelId, messages: fetch, next: next - 20, needFetch: false, fromDb: true,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -115,8 +119,10 @@ export const RecieveMessage = () => (dispatch) => {
         to: message.to,
         ...parsed,
       };
+      await db.message.add(final);
       console.log('New message recieved', parsed);
-      if (!window.location.href.includes(message.channel)) {
+      const locatioHref = window.location.href;
+      if (!locatioHref.includes(message.channel)) {
         messageTone.play();
         const n = new Notification(`${message.displayName}`, {
           icon: message.photoURL,
@@ -124,12 +130,29 @@ export const RecieveMessage = () => (dispatch) => {
           onclick: `http://localhost:3000/r/${message.channel}`,
         });
         console.log(n);
+        dispatch({
+          type: 'ON_MESSAGE',
+          payload: {
+            messages: final,
+            channel: message.channel,
+            needFetch: true,
+            fromDb: false,
+            outsideRoom: true,
+          },
+        });
       }
-      dispatch({
-        type: 'ON_MESSAGE',
-        payload: { messages: final, channel: message.channel },
-      });
-      await db.message.add(final);
+      if (locatioHref.includes(message.channel)) {
+        dispatch({
+          type: 'ON_MESSAGE',
+          payload: {
+            messages: final,
+            channel: message.channel,
+            needFetch: false,
+            fromDb: false,
+            outsideRoom: false,
+          },
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -144,10 +167,10 @@ export const RecieveMessage = () => (dispatch) => {
           ...msg,
           ...parsed,
         };
-        dispatch({
-          type: 'ON_MESSAGE',
-          payload: { channel: msg.channel, messages: final },
-        });
+        // dispatch({
+        //   type: 'ON_MESSAGE',
+        //   payload: { channel: msg.channel, messages: final, fromMongoDb: true },
+        // });
         await db.message.add(final);
         socket.emit('message recieved', msg);
       } catch (err) {
