@@ -122,24 +122,26 @@ const Utils = ({ data, openTab, uid, status }) => {
   }
   if (data.type === 'text/plain') {
     return (
-      <div className="flex">
-        <div
-          style={{
-            fontSize: '0.777em',
-            wordBreak: 'break-word',
-          }}
-          onClick={openTab}
-          className={`${Styles.text_wrapper_sanitize} ${
-            !(data.from === uid) && 'otherStyle'
-          }`}
-          dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
-        ></div>
+      <>
+        <div className="flex">
+          <div
+            style={{
+              fontSize: '14.2px',
+            }}
+            onClick={openTab}
+            className={`${Styles.text_wrapper_sanitize} ${
+              !(data.from === uid) && 'otherStyle'
+            }`}
+            dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
+          />
+          <span className={Styles.hwx} />
+        </div>
         <div style={{ alignSelf: 'flex-end' }} className={`${Styles.meta}`}>
           <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
             {format(new Date(data.time), 'hh:mm a') || NaN}
           </span>
         </div>
-      </div>
+      </>
     );
   }
   return (

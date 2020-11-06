@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import { addSlug } from '../../../Store/Actions/Firestore';
+import Styles from '../../../Styles/responsive.module.css';
 
 function Popup({ onClicks, show, add, slug, generated }) {
   const [copied, setCopy] = useState(false);
@@ -79,7 +80,7 @@ function Popup({ onClicks, show, add, slug, generated }) {
                   </svg>
                 </div>
               </header>
-              <div className="mt-3 text-accent text-sm">
+              <div className={`mt-3 ${Styles.gray1} text-sm`}>
                 Share this link with your friend to grant access to your room!
               </div>
               <div className="flex justify-evenly mt-2 p-2 rounded bg-primary">
@@ -103,7 +104,7 @@ function Popup({ onClicks, show, add, slug, generated }) {
                   {copied ? 'copied' : 'copy'}
                 </div>
               </div>
-              <div className="text-accent text-xs mt-1">
+              <div className={`${Styles.gray1} text-xs mt-1`}>
                 Your invite link expires only when accepted.
               </div>
             </div>
