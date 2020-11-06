@@ -1,10 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PullToRefresh from 'pulltorefreshjs';
 import { userState } from './Store/Actions/Login';
@@ -87,7 +82,7 @@ function App({
   const slug = path.split('/')[2];
 
   return (
-    <Router>
+    <>
       {/* Wait for the AuthState */}
 
       {loginState.isLoginLoading && <Loading />}
@@ -135,7 +130,7 @@ function App({
           </Suspense>
         </div>
       )}
-    </Router>
+    </>
   );
 }
 
