@@ -12,7 +12,7 @@ export default function ToggleButtons({
   return (
     <div
       style={{ gridTemplateColumns: '50px 1fr 50px' }}
-      className="grid p-3 items-center"
+      className="grid p-3 pb-0 items-center"
     >
       {children}
 
