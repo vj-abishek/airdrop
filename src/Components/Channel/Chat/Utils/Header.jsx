@@ -25,7 +25,12 @@ function Header({ setVoiceCall }) {
   };
   return (
     <header
-      className={`flex flex-row bg-primary px-3 sticky z-50 top-0 w-full items-center justify-between ${Styles.borderBorder}`}
+      className={`flex flex-row bg-primary px-3 sticky z-50 top-0 w-full items-center justify-between ${
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? Styles.borderBorder
+          : 'shadow-md'
+      }`}
     >
       <div className="flex justify-between">
         <BackButon />

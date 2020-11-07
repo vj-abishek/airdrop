@@ -77,7 +77,7 @@ function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
           minHeight: '60px',
           transition: 'all 1s',
         }}
-        className="bg-primary sticky px-2 z-50 py-1 lg:px-3 bottom-0 w-full flex flex-row justify-between items-center "
+        className="bg-primary shadow-md sticky px-2 z-50 py-1 lg:px-3 bottom-0 w-full flex flex-row justify-between items-center "
       >
         <div className="flex flex-row items-center justify-around">
           <svg

@@ -25,7 +25,7 @@
   grid-template-columns: 24px 1fr;
 }
 .gray1 {
-  color: #f1f1f2a1;
+  color: var(--color-gray);
 }
 .tick {
   color: #e2e2e2;
@@ -99,7 +99,7 @@
 }
 
 .other {
-  background-color: #172729;
+  background-color:var(--other-color);
   color: var(--color-white);
 }
 .meta {

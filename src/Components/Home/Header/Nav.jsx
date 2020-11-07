@@ -7,7 +7,7 @@ import Styles from '../../../Styles/responsive.module.css';
 export default function Nav() {
   return (
     <>
-      <nav className="flex text-white  flex-row justify-around py-1 lg:w-64 lg:flex-col lg:p-3 shadow-md">
+      <nav className="flex text-white  flex-row justify-around py-1 lg:w-64 lg:flex-col lg:p-3">
         <NavLink to="/" className="hidden lg:block">
           <div
             className="text-white  text-lg pt-2  flex items-center justify-center rounded-full hover:bg-secondary"

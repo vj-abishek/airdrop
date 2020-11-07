@@ -3,11 +3,28 @@
 
 @media (prefers-color-scheme: light) {
   body {
-    --color-primary: #f4f4f9;
-    --color-secondary: #004552;
+    --color-primary:#d3ebef;
+    --color-secondary: #91d6e3;
     --color-accent: #00b2d2;
     --color-white: #061e23;
     --color-light: #187a8c;
+    --color-gray: #555;
+    --other-color: #f4f4f9;
+    background-color: var(--color-primary) !important;
+  }
+  
+  .bg-primary{
+    background-color: var(--color-primary) !important;
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary) !important;
+  }
+
+  .text-white{
+    color: var(--color-white) !important;
+  }
+  .text-light{
+    color:#061e23 !important;
   }
 }
 
@@ -19,6 +36,7 @@
     --color-white: #f4f4f9;
     --color-light: #187a8c;
     --color-gray: #f1f1f2a1;
+    --other-color:#172729;
   }
 }
 
