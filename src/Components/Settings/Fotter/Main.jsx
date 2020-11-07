@@ -7,7 +7,7 @@ export default function Main({ href, children }) {
     <NavLink to={href}>
       <div
         style={{ gridTemplateColumns: '50px 1fr 50px' }}
-        className="grid p-3 p-1 items-center"
+        className="grid p-3 pb-0 items-center"
       >
         {children}
 
