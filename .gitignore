@@ -29,3 +29,5 @@ yarn-error.log*
 build.zip
 
 debug.log
+
+dist
