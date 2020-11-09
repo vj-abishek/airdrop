@@ -6,7 +6,31 @@ import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
 
-const Utils = ({ TypingIndication, snapShot, status }) => {
+const MessageCount = ({ children, messageCount }) => (
+  <div className="flex flex-row justify-between">
+    <div>{children}</div>
+    {messageCount > 0 && (
+      <div
+        style={{
+          padding: '.3em .4em .4em',
+          width: '20px',
+          textAlign: 'center',
+          backgroundColor: 'var(--color-accent)',
+          borderRadius: ' 1.1em',
+          color: 'rgb(19 28 33)',
+          fontWeight: 600,
+          fontSize: '12px',
+          lineHeight: '1em',
+          verticalAlign: ' top',
+        }}
+      >
+        {messageCount}
+      </div>
+    )}
+  </div>
+);
+
+const Utils = ({ TypingIndication, snapShot, status, count }) => {
   const [typing, setTyping] = useState('NO_CONTENT');
 
   useEffect(() => {
@@ -15,16 +39,23 @@ const Utils = ({ TypingIndication, snapShot, status }) => {
 
   if (typing === 'CONTENT')
     return (
-      <span style={{ fontSize: '13px' }} className="text-accent">
-        typing...
-      </span>
+      <MessageCount messageCount={count}>
+        <span style={{ fontSize: '13px' }} className="text-accent">
+          typing...
+        </span>
+      </MessageCount>
     );
-  else if (status?.status.includes('Online')) return 'Active now';
+  else if (status?.status.includes('Online'))
+    return <MessageCount messageCount={count}>Active now</MessageCount>;
   else {
     if (status?.LastSeen)
-      return `Active ${formatDistanceToNow(status.LastSeen, {
-        addSuffix: true,
-      })}`;
+      return (
+        <MessageCount messageCount={count}>
+          {`Active ${formatDistanceToNow(status.LastSeen, {
+            addSuffix: true,
+          })}`}
+        </MessageCount>
+      );
     else return 'Tap to chat';
   }
 };
@@ -37,6 +68,7 @@ const Single = ({
   userStatus,
   TypingIndication,
   uid,
+  Count,
 }) => {
   const { id } = useParams();
 
@@ -44,6 +76,7 @@ const Single = ({
     data &&
     data.map((snapShot, i, arr) => {
       const cond = arr.length === i + 1;
+      let messagecount = 0;
       if (snapShot === undefined) return '';
       const hash = hashTable.includes(snapShot.slug);
       if (snapShot.generated === false && snapShot.from === user.uid && !hash) {
@@ -69,6 +102,10 @@ const Single = ({
 
       if (userStatus.has(snapShot.pro.data().uid)) {
         status = userStatus.get(snapShot.pro.data().uid).status;
+      }
+
+      if (Count.has(snapShot.channelId)) {
+        messagecount = Count.get(snapShot.channelId).messageCount;
       }
 
       return (
@@ -125,6 +162,7 @@ const Single = ({
                   snapShot={snapShot}
                   TypingIndication={TypingIndication}
                   status={status}
+                  count={messagecount}
                 />
               </div>
             </div>
@@ -145,6 +183,7 @@ const mapStateToProps = (state) => {
     hashTable: state.channelReducer.visited,
     TypingIndication: state.messageReducer.data,
     uid: state.authReducer.user.uid,
+    Count: state.messageReducer.messageCount,
   };
 };
 

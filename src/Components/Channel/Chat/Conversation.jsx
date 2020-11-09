@@ -30,6 +30,7 @@ function Conversation({
   peerStatus,
   Recieve,
   isCall,
+  clearMessage,
 }) {
   const ChatBox = useRef(null);
   const [iteration, setIteration] = useState(0);
@@ -40,6 +41,12 @@ function Conversation({
     channel(channelId, uid, false);
     return () => channel(channelId, uid, true);
   }, [channel, channelId, uid]);
+
+  // Clear local message
+  useEffect(() => {
+    clearMessage(channelId, channelId);
+    console.log('clearing messages');
+  }, [clearMessage, channelId]);
 
   useEffect(() => {
     if (window.location.hash === '') {
@@ -134,6 +141,8 @@ const mapDispatchToProps = (dispatch) => ({
   Signal: (uid, to) => dispatch(InitSignal(uid, to)),
   Init: () => dispatch(InitOther()),
   Recieve: () => dispatch(RecieveFile()),
+  clearMessage: (channelID) =>
+    dispatch({ type: 'CLEAR_MESSAGE_COUNT', payload: { channel: channelID } }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversation);

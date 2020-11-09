@@ -9,6 +9,7 @@ const initialState = {
   userStatus: map,
   currentChannel: map,
   localCache: map,
+  messageCount: map,
 };
 
 const getPendingMessages = (draft, channelID) => {
@@ -103,6 +104,29 @@ export default produce((draft, { type, payload }) => {
       return draft;
     }
 
+    case 'SET_MESSAGE_COUNT': {
+      const hasInMap = draft.messageCount.has(payload.channel);
+      const getMap = draft.messageCount.get(payload.channel);
+
+      if (hasInMap) {
+        getMap.messageCount += 1;
+      } else {
+        draft.messageCount.set(payload.channel, {
+          messageCount: 1,
+        });
+      }
+      return draft;
+    }
+
+    case 'CLEAR_MESSAGE_COUNT': {
+      const hasInMap = draft.messageCount.has(payload.channel);
+
+      if (hasInMap) {
+        draft.messageCount.delete(payload.channel);
+      }
+
+      return draft;
+    }
     case 'SET_MESSAGE_PAGINATION': {
       const book = draft.data.get(payload.channel);
       book.messages = payload.messages;

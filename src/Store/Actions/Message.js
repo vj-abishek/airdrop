@@ -140,6 +140,7 @@ export const RecieveMessage = () => (dispatch) => {
             outsideRoom: true,
           },
         });
+        dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
       }
       if (locatioHref.includes(message.channel)) {
         dispatch({
@@ -174,6 +175,8 @@ export const RecieveMessage = () => (dispatch) => {
             type: 'MESSAGE_FROM_DISK',
             payload: { channel: msg.channel, messages: final, fromMongoDb: true },
           });
+        } else {
+          dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: msg.channel } });
         }
 
         await db.message.add(final);
