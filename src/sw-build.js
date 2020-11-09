@@ -6,7 +6,7 @@ const buildSW = () =>
   workboxBuild
     .injectManifest({
       swSrc: 'src/sw-template.js',
-      swDest: 'build/sw.js',
+      swDest: 'build/pwabuilder-sw.js',
       globDirectory: 'build',
       globPatterns: ['**/*.{js,css,html,png}'],
     })
