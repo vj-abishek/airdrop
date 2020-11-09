@@ -75,9 +75,16 @@ firebase.initializeApp(firebaseConfig);
 // messages.
 const messaging = firebase.messaging();
 
+
+
 messaging.setBackgroundMessageHandler(async function (payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
     const parsed = JSON.parse(payload.data.body);
+
+    self.addEventListener('notificationclick', function (event) {
+        event.notification.close();
+        event.waitUntil(self.clients.openWindow(`https://relp.now.sh/r/${parsed.channel}`));
+    });
 
 
     // try {
@@ -95,15 +102,10 @@ messaging.setBackgroundMessageHandler(async function (payload) {
         body: `You got a new message from ${parsed.displayName}`,
         icon: parsed.photoURL,
         vibrate: [300, 100, 400, 100, 400, 100, 400],
-        data: { url: 'https://relp.now.sh/' },
+        data: { url: `https://relp.now.sh/r/${parsed.channel}` },
         actions: [{ action: "open_url", title: "Read Message" }],
-        click_action: 'https://relp.now.sh/'
+        click_action: `https://relp.now.sh/r/${parsed.channel}`
     };
-
-    self.addEventListener('notificationclick', function (event) {
-        event.notification.close();
-        event.waitUntil(self.clients.openWindow('https://relp.now.sh/'));
-    });
 
     return self.registration.showNotification(notificationTitle, notificationOptions);
 });

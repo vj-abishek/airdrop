@@ -167,10 +167,15 @@ export const RecieveMessage = () => (dispatch) => {
           ...msg,
           ...parsed,
         };
-        // dispatch({
-        //   type: 'ON_MESSAGE',
-        //   payload: { channel: msg.channel, messages: final, fromMongoDb: true },
-        // });
+        const locatioHref = window.location.href;
+
+        if (locatioHref.includes(msg.channel)) {
+          dispatch({
+            type: 'MESSAGE_FROM_DISK',
+            payload: { channel: msg.channel, messages: final, fromMongoDb: true },
+          });
+        }
+
         await db.message.add(final);
         socket.emit('message recieved', msg);
       } catch (err) {

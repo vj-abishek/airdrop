@@ -8,6 +8,15 @@ const initialState = {
   data: map,
   userStatus: map,
   currentChannel: map,
+  localCache: map,
+};
+
+const getPendingMessages = (draft, channelID) => {
+  if (draft.localCache.has(channelID)) {
+    const localMessages = draft.localCache.get(channelID);
+    draft.data.get(channelID).messages.push(localMessages.messages);
+    draft.localCache.delete(channelID);
+  }
 };
 
 export default produce((draft, { type, payload }) => {
@@ -56,6 +65,8 @@ export default produce((draft, { type, payload }) => {
           next: payload.next,
           indication: 'NO_CONTENT',
         });
+        // check if there are any pending messages
+        getPendingMessages(draft, payload.channel);
         return draft;
       }
 
@@ -68,11 +79,27 @@ export default produce((draft, { type, payload }) => {
           next: payload.next,
           indication: 'NO_CONTENT',
         });
+
+        // check if there are any pending messages
+        getPendingMessages(draft, payload.channel);
         return draft;
       }
 
       draft.data.get(payload.channel).messages.push(payload.messages);
 
+      return draft;
+    }
+
+    case 'MESSAGE_FROM_DISK': {
+      const hasInMap = draft.data.has(payload.channel);
+      const getMap = draft.data.get(payload.channel);
+      if (hasInMap && Array.isArray(getMap.messages)) {
+        getMap.messages.push(payload.messages);
+      } else {
+        draft.localCache.set(payload.channel, {
+          messages: payload.messages,
+        });
+      }
       return draft;
     }
 

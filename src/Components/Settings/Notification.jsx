@@ -40,6 +40,7 @@ function Section({ handleErr, handleSuccess, uid }) {
               .catch((err) => console.log(err));
           }
           socket.emit('notification token', { uid, token });
+          setChecked(true);
         }
       }
     }
