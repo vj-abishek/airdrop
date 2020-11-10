@@ -16,14 +16,13 @@ const MessageCount = ({ children, messageCount }) => (
           padding: '.3em .4em .4em',
           width: '20px',
           height: '20px',
-          lineHeight: '20px',
           textAlign: 'center',
           backgroundColor: 'var(--color-accent)',
           borderRadius: ' 1.1em',
           color: 'rgb(19 28 33)',
           fontWeight: 600,
           fontSize: '12px',
-          lineHeight: '1em',
+          lineHeight: '1',
           verticalAlign: ' top',
         }}
       >
