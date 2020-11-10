@@ -124,12 +124,16 @@ export const RecieveMessage = () => (dispatch) => {
       const locatioHref = window.location.href;
       if (!locatioHref.includes(message.channel)) {
         messageTone.play();
-        const n = new Notification(`${message.displayName}`, {
-          icon: message.photoURL,
-          body: parsed.message,
-          onclick: `http://localhost:3000/r/${message.channel}`,
-        });
-        console.log(n);
+        try {
+          const n = new Notification(`${message.displayName}`, {
+            icon: message.photoURL,
+            body: parsed.message,
+            onclick: `http://localhost:3000/r/${message.channel}`,
+          });
+          console.log(n);
+        } catch (err) {
+          console.log(err);
+        }
         dispatch({
           type: 'ON_MESSAGE',
           payload: {
@@ -141,6 +145,7 @@ export const RecieveMessage = () => (dispatch) => {
           },
         });
         dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
+        console.log('SET_MESSAGE_COUNT');
       }
       if (locatioHref.includes(message.channel)) {
         dispatch({
