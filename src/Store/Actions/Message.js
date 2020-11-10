@@ -160,6 +160,7 @@ export const RecieveMessage = () => (dispatch) => {
 
         if (!document.hasFocus()) {
           dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
+          messageTone.play();
         }
       }
     } catch (err) {
