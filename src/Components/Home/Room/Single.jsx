@@ -22,7 +22,7 @@ const MessageCount = ({ children, messageCount }) => (
           color: 'rgb(19 28 33)',
           fontWeight: 600,
           fontSize: '12px',
-          lineHeight: '1em',
+          lineHeight: '1',
           verticalAlign: ' top',
         }}
       >
