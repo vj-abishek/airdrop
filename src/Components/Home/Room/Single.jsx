@@ -70,7 +70,6 @@ const Single = ({
   userStatus,
   TypingIndication,
   uid,
-  Count,
 }) => {
   const { id } = useParams();
 
@@ -79,7 +78,6 @@ const Single = ({
     data.map((snapShot, i, arr) => {
       const cond = arr.length === i + 1;
       let messagecount = 0;
-      let size = 0;
       if (snapShot === undefined) return '';
       const hash = hashTable.includes(snapShot.slug);
       if (snapShot.generated === false && snapShot.from === user.uid && !hash) {
@@ -120,15 +118,6 @@ const Single = ({
           }`}
           key={snapShot.channelId}
         >
-          {size > 0 ? (
-            <Helmet>
-              <title>{`(${size}) Relp`}</title>
-            </Helmet>
-          ) : (
-            <Helmet>
-              <title>Relp</title>
-            </Helmet>
-          )}
           <div
             className={`grid ${
               Styles.grid7
