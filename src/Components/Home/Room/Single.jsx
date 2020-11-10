@@ -111,7 +111,6 @@ const Single = ({
 
       if (Count.has(snapShot.channelId)) {
         messagecount = Count.get(snapShot.channelId).messageCount;
-        console.log(messagecount);
       }
 
       return (

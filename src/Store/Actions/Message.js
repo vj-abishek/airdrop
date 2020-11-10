@@ -145,7 +145,6 @@ export const RecieveMessage = () => (dispatch) => {
           },
         });
         dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
-        console.log('SET_MESSAGE_COUNT');
       }
       if (locatioHref.includes(message.channel)) {
         dispatch({
@@ -158,6 +157,10 @@ export const RecieveMessage = () => (dispatch) => {
             outsideRoom: false,
           },
         });
+
+        if (!document.hasFocus()) {
+          dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
+        }
       }
     } catch (err) {
       console.log(err);
