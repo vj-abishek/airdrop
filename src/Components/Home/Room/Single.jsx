@@ -9,7 +9,9 @@ import { UpdateChannel } from '../../../Store/Actions/Channel';
 
 const MessageCount = ({ children, messageCount }) => (
   <div className="flex flex-row justify-between">
-    <div className={messageCount > 0 && 'text-white'}>{children}</div>
+    <div className={messageCount > 0 && 'text-white' + Styles.overFLow}>
+      {children}
+    </div>
     {messageCount > 0 && (
       <div
         style={{
