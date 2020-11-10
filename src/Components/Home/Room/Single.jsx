@@ -16,13 +16,14 @@ const MessageCount = ({ children, messageCount }) => (
           padding: '.3em .4em .4em',
           width: '20px',
           height: '20px',
+          lineHeight: '20px',
           textAlign: 'center',
           backgroundColor: 'var(--color-accent)',
           borderRadius: ' 1.1em',
           color: 'rgb(19 28 33)',
           fontWeight: 600,
           fontSize: '12px',
-          lineHeight: '1',
+          lineHeight: '1em',
           verticalAlign: ' top',
         }}
       >
@@ -79,6 +80,7 @@ const Single = ({
     data.map((snapShot, i, arr) => {
       const cond = arr.length === i + 1;
       let messagecount = 0;
+      let size = 0;
       if (snapShot === undefined) return '';
       const hash = hashTable.includes(snapShot.slug);
       if (snapShot.generated === false && snapShot.from === user.uid && !hash) {
@@ -106,6 +108,8 @@ const Single = ({
         status = userStatus.get(snapShot.pro.data().uid).status;
       }
 
+      size = Count.size;
+
       if (Count.has(snapShot.channelId)) {
         messagecount = Count.get(snapShot.channelId).messageCount;
       }
@@ -117,6 +121,15 @@ const Single = ({
           }`}
           key={snapShot.channelId}
         >
+          {size > 0 ? (
+            <Helmet>
+              <title>{`(${size}) Relp`}</title>
+            </Helmet>
+          ) : (
+            <Helmet>
+              <title>Relp</title>
+            </Helmet>
+          )}
           <div
             className={`grid ${
               Styles.grid7

@@ -115,9 +115,7 @@ export default produce((draft, { type, payload }) => {
           messageCount: 1,
         });
       }
-      if (draft.messageCount.size > 0) {
-        document.title = `(${draft.Count.size}) Relp`;
-      }
+      document.title = '(1) Relp';
       return draft;
     }
 
