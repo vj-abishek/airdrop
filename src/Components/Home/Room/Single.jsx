@@ -70,6 +70,7 @@ const Single = ({
   userStatus,
   TypingIndication,
   uid,
+  Count,
 }) => {
   const { id } = useParams();
 
@@ -104,8 +105,6 @@ const Single = ({
       if (userStatus.has(snapShot.pro.data().uid)) {
         status = userStatus.get(snapShot.pro.data().uid).status;
       }
-
-      size = Count.size;
 
       if (Count.has(snapShot.channelId)) {
         messagecount = Count.get(snapShot.channelId).messageCount;
