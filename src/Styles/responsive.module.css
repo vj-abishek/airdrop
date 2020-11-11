@@ -200,6 +200,32 @@
   opacity: 1;
 }
 
+.messageCount{
+    min-width: 20px;
+    min-height: 20px;
+    text-align: center;
+    background-color: var(--color-accent);
+    border-radius:  1.1em;
+    color: rgb(19 28 33);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    transition: all 0.25s;
+    vertical-align:  top;
+
+}
+
+.message_hide{
+  transform: scaleX(0) scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+}
+.message_show{
+  transform: scaleX(1) scaleY(1);
+  opacity: 1;
+  visibility: visible;
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
   border-radius: 16px;
