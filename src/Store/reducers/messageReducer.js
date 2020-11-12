@@ -10,6 +10,7 @@ const initialState = {
   currentChannel: map,
   localCache: map,
   messageCount: map,
+  lastMessage: map,
 };
 
 const getPendingMessages = (draft, channelID) => {
@@ -23,7 +24,6 @@ const getPendingMessages = (draft, channelID) => {
 export default produce((draft, { type, payload }) => {
   switch (type) {
     case 'ON_MESSAGE': {
-      console.log('From the message.js', payload);
       const hasInMap = draft.data.has(payload.channel);
       const getMap = draft.data.get(payload.channel);
 
@@ -128,6 +128,13 @@ export default produce((draft, { type, payload }) => {
 
       return draft;
     }
+
+    case 'SET_LAST_MESSAGE':
+      draft.lastMessage.set(payload.channel, {
+        message: payload.message,
+      });
+      return draft;
+
     case 'SET_MESSAGE_PAGINATION': {
       const book = draft.data.get(payload.channel);
       book.messages = payload.messages;
@@ -170,7 +177,6 @@ export default produce((draft, { type, payload }) => {
       return draft;
     case 'INDICATE_CHANNEL':
       if (draft.currentChannel.size <= 1) {
-        console.log(payload);
         if (draft.currentChannel.has(payload.channelID)) {
           const res = draft.currentChannel.get(payload.channelID);
           res.IDs.push(payload.uid);

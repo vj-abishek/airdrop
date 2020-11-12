@@ -33,10 +33,8 @@ export const InitOther = () => (dispatch, getState) => {
   const { uid } = getState().authReducer.user;
 
   Peer = new SimpleSignal(uid);
-  console.log('Called me');
   Peer.Init();
   Peer.on('connected', () => {
-    console.log('Connected');
     dispatch({ type: 'PEER_CONNECTED', payload: true });
   });
 };
@@ -106,7 +104,6 @@ export const RecieveFile = () => (dispatch) => {
     });
 
     Peer.on('receive progress', (data) => {
-      console.log('recieve progresss', data);
       dispatch({ type: 'PROGRESS', payload: data });
     });
 
@@ -153,7 +150,6 @@ export const Call = (bool, channelId) => (dispatch, getState) => {
 export const dismissCall = (val) => (dispatch, getState) => {
   const { uid } = getState().authReducer.user;
   const { from } = getState().peerReducer.callStatus;
-  console.log(from);
   socket.emit('dismiss call', { to: from, from: uid });
   dispatch({ type: 'DISMISS_CALL' });
 };

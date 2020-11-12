@@ -45,7 +45,6 @@ function Conversation({
   // Clear local message
   useEffect(() => {
     clearMessage(channelId, channelId);
-    console.log('clearing messages');
   }, [clearMessage, channelId]);
 
   useEffect(() => {
@@ -80,7 +79,6 @@ function Conversation({
     if (currentChannel && currentTo && currentStatus.has(currentTo.to)) {
       const { status } = currentStatus.get(currentTo.to);
       if (status.status === 'Online' && currentChannel === channelId) {
-        console.log('Both are in the same room');
         setCurrentRoom(currentChannel);
       }
     }
@@ -89,7 +87,6 @@ function Conversation({
   const handleScroll = (e) => {
     if (e.target.scrollTop < 100 && iteration > 0) {
       next(channelId);
-      console.log('Sending...');
     }
     setIteration((i) => i + 1);
   };

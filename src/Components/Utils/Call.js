@@ -12,7 +12,6 @@ class Call extends EventEmitter {
         };
         this.connected = false;
         this.peer = '';
-        console.log('Calles constructor of call.js');
     }
 
     Call(from, to) {

@@ -30,7 +30,6 @@ class SimpleSignal extends EventEmitter {
       .equalsIgnoreCase(this.uid)
       .toArray()
       .then(data => {
-        console.log(data);
         if (data) {
           this.state.autoDownload = data[0].autoDownload;
         }
@@ -53,20 +52,16 @@ class SimpleSignal extends EventEmitter {
       spf.receive(this.peer, payload.messages.shareID).then((transfer) => {
         this.emit('transfer started', payload);
         transfer.on('progress', (sentBytes) => {
-          console.log(sentBytes);
           this.emit('receive progress', { sentBytes, shareID: payload.messages.shareID });
         });
 
         transfer.on('done', (file) => {
           const url = URL.createObjectURL(file);
-          console.log(url);
           this.emit('recieved', { url, payload });
         });
-        console.log(this.state.autoDownload)
 
         if (this.state.autoDownload) {
           const fileStream = transfer.createReadStream();
-          console.log(transfer);
           streamSaver.WritableStream = ponyfill.WritableStream;
           const downloadStream = streamSaver.createWriteStream(payload.messages.name, {
             size: payload.messages.size
@@ -86,7 +81,6 @@ class SimpleSignal extends EventEmitter {
       try {
         const parsed = JSON.parse(data);
         if (parsed?.type === 'text/relp') {
-          console.log(parsed);
           this.emit('got meta data', parsed);
         }
       } catch (err) {
@@ -94,11 +88,9 @@ class SimpleSignal extends EventEmitter {
       }
     });
 
-    console.log('Calles consruct');
   }
 
   Signal(from, to) {
-    console.log('called signal');
     this.emit('instance', this.peer);
     this.on('got offer', () => {
       console.log('Sending data first attempt');
@@ -115,14 +107,12 @@ class SimpleSignal extends EventEmitter {
       this.state.connected = true;
     });
     socket.on('backAnswer', (data) => {
-      console.log(data);
       this.state.answer = JSON.parse(data.payload);
       this.peer.signal(this.state.answer);
     });
   }
 
   Init() {
-    console.log('Init signal');
     // listen to socket
     socket.on('backOffer', (data) => {
       this.state.offer = JSON.parse(data.payload);
@@ -156,7 +146,6 @@ class SimpleSignal extends EventEmitter {
     } else {
       spf.send(this.peer, shareID, FileList).then((transfer) => {
         transfer.on('progress', (sentBytes) => {
-          console.log(sentBytes);
           this.emit('send progress', sentBytes);
         });
         transfer.start();

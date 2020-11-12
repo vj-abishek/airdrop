@@ -1,3 +1,4 @@
+import { isToday } from 'date-fns';
 import socket from '../../Components/Functions/Users';
 import E2E from '../../Components/Utils/EndToEnd';
 import db from '../../Components/Utils/Message.model';
@@ -10,6 +11,29 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
   const [to] = getState().channelReducer.channels.filter(
     (id) => id.channelId === details.channel,
   );
+  const lastMessageMap = getState().messageReducer.lastMessage;
+  let lastMessageObj = {};
+  const hasInMap = lastMessageMap.has(details.channel);
+  const getInMap = lastMessageMap.get(details.channel);
+
+  if (hasInMap
+    && typeof getInMap.message !== 'undefined'
+    && !isToday(getInMap.message.time)
+  ) {
+    lastMessageObj = {
+      showDateInfo: true,
+      rendered: true,
+    };
+  }
+
+  // Case 2: If there is no messages
+  if (hasInMap && typeof getInMap.message === 'undefined') {
+    lastMessageObj = {
+      showDateInfo: true,
+      rendered: true,
+
+    };
+  }
 
   const needsToEnc = {
     from: uid,
@@ -18,6 +42,7 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
   const final = {
     ...needsToEnc,
     ...details,
+    ...lastMessageObj,
   };
   const r = { channel: details.channel, fetch: true, messages: final };
   dispatch({ type: 'ON_MESSAGE', payload: r });
@@ -31,14 +56,25 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
       ...details,
       displayName,
       photoURL,
+      ...lastMessageObj,
       to: to.from === uid ? to.to : to.from,
       body: encMessage,
     });
-    console.log({
-      ...details,
-      to: to.from === uid ? to.to : to.from,
-      body: encMessage,
+    dispatch({
+      type: 'SET_LAST_MESSAGE',
+      payload: {
+        message: final,
+        channel: details.channel,
+      },
     });
+    // console.log({
+    //   ...details,
+    //   displayName,
+    //   photoURL,
+    //   ...lastMessageObj,
+    //   to: to.from === uid ? to.to : to.from,
+    //   body: encMessage,
+    // });
   } catch (err) {
     console.log(err);
   }
@@ -51,17 +87,22 @@ export const SyncMessages = (channelId) => async (dispatch, getState) => {
 
   try {
     const c = await db.message.where('channel').equals(channelId).count();
-    console.log(c);
     const fetch = await db.message
       .where('channel')
       .equals(channelId)
       .offset(c - 20)
       .toArray();
-    console.log(fetch);
     dispatch({
       type: 'ON_MESSAGE',
       payload: {
         channel: channelId, messages: fetch, next: c - 20, needFetch: false,
+      },
+    });
+    dispatch({
+      type: 'SET_LAST_MESSAGE',
+      payload: {
+        message: fetch[fetch.length - 1],
+        channel: channelId,
       },
     });
   } catch (err) {
@@ -75,18 +116,23 @@ export const Pagnination = (channelId) => async (dispatch, getState) => {
 
   const { next } = data.get(channelId);
   if (next <= 0) return;
-  console.log(next - 20, next);
   try {
     const fetch = await db.message
       .where('channel')
       .equals(channelId)
       .offset(next - 20)
       .toArray();
-    console.log(fetch);
     dispatch({
       type: 'SET_MESSAGE_PAGINATION',
       payload: {
         channel: channelId, messages: fetch, next: next - 20, needFetch: false, fromDb: true,
+      },
+    });
+    dispatch({
+      type: 'SET_LAST_MESSAGE',
+      payload: {
+        message: fetch[fetch.length - 1],
+        channel: channelId,
       },
     });
   } catch (err) {
@@ -118,10 +164,17 @@ export const RecieveMessage = () => (dispatch) => {
         channel: message.channel,
         to: message.to,
         ...parsed,
+        showDateInfo: message.showDateInfo || null,
       };
       await db.message.add(final);
-      console.log('New message recieved', parsed);
       const locatioHref = window.location.href;
+      dispatch({
+        type: 'SET_LAST_MESSAGE',
+        payload: {
+          message: final,
+          channel: message.channel,
+        },
+      });
       if (!locatioHref.includes(message.channel)) {
         messageTone.play();
         try {
@@ -178,6 +231,13 @@ export const RecieveMessage = () => (dispatch) => {
           ...parsed,
         };
         const locatioHref = window.location.href;
+        dispatch({
+          type: 'SET_LAST_MESSAGE',
+          payload: {
+            message: final,
+            channel: msg.channel,
+          },
+        });
 
         if (locatioHref.includes(msg.channel)) {
           dispatch({
@@ -197,7 +257,6 @@ export const RecieveMessage = () => (dispatch) => {
   });
 
   socket.on('user status disk', (data) => {
-    console.log(data);
     dispatch({ type: 'USER_STATUS_DISK', payload: data[0] });
   });
 
@@ -218,17 +277,14 @@ export const RecieveMessage = () => (dispatch) => {
 
   socket.on('join call', () => {
     // call.addStream();
-    console.log('Called me in message.js');
     dispatch({ type: '_CALL_CONNECTED_' });
   });
 
   socket.on('dismiss call', () => {
-    console.log('Called dismiss call');
     dispatch({ type: 'DISMISS_CALL' });
   });
 
   socket.on('current channel', (data) => {
-    console.log(data);
     dispatch({ type: 'INDICATE_CHANNEL', payload: data });
   });
 

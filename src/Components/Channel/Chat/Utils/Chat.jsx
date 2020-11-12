@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { format } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import DOMPurify from 'dompurify';
 import { Circle } from 'rc-progress';
 import marked from 'marked';
@@ -123,12 +123,7 @@ const Utils = ({ data, openTab, uid, status }) => {
   if (data.type === 'text/plain') {
     return (
       <>
-        <div
-          className="flex"
-          style={{
-            fontFamily: "'Open Sans', sans-serif",
-          }}
-        >
+        <div className="flex">
           <div
             style={{
               fontSize: '14.2px',
@@ -174,6 +169,39 @@ const Utils = ({ data, openTab, uid, status }) => {
   );
 };
 
+const RenderDate = ({ date }) => {
+  if (isToday(new Date(date))) {
+    return (
+      <div
+        style={{ padding: '5px 12px 6px', textAlign: 'center' }}
+        className={`${Styles.other} rounded-lg shadow-md text-sm`}
+      >
+        Today
+      </div>
+    );
+  }
+
+  if (isYesterday(new Date(date))) {
+    return (
+      <div
+        style={{ padding: '5px 12px 6px', textAlign: 'center' }}
+        className={`${Styles.other} rounded-lg shadow-md text-sm`}
+      >
+        Yesterday
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{ padding: '5px 12px 6px', textAlign: 'center' }}
+      className={`${Styles.other} rounded-lg shadow-md text-sm`}
+    >
+      {new Date(date).toDateString()}
+    </div>
+  );
+};
+
 function Chat({ data, uid, status }) {
   // const [emoji, setEmoji] = useState([]);
   const openTab = (e) => {
@@ -187,19 +215,28 @@ function Chat({ data, uid, status }) {
   };
 
   return (
-    <div
-      className={`flex ${
-        !(data.from === uid)
-          ? ' justify-start m-1 ml-2 lg:ml-3'
-          : 'justify-end m-1 mr-2 lg:mr-3'
-      } `}
-    >
+    <>
+      {data.showDateInfo && (
+        <div className="flex items-center justify-center p-2">
+          <RenderDate date={data.time} />
+        </div>
+      )}
       <div
-        className={`${Styles.message} ${!(data.from === uid) && Styles.other}`}
+        className={`flex ${
+          !(data.from === uid)
+            ? ' justify-start m-1 ml-2 lg:ml-3'
+            : 'justify-end m-1 mr-2 lg:mr-3'
+        } `}
       >
-        <Utils data={data} openTab={openTab} uid={uid} status={status} />
+        <div
+          className={`${Styles.message} ${
+            !(data.from === uid) && Styles.other
+          }`}
+        >
+          <Utils data={data} openTab={openTab} uid={uid} status={status} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
