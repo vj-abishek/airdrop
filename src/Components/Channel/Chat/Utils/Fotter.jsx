@@ -27,7 +27,6 @@ function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
   };
 
   const addEmoji = (eji) => {
-    console.log(eji);
     setEmoji({ date: Date.now(), emoji: eji.native });
   };
 
@@ -41,11 +40,9 @@ function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
     const [FileList] = e.target.files;
 
     const shareID = sha1.sync(FileList.name + FileList.size);
-    console.log(shareID);
     // sendInfo(shareID, channelId, FileList);
     const url = URL.createObjectURL(FileList);
 
-    console.log(url);
     sendFile(FileList, url, shareID, id);
   };
 
