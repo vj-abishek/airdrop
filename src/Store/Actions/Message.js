@@ -179,17 +179,21 @@ export const RecieveMessage = () => (dispatch) => {
       if (!locatioHref.includes(message.channel)) {
         messageTone.play();
         if (notificationPermission === 'granted') {
-          const notificationTitle = `${message.displayName}`;
-          const notificationOptions = {
-            body: parsed.message,
-            icon: message.photoURL,
-            vibrate: [100, 50, 100],
-            data: { url: `https://relp.now.sh/r/${message.channel}` },
-            actions: [{ action: 'open_url', title: 'Read Message' }],
-            click_action: `https://relp.now.sh/r/${message.channel}`,
-          };
-          const req = await navigator.serviceWorker.getRegistration();
-          req.showNotification(notificationTitle, notificationOptions);
+          try {
+            const notificationTitle = `${message.displayName}`;
+            const notificationOptions = {
+              body: parsed.message,
+              icon: message.photoURL,
+              vibrate: [100, 50, 100],
+              data: { url: `https://relp.now.sh/r/${message.channel}` },
+              actions: [{ action: 'open_url', title: 'Read Message' }],
+              click_action: `https://relp.now.sh/r/${message.channel}`,
+            };
+            const req = await navigator.serviceWorker.getRegistration();
+            req.showNotification(notificationTitle, notificationOptions);
+          } catch (err) {
+            console.log(err);
+          }
         }
         dispatch({
           type: 'ON_MESSAGE',
