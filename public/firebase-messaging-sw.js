@@ -59,6 +59,11 @@ messaging.setBackgroundMessageHandler(async function (payload) {
     const parsed = JSON.parse(payload.data.body);
 
     try {
+        self.addEventListener('notificationclick', function (event) {
+            event.notification.close();
+            event.waitUntil(self.clients.openWindow(`https://relp.now.sh/r/${parsed.channel}`));
+        });
+
         const SharedSecret = await getKeys(parsed.channel);
         const decMessage = Decrypt(SharedSecret, parsed.body);
         const decParsed = JSON.parse(decMessage);
