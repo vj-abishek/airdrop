@@ -82,7 +82,6 @@ messaging.setBackgroundMessageHandler(async function (payload) {
 
     try {
         const SharedSecret = await getKeys(parsed.channel);
-        console.log(SharedSecret);
         const decMessage = Decrypt(SharedSecret, parsed.body);
         const decParsed = JSON.parse(decMessage);
         // Customize notification here
