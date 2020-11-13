@@ -189,8 +189,10 @@ export const RecieveMessage = () => (dispatch) => {
               actions: [{ action: 'open_url', title: 'Read Message' }],
               click_action: `https://relp.now.sh/r/${message.channel}`,
             };
-            const req = await navigator.serviceWorker.getRegistration();
-            req.showNotification(notificationTitle, notificationOptions);
+            navigator.serviceWorker.getRegistrations()
+              .then((req) => {
+                req.showNotification(notificationTitle, notificationOptions);
+              });
           } catch (err) {
             console.log(err);
           }
