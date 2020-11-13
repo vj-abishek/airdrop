@@ -5,6 +5,7 @@ import db from '../../Components/Utils/Message.model';
 
 const e2e = new E2E();
 const messageTone = document.querySelector('#message-tone');
+const notificationPermission = Notification.permission;
 
 export const sendmessage = (message, details) => async (dispatch, getState) => {
   const { uid, displayName, photoURL } = getState().authReducer.user;
@@ -177,15 +178,18 @@ export const RecieveMessage = () => (dispatch) => {
       });
       if (!locatioHref.includes(message.channel)) {
         messageTone.play();
-        try {
-          const n = new Notification(`${message.displayName}`, {
-            icon: message.photoURL,
+        if (notificationPermission === 'granted') {
+          const notificationTitle = `${message.displayName}`;
+          const notificationOptions = {
             body: parsed.message,
-            onclick: `http://localhost:3000/r/${message.channel}`,
-          });
-          console.log(n);
-        } catch (err) {
-          console.log(err);
+            icon: message.photoURL,
+            vibrate: [100, 50, 100],
+            data: { url: `https://relp.now.sh/r/${message.channel}` },
+            actions: [{ action: 'open_url', title: 'Read Message' }],
+            click_action: `https://relp.now.sh/r/${message.channel}`,
+          };
+          const req = await navigator.serviceWorker.getRegistration();
+          req.showNotification(notificationTitle, notificationOptions);
         }
         dispatch({
           type: 'ON_MESSAGE',

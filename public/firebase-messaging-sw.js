@@ -6,35 +6,34 @@
 importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js');
 
-// importScripts('https://unpkg.com/buffer@5.6.0/index.js');
-// importScript('https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js');
-// importScripts('https://unpkg.com/dexie@latest/dist/dexie.js');
+importScripts('crypto.min.js');
+importScripts('https://unpkg.com/dexie@3.0.2/dist/dexie.js');
 
 
-// const db = new Dexie('user_database');
-// db.version(1).stores({
-//     channel: 'id',
-// });
+const db = new Dexie('user_database');
+db.version(1).stores({
+    channel: 'id',
+});
 
-// const getKeys = async (channelId) => {
-//     return new Promise((res, rej) => {
-//         try {
-//             db.channel
-//                 .where('id')
-//                 .equalsIgnoreCase(channelId)
-//                 .toArray()
-//                 .then((key) => {
-//                     if (key) {
-//                         const { SharedSecret } = key[0];
-//                         res(SharedSecret);
-//                     }
+const getKeys = async (channelId) => {
+    return new Promise((res, rej) => {
+        try {
+            db.channel
+                .where('id')
+                .equalsIgnoreCase(channelId)
+                .toArray()
+                .then((key) => {
+                    if (key) {
+                        const { SharedSecret } = key[0];
+                        res(SharedSecret);
+                    }
 
-//                 });
-//         } catch (err) {
-//             rej(err);
-//         }
-//     });
-// }
+                });
+        } catch (err) {
+            rej(err);
+        }
+    });
+}
 
 // const decrypt = async (SharedSecret, encryptedMessage) => {
 
@@ -81,31 +80,26 @@ messaging.setBackgroundMessageHandler(async function (payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
     const parsed = JSON.parse(payload.data.body);
 
-    self.addEventListener('notificationclick', function (event) {
-        event.notification.close();
-        event.waitUntil(self.clients.openWindow(`https://relp.now.sh/r/${parsed.channel}`));
-    });
+    try {
+        const SharedSecret = await getKeys(parsed.channel);
+        console.log(SharedSecret);
+        const decMessage = Decrypt(SharedSecret, parsed.body);
+        const decParsed = JSON.parse(decMessage);
+        // Customize notification here
+        const notificationTitle = `${parsed.displayName}`;
+        const notificationOptions = {
+            body: `${decParsed.message}`,
+            icon: parsed.photoURL,
+            vibrate: [300, 100, 400, 100, 400, 100, 400],
+            data: { url: `https://relp.now.sh/r/${parsed.channel}` },
+            actions: [{ action: "open_url", title: "Read Message" }],
+            click_action: `https://relp.now.sh/r/${parsed.channel}`
+        };
+        return self.registration.showNotification(notificationTitle, notificationOptions);
+
+    } catch (err) {
+        console.log(err);
+    }
 
 
-    // try {
-    //     const SharedSecret = await getKeys(parsed.channel);
-    //     console.log(sharedSecret);
-    //     const decrypt = await decrypt(SharedSecret, payload.data.body);
-    //     console.log(decrypt);
-
-    // } catch (err) {
-    //     console.log(err);
-    // }
-    // Customize notification here
-    const notificationTitle = "New message on relp";
-    const notificationOptions = {
-        body: `You got a new message from ${parsed.displayName}`,
-        icon: parsed.photoURL,
-        vibrate: [300, 100, 400, 100, 400, 100, 400],
-        data: { url: `https://relp.now.sh/r/${parsed.channel}` },
-        actions: [{ action: "open_url", title: "Read Message" }],
-        click_action: `https://relp.now.sh/r/${parsed.channel}`
-    };
-
-    return self.registration.showNotification(notificationTitle, notificationOptions);
 });
