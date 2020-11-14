@@ -182,7 +182,12 @@ export const RecieveMessage = () => (dispatch) => {
               const notificationOptions = {
                 body: parsed.message,
                 icon: message.photoURL,
-                vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500],
+                vibrate: [500, 110, 500,
+                  110, 450, 110,
+                  200, 110, 170,
+                  40, 450, 110,
+                  200, 110, 170,
+                  40, 500],
                 actions: [{ action: 'open_url', title: 'Read Message' }],
                 click_action: `https://relp.now.sh/r/${message.channel}`,
                 tag: parsed.channel,
