@@ -4452,13 +4452,6 @@ chromium-pickle-js@^0.2.0:
   resolved "https://registry.yarnpkg.com/chromium-pickle-js/-/chromium-pickle-js-0.2.0.tgz#04a106672c18b085ab774d983dfa3ea138f22205"
   integrity sha1-BKEGZywYsIWrd02YPfo+oTjyIgU=
 
-chunk-stream@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/chunk-stream/-/chunk-stream-0.0.1.tgz#8484fa3df9f964b074e6f2d67ee1a76034c33139"
-  integrity sha1-hIT6Pfn5ZLB05vLWfuGnYDTDMTk=
-  dependencies:
-    through "~2.2.0"
-
 ci-info@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
@@ -13375,11 +13368,6 @@ through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
-
-through@~2.2.0:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/through/-/through-2.2.7.tgz#6e8e21200191d4eb6a99f6f010df46aa1c6eb2bd"
-  integrity sha1-bo4hIAGR1OtqmfbwEN9Gqhxusr0=
 
 thunky@^1.0.2:
   version "1.1.0"
