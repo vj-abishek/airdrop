@@ -23,7 +23,6 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
   ) {
     lastMessageObj = {
       showDateInfo: true,
-      rendered: true,
     };
   }
 
@@ -31,8 +30,6 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
   if (hasInMap && typeof getInMap.message === 'undefined') {
     lastMessageObj = {
       showDateInfo: true,
-      rendered: true,
-
     };
   }
 
@@ -165,7 +162,7 @@ export const RecieveMessage = () => (dispatch) => {
         channel: message.channel,
         to: message.to,
         ...parsed,
-        showDateInfo: message.showDateInfo || null,
+        showDateInfo: message.showDateInfo,
       };
       await db.message.add(final);
       const locatioHref = window.location.href;
@@ -180,19 +177,23 @@ export const RecieveMessage = () => (dispatch) => {
         messageTone.play();
         if (notificationPermission === 'granted') {
           try {
-            const notificationTitle = `${message.displayName}`;
-            const notificationOptions = {
-              body: parsed.message,
-              icon: message.photoURL,
-              vibrate: [100, 50, 100],
-              data: { url: `https://relp.now.sh/r/${message.channel}` },
-              actions: [{ action: 'open_url', title: 'Read Message' }],
-              click_action: `https://relp.now.sh/r/${message.channel}`,
-            };
-            navigator.serviceWorker.getRegistrations()
-              .then((req) => {
-                req.showNotification(notificationTitle, notificationOptions);
-              });
+            navigator.serviceWorker.ready.then((registration) => {
+              const notificationTitle = `${message.displayName}`;
+              const notificationOptions = {
+                body: parsed.message,
+                icon: message.photoURL,
+                vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500],
+                actions: [{ action: 'open_url', title: 'Read Message' }],
+                click_action: `https://relp.now.sh/r/${message.channel}`,
+                tag: parsed.channel,
+                renotify: true,
+                requireInteraction: true,
+              };
+              registration.getRegistrations()
+                .then((req) => {
+                  req.showNotification(notificationTitle, notificationOptions);
+                });
+            });
           } catch (err) {
             console.log(err);
           }

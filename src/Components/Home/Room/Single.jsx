@@ -73,7 +73,6 @@ const Single = ({
       if (snapShot === undefined) return '';
       const hash = hashTable.includes(snapShot.slug);
       if (snapShot.generated === false && snapShot.from === user.uid && !hash) {
-        console.log(snapShot.bobPublicKey);
         const e2e = new E2E();
         e2e
           .setPrivateKey(

@@ -49,10 +49,8 @@ export const addSlug = () => (dispatch, getState) => {
       const e2e = new E2E();
       const { Publickey, PrivateKey } = e2e.generateKeys();
 
-      console.log(PrivateKey, Publickey, slug);
 
       await ddb.slug.add({ id: slug, PrivateKey });
-      console.log({ id: slug, PrivateKey });
 
       root
         .doc(e.id)
@@ -121,7 +119,6 @@ export const addChannel = (slug) => async (dispatch, getState) => {
         .get();
       const e2e = new E2E();
       const bobPublicKey = e2e.generateSharedSecret(secretKey.data().Publickey);
-      console.log('BobPublic', bobPublicKey);
       obj.bobPublicKey = bobPublicKey;
 
       const channelId = await db.collection('channel').add(obj);

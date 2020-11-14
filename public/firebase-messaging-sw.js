@@ -53,6 +53,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 self.addEventListener('notificationclick', function (event) {
+    console.log('clicking worked');
     const clickedNotification = event.notification;
 
     const promiseChain = clients.matchAll({
@@ -64,19 +65,17 @@ self.addEventListener('notificationclick', function (event) {
 
             for (let i = 0; i < windowClients.length; i++) {
                 const windowClient = windowClients[i];
-                if (windowClient.url === self.location.origin) {
+                if (windowClient.url === `${self.location.origin}/`) {
                     matchingClient = windowClient;
                     break;
                 }
             }
 
             if (matchingClient) {
-                matchingClient.focus();
-
                 matchingClient.postMessage({
                     url: clickedNotification.data.url,
                 });
-                return;
+                return matchingClient.focus();
             } else {
                 return clients.openWindow(self.location.origin);
             }
