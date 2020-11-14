@@ -5,7 +5,6 @@
   "private": true,
   "author": "Abishek",
   "main": "public/electron.js",
-  "homepage": "./",
   "build": {
     "appId": "sh.now.relp",
     "productName":"Relp",
