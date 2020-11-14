@@ -1,17 +1,28 @@
 {
-  "name": "airdrop",
-  "version": "0.1.0",
+  "name": "relp",
+  "description":"Relp - a web messenger. Enjoy free text chat, voice call and file sharing",
+  "version": "0.2.0",
   "private": true,
   "author": "Abishek",
   "main": "public/electron.js",
+  "homepage": "./",
   "build": {
     "appId": "sh.now.relp",
+    "productName":"Relp",
     "files": [
       "build/**/*",
       "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "win":{
+      "icon":"icon.png"
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "airdrop",
+      "owner": "vj-abishek"
     }
   },
   "dependencies": {

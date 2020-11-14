@@ -49,6 +49,18 @@ function App({
     recieveMessage();
   }, [recieveMessage]);
 
+  // Listen for navigator event from service worker
+  useEffect(() => {
+    navigator.serviceWorker.ready.then(() => {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        console.log('Received a message from service worker: ', event.data);
+        if (event.data.url) {
+          return <Redirect to={event.data.url} />;
+        }
+      });
+    });
+  }, []);
+
   // To indicate the current channel
   useEffect(() => {
     const uid = loginState.user?.uid || null;
@@ -68,6 +80,13 @@ function App({
     if (loginState.authenticated) {
       socket.emit('authenticated', obj);
     }
+
+    // listen for change event
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible' && loginState.authenticated) {
+        socket.emit('authenticated', obj);
+      }
+    });
   }, [loginState, reciveFiles]);
 
   // pull-to-refresh

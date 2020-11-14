@@ -52,6 +52,41 @@ firebase.initializeApp(firebaseConfig);
 // messages.
 const messaging = firebase.messaging();
 
+self.addEventListener('notificationclick', function (event) {
+    const clickedNotification = event.notification;
+
+    const promiseChain = clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true
+    })
+        .then((windowClients) => {
+            let matchingClient = null;
+
+            for (let i = 0; i < windowClients.length; i++) {
+                const windowClient = windowClients[i];
+                if (windowClient.url === self.location.origin) {
+                    matchingClient = windowClient;
+                    break;
+                }
+            }
+
+            if (matchingClient) {
+                matchingClient.focus();
+
+                matchingClient.postMessage({
+                    url: clickedNotification.data.url,
+                });
+                return;
+            } else {
+                return clients.openWindow(self.location.origin);
+            }
+        });
+
+    clickedNotification.close();
+
+    event.waitUntil(promiseChain);
+});
+
 
 
 messaging.setBackgroundMessageHandler(async function (payload) {
@@ -59,11 +94,6 @@ messaging.setBackgroundMessageHandler(async function (payload) {
     const parsed = JSON.parse(payload.data.body);
 
     try {
-        self.addEventListener('notificationclick', function (event) {
-            event.notification.close();
-            event.waitUntil(self.clients.openWindow(`https://relp.now.sh/r/${parsed.channel}`));
-        });
-
         const SharedSecret = await getKeys(parsed.channel);
         const decMessage = Decrypt(SharedSecret, parsed.body);
         const decParsed = JSON.parse(decMessage);
@@ -72,10 +102,14 @@ messaging.setBackgroundMessageHandler(async function (payload) {
         const notificationOptions = {
             body: `${decParsed.message}`,
             icon: parsed.photoURL,
-            vibrate: [300, 100, 400, 100, 400, 100, 400],
-            data: { url: `https://relp.now.sh/r/${parsed.channel}` },
-            actions: [{ action: "open_url", title: "Read Message" }],
-            click_action: `https://relp.now.sh/r/${parsed.channel}`
+            vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500],
+            data: { url: `${self.location.origin}/r/${parsed.channel}` },
+            actions: [{ action: 'open_url', title: 'Read Message' }],
+            click_action: `${self.location.origin}/r/${parsed.channel}`,
+            tag: parsed.channel,
+            renotify: true,
+            requireInteraction: true,
+            badge: 'badge-128x128.png',
         };
         return self.registration.showNotification(notificationTitle, notificationOptions);
 
