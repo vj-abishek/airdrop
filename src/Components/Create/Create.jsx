@@ -8,7 +8,7 @@ const Create = () => (
     style={{ borderRight: '1px solid rgb(56, 68, 77)' }}
     className="col-span-2 text-white text-lg"
   >
-    <Header back={true}>Invite Friend</Header>
+    <Header back>Invite Friend</Header>
 
     <Title />
 

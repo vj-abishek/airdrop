@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Ring } from 'react-spinners-css';
-import { nanoid } from 'nanoid';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 import QRCode from '../../Utils/QrCode';
 import GenerateUrl from './GenerateUrl';
 import Popup from './Popup';
 
-export default function Qrcode() {
+function Qrcode({ user }) {
   const [created, setCreated] = useState(false);
   const [show, setShow] = useState(false);
   const [id, setId] = useState('');
 
   useEffect(() => {
-    const uid = nanoid(10);
-    setId(`${uid}`);
+    setId(`${user.uid}`);
     setCreated(true);
-  }, []);
+  }, [user]);
   const handleClick = (e) => {
     const target = e.target.id;
     if (
@@ -32,12 +31,7 @@ export default function Qrcode() {
   return !created ? (
     <>
       <Helmet>
-        <title>Safeshare.live - Connect with QRcode</title>
-        <link rel="canonical" href="https://safeshare.live/" />
-        <meta
-          name="description"
-          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
-        />
+        <title>Relp / Connect with QRcode</title>
       </Helmet>
       <div className="w-auto h-auto flex items-center justify-center">
         <Ring color="#00B2D2" />
@@ -46,14 +40,13 @@ export default function Qrcode() {
   ) : (
     <div className="w-auto h-auto m-5 flex items-center justify-center flex-col">
       <Helmet>
-        <title>Safeshare.live - Connect with QRcode</title>
-        <link rel="canonical" href="https://safeshare.live/" />
-        <meta
-          name="description"
-          content="SafeShare.live is a online file sharing service. 1. Create a name. 2. Choose a person and send the file realtime"
-        />
+        <title>Relp / Connect with QRcode</title>
       </Helmet>
-      <QRCode value={`https://onlink.tk/${id}`} size={160} fill="#F4F4F9" />
+      <QRCode
+        value={`${window.location.origin}/join/${id}`}
+        size={160}
+        fill="#F4F4F9"
+      />
       <h3 className="m-4 font-sans text-light text-md">
         And Open the link in a browser
       </h3>
@@ -63,3 +56,9 @@ export default function Qrcode() {
     </div>
   );
 }
+
+const mapStatToProps = (state) => ({
+  user: state.authReducer.user,
+});
+
+export default connect(mapStatToProps)(Qrcode);

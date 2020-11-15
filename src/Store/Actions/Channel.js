@@ -57,7 +57,9 @@ export const Fetch = () => (dispatch, getState) => {
       data.docs.forEach((value) => {
         const id = value.data().both.find((i) => i !== uid);
         const channelId = value.id;
-        const { bobPublicKey, generated, from, slug, to } = value.data();
+        const {
+          bobPublicKey, generated, from, slug, to,
+        } = value.data();
         fetchProfile(
           id,
           dispatch,

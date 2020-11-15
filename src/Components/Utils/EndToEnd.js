@@ -24,6 +24,12 @@ class EndToEnd {
     return this.peer.getPublicKey().toString('base64');
   }
 
+  produceSharedSecret(publickey) {
+    const SharedSecret = this.peer.computeSecret(publickey, 'base64', 'hex');
+    this.SharedSecret = SharedSecret;
+    return this.peer.getPublicKey().toString('base64');
+  }
+
   setChannel(channelId, deletes, slug) {
     db.channel
       .add({ SharedSecret: this.SharedSecret, id: channelId })

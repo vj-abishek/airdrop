@@ -49,7 +49,6 @@ export const addSlug = () => (dispatch, getState) => {
       const e2e = new E2E();
       const { Publickey, PrivateKey } = e2e.generateKeys();
 
-
       await ddb.slug.add({ id: slug, PrivateKey });
 
       root

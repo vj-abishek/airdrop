@@ -29,6 +29,7 @@ const Auth = lazy(() => retry(() => import('./Components/Auth/Login')));
 const Home = lazy(() => retry(() => import('./Components/Home/Home')));
 const About = lazy(() => retry(() => import('./Components/About/About')));
 const Invite = lazy(() => retry(() => import('./Components/Invite/Invite')));
+const Join = lazy(() => retry(() => import('./Components/Join/Join')));
 const Settings = lazy(() =>
   retry(() => import('./Components/Settings/Settings')),
 );
@@ -161,6 +162,7 @@ function App({
               <Route path="/settings" component={Settings} />
               <Route path="/about" component={About} />
               <Route path="/create" component={Create} />
+              <Route path="/join/:from" component={Join} />
               <Route path="/logout" component={Logout} />
               <Route path="/channel/:id" component={Channel} />
               <Route component={Page404} />

@@ -7,6 +7,7 @@ const initialState = {
   type: null,
   isCall: false,
   callStatus: null,
+  qrCodeData: {},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -57,6 +58,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         err: payload,
+      };
+    case 'QRCODE':
+      return {
+        ...state,
+        qrCodeData: { ...payload },
       };
     default:
       return state;
