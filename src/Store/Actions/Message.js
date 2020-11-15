@@ -194,10 +194,7 @@ export const RecieveMessage = () => (dispatch) => {
                 renotify: true,
                 requireInteraction: true,
               };
-              registration.getRegistrations()
-                .then((req) => {
-                  req.showNotification(notificationTitle, notificationOptions);
-                });
+              registration.showNotification(notificationTitle, notificationOptions);
             });
           } catch (err) {
             console.log(err);
@@ -239,12 +236,14 @@ export const RecieveMessage = () => (dispatch) => {
 
   socket.on('new message', (message) => {
     message.forEach(async (msg) => {
+      console.log(msg);
       try {
         const decrypt = await e2e.decrypt(msg.channel, msg.body);
         const parsed = JSON.parse(decrypt);
         const final = {
           ...msg,
           ...parsed,
+          body: '',
         };
         const locatioHref = window.location.href;
         dispatch({

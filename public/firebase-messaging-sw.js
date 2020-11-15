@@ -65,19 +65,21 @@ self.addEventListener('notificationclick', function (event) {
 
             for (let i = 0; i < windowClients.length; i++) {
                 const windowClient = windowClients[i];
-                if (windowClient.url === `${self.location.origin}/`) {
+                if (windowClient.url.includes(`${self.location.origin}`)) {
                     matchingClient = windowClient;
                     break;
                 }
             }
 
             if (matchingClient) {
+                console.log(matchingClient);
+                console.log('Sending to client');
                 matchingClient.postMessage({
                     url: clickedNotification.data.url,
                 });
                 return matchingClient.focus();
             } else {
-                return clients.openWindow(self.location.origin);
+                return clients.openWindow(clickedNotification.data.url);
             }
         });
 
@@ -102,7 +104,7 @@ messaging.setBackgroundMessageHandler(async function (payload) {
             body: `${decParsed.message}`,
             icon: parsed.photoURL,
             vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500],
-            data: { url: `${self.location.origin}/r/${parsed.channel}` },
+            data: { url: `r/${parsed.channel}` },
             actions: [{ action: 'open_url', title: 'Read Message' }],
             click_action: `${self.location.origin}/r/${parsed.channel}`,
             tag: parsed.channel,

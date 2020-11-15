@@ -1,4 +1,10 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PullToRefresh from 'pulltorefreshjs';
@@ -40,6 +46,8 @@ function App({
   iChannel,
   callStatus,
 }) {
+  const [redirectTo, setRedirectTo] = useState();
+
   useEffect(() => {
     init();
   }, [init]);
@@ -50,16 +58,17 @@ function App({
   }, [recieveMessage]);
 
   // Listen for navigator event from service worker
-  useEffect(() => {
-    navigator.serviceWorker.ready.then(() => {
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log('Received a message from service worker: ', event.data);
-        if (event.data.url) {
-          return <Redirect to={event.data.url} />;
-        }
-      });
-    });
-  }, []);
+  useLayoutEffect(() => {
+    const handleMessag = (event) => {
+      if (event.data.url) {
+        console.log('Got message from service worker', event);
+        setRedirectTo(event.data.url);
+      }
+    };
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.onmessage = handleMessag;
+    }
+  }, [redirectTo]);
 
   // To indicate the current channel
   useEffect(() => {
@@ -122,6 +131,10 @@ function App({
       {!loginState.isLoginLoading &&
         loginState.authenticated &&
         path.includes('/invite') && <Redirect to={'/channel/' + slug} />}
+
+      {redirectTo && !loginState.isLoginLoading && loginState.authenticated && (
+        <Redirect to={redirectTo} />
+      )}
 
       {/* Unauthenticated Route */}
       <Suspense fallback={<Content />}>
