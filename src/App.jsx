@@ -61,7 +61,6 @@ function App({
   useLayoutEffect(() => {
     const handleMessag = (event) => {
       if (event.data.url) {
-        console.log('Got message from service worker', event);
         setRedirectTo(event.data.url);
       }
     };

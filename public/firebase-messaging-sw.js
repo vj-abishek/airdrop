@@ -53,7 +53,6 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 self.addEventListener('notificationclick', function (event) {
-    console.log('clicking worked');
     const clickedNotification = event.notification;
 
     const promiseChain = clients.matchAll({
@@ -72,8 +71,6 @@ self.addEventListener('notificationclick', function (event) {
             }
 
             if (matchingClient) {
-                console.log(matchingClient);
-                console.log('Sending to client');
                 matchingClient.postMessage({
                     url: clickedNotification.data.url,
                 });
