@@ -1,28 +1,23 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import socket from '../Functions/Users';
+import Content from '../Animation/Content';
 
-function Join({ user, setUserData }) {
+function Join({ user }) {
   const { from } = useParams();
 
   useEffect(() => {
-    const obj = {
-      from: user.uid,
-      to: from,
-    };
-    socket.emit('qrcode', obj);
-    setUserData(obj);
-  }, [user, from, setUserData]);
+    socket.emit('qrcode', {
+      nId: from,
+      touID: user.uid,
+    });
+  }, [from, user.uid]);
 
-  return <div />;
+  return <Content />;
 }
+
 const mapStateToProps = (state) => ({
   user: state.authReducer.user,
 });
-
-const mapDispatchToProps = (dispatch) => ({
-  setUserData: (data) => dispatch({ type: 'QRCODE', payload: data }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Join);
+export default connect(mapStateToProps)(Join);

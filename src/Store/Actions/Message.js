@@ -9,16 +9,6 @@ const messageTone = document.querySelector('#message-tone');
 const notificationPermission = Notification.permission;
 const firestoreDb = firebase.firestore();
 
-const shareKeys = async (getState) => {
-  const { Publickey } = e2e.generateKeys();
-  const userData = getState().peerReducer.qrCodeData;
-
-  socket.emit('send public key', {
-    to: userData.to,
-    Publickey,
-  });
-};
-
 export const sendmessage = (message, details) => async (dispatch, getState) => {
   const { uid, displayName, photoURL } = getState().authReducer.user;
   const [to] = getState().channelReducer.channels.filter(
@@ -320,53 +310,58 @@ export const RecieveMessage = () => (dispatch, getState) => {
     dispatch({ type: 'REFRESH' });
   });
 
-  socket.on('qrcode connected', async () => {
-    shareKeys(getState);
-  });
+  socket.on('qrcode connected', async ({ to, from, ...rest }) => {
+    const { Publickey } = e2e.generateKeys();
 
-  socket.on('qrcode', ({ from, to }) => {
-    dispatch({
-      type: 'QRCODE',
-      payload: {
-        to: from,
-        from: to,
-      },
+    socket.emit('send public key', {
+      to,
+      from,
+      Publickey,
+      ...rest,
     });
-    socket.emit('qrcode connected', { from });
   });
 
-  socket.on('recieve public key', async (data) => {
-    const userData = getState().peerReducer.qrCodeData;
-
-    const Publickey = e2e.generateSharedSecret(data.Publickey);
+  socket.on('recieve public key', async ({
+    from, to, fromuID, touID, Publickey, ...rest
+  }) => {
+    const publickey = e2e.generateSharedSecret(Publickey);
     const obj = {
-      from: userData.from,
-      to: userData.to,
+      from: fromuID,
+      to: touID,
       time: Date.now(),
-      both: [userData.from, userData.to],
+      both: [fromuID, touID],
       generated: true,
       joinedBy: 'qrcode',
     };
 
-    const channelId = await firestoreDb.collection('channel').add(obj);
-    e2e.setChannel(channelId.id);
-
-    socket.emit('send other public key', {
-      to: userData.to,
-      Publickey,
-    });
+    try {
+      const channelId = await firestoreDb.collection('channel').add(obj);
+      e2e.setChannel(channelId.id);
+      socket.emit('send other public key', {
+        to,
+        from,
+        publickey,
+        channelId: channelId.id,
+        ...rest,
+      });
+    } catch (err) {
+      console.lor(err);
+    }
   });
 
   socket.on('now refresh', () => {
     window.location.href = '/';
   });
 
-  socket.on('recieve other key', (data) => {
-    const userData = getState().peerReducer.qrCodeData;
-    e2e.produceSharedSecret(data.Publickey);
+  socket.on('recieve other key', ({
+    publickey, channelId, to, ...rest
+  }) => {
+    e2e.produceSharedSecret(publickey);
+    e2e.setChannel(channelId);
 
     socket.emit('now refresh', {
-      to: userData.to,
+      to,
+      ...rest,
     });
 
     window.location.href = '/';

@@ -12,7 +12,14 @@ function Login({
   facebookLogin,
   guestLogin,
 }) {
-  if (loginState.authenticated) return <Redirect to="/" />;
+  const { search } = window.location;
+  if (loginState.authenticated && search.includes('/join')) {
+    const params = new URLSearchParams(search);
+    return <Redirect to={params.get('url')} />;
+  }
+
+  if (loginState.authenticated && !search.includes('/join'))
+    return <Redirect to="/" />;
 
   return (
     <div className="font-sans flex flex-col sm:flex-row">

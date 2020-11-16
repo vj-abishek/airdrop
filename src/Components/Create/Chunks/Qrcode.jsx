@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Ring } from 'react-spinners-css';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 import QRCode from '../../Utils/QrCode';
 import GenerateUrl from './GenerateUrl';
 import Popup from './Popup';
+import socket from '../../Functions/Users';
 
 function Qrcode({ user }) {
   const [created, setCreated] = useState(false);
@@ -12,9 +14,17 @@ function Qrcode({ user }) {
   const [id, setId] = useState('');
 
   useEffect(() => {
-    setId(`${user.uid}`);
+    const nId = nanoid();
+    setId(`${nId}`);
     setCreated(true);
-  }, [user]);
+    console.log(`${window.location.origin}/join/${nId}`);
+
+    // send that data to server
+    socket.emit('create qrcode', {
+      nId,
+      fromuID: user.uid,
+    });
+  }, [user.uid]);
   const handleClick = (e) => {
     const target = e.target.id;
     if (

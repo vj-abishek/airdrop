@@ -113,7 +113,7 @@ function App({
     return () => PullToRefresh.destroyAll();
   }, []);
 
-  const path = window.location.pathname;
+  const { pathname: path, search } = window.location;
   const slug = path.split('/')[2];
 
   return (
@@ -126,7 +126,13 @@ function App({
 
       {!loginState.isLoginLoading &&
         !loginState.authenticated &&
-        !path.includes('/invite') && <Redirect to="/login" />}
+        path.includes('/join') && <Redirect to={`/login?url=${path}`} />}
+
+      {!loginState.isLoginLoading &&
+        !loginState.authenticated &&
+        !path.includes('/invite') &&
+        !path.includes('/join') &&
+        !search.includes('/join') && <Redirect to="/login" />}
 
       {!loginState.isLoginLoading &&
         loginState.authenticated &&

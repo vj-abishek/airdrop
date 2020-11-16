@@ -34,7 +34,7 @@ class EndToEnd {
     db.channel
       .add({ SharedSecret: this.SharedSecret, id: channelId })
       .then(async () => {
-        console.log('Success in insertation');
+        console.log('Success in insertation', this.SharedSecret, channelId);
         if (deletes) {
           const deleteCount = await Slug.slug
             .where('id')
