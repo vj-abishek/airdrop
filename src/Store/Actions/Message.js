@@ -354,16 +354,16 @@ export const RecieveMessage = () => (dispatch, getState) => {
   });
 
   socket.on('recieve other key', ({
-    publickey, channelId, to, ...rest
+    publickey, channelId,
   }) => {
     e2e.produceSharedSecret(publickey);
     e2e.setChannel(channelId);
 
-    socket.emit('now refresh', {
-      to,
-      ...rest,
-    });
+    // socket.emit('now refresh', {
+    //   to,
+    //   ...rest,
+    // });
 
-    window.location.href = '/';
+    // window.location.href = '/';
   });
 };
