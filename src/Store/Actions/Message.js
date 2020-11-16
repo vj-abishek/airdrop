@@ -350,19 +350,22 @@ export const RecieveMessage = () => (dispatch, getState) => {
   });
 
   socket.on('now refresh', () => {
-    window.location.href = '/';
+    // window.location.href = '/';
+    dispatch({ type: 'REFRESH' });
   });
 
   socket.on('recieve other key', ({
-    publickey, channelId,
+    publickey, channelId, to, ...rest
   }) => {
     e2e.produceSharedSecret(publickey);
     e2e.setChannel(channelId);
 
-    // socket.emit('now refresh', {
-    //   to,
-    //   ...rest,
-    // });
+    socket.emit('now refresh', {
+      to,
+      ...rest,
+    });
+
+    dispatch({ type: 'REFRESH' });
 
     // window.location.href = '/';
   });
