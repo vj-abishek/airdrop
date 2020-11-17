@@ -1,5 +1,6 @@
 import { isToday } from 'date-fns';
 import firebase from '../../config/fb';
+import history from '../../history';
 import socket from '../../Components/Functions/Users';
 import E2E from '../../Components/Utils/EndToEnd';
 import db from '../../Components/Utils/Message.model';
@@ -155,7 +156,7 @@ export const TypingIndication = (status) => (dispatch, getState) => {
   dispatch({ type: 'TYPING_INDICATOR', payload: final });
 };
 
-export const RecieveMessage = () => (dispatch, getState) => {
+export const RecieveMessage = () => (dispatch) => {
   socket.on('recieve message', async (message) => {
     try {
       const decrypt = await e2e.decrypt(message.channel, message.body);
@@ -242,12 +243,13 @@ export const RecieveMessage = () => (dispatch, getState) => {
       try {
         const decrypt = await e2e.decrypt(msg.channel, msg.body);
         const parsed = JSON.parse(decrypt);
+        const locatioHref = window.location.href;
+
         const final = {
           ...msg,
           ...parsed,
           body: '',
         };
-        const locatioHref = window.location.href;
         dispatch({
           type: 'SET_LAST_MESSAGE',
           payload: {
@@ -308,6 +310,7 @@ export const RecieveMessage = () => (dispatch, getState) => {
   socket.on('created channel', () => {
     console.log('Refreshing fom the server');
     dispatch({ type: 'REFRESH' });
+    history.push('/');
   });
 
   socket.on('qrcode connected', async ({ to, from, ...rest }) => {
@@ -350,8 +353,8 @@ export const RecieveMessage = () => (dispatch, getState) => {
   });
 
   socket.on('now refresh', () => {
-    // window.location.href = '/';
     dispatch({ type: 'REFRESH' });
+    history.push('/');
   });
 
   socket.on('recieve other key', ({
@@ -364,9 +367,7 @@ export const RecieveMessage = () => (dispatch, getState) => {
       to,
       ...rest,
     });
-
     dispatch({ type: 'REFRESH' });
-
-    window.location.href = '/';
+    history.push('/');
   });
 };
