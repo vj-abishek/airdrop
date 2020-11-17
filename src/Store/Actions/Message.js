@@ -367,6 +367,6 @@ export const RecieveMessage = () => (dispatch, getState) => {
 
     dispatch({ type: 'REFRESH' });
 
-    // window.location.href = '/';
+    window.location.href = '/';
   });
 };
