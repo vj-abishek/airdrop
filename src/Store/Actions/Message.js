@@ -310,7 +310,9 @@ export const RecieveMessage = () => (dispatch) => {
   socket.on('created channel', () => {
     console.log('Refreshing fom the server');
     dispatch({ type: 'REFRESH' });
-    history.push('/');
+    if (window.location.pathname.includes('/invite')) {
+      history.push('/');
+    }
   });
 
   socket.on('qrcode connected', async ({ to, from, ...rest }) => {
