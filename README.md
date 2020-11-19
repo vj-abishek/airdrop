@@ -1,6 +1,6 @@
 <p align="center">
     <a href="#">
-        <img src="public/android-chrome-192x192.png" width="128" height="128">
+        <img src="public/android-chrome-512x512.png" width="128" height="128">
     </a>
 </p>
 
