@@ -54,7 +54,7 @@
 Issues and PR's are welcome.
 
 ### Thanks
-- [react](https://github.com/facebook/react/tree/master/packages/react)
+- [react](https://github.com/facebook/react)
 - [redux](https://github.com/reduxjs/redux)
 - [simple-peer](https://github.com/feross/simple-peer)
 - [simple-peer-files](https://github.com/subins2000/simple-peer-files)
