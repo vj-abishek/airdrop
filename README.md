@@ -14,7 +14,7 @@
 
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/43115551/99625343-0c7ced80-2a56-11eb-8791-01fb8bfe1d76.png" style="max-width:600px;">
+    <img src="https://user-images.githubusercontent.com/43115551/99625343-0c7ced80-2a56-11eb-8791-01fb8bfe1d76.png" >
 </p>
 
 ### Features
