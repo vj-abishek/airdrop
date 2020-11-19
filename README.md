@@ -47,12 +47,24 @@
     <img src="https://user-images.githubusercontent.com/43115551/99628646-9334c900-2a5c-11eb-8239-5cebefa66b89.jpg">
 </p>
 
-### Old SafeShare Repo:
+### old safeShare repo:
 [old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
 
 ### How to contribute
 Issues and PR's are welcome.
 
-## Copyright
+### Thanks
+- [react](https://github.com/facebook/react/tree/master/packages/react)
+- [redux](https://github.com/reduxjs/redux)
+- [simple-peer](https://github.com/feross/simple-peer)
+- [simple-peer-files](https://github.com/subins2000/simple-peer-files)
+- [StreamSaver](https://github.com/jimmywarting/StreamSaver.js)
+- [react-switch](https://github.com/markusenglund/react-switch)
+- [react-scroll-to-bottom](https://github.com/compulim/react-scroll-to-bottom)
+- [react-spinners-css](https://github.com/JoshK2/react-spinners-css)
+- [pulltorefreshjs](https://www.npmjs.com/package/pulltorefreshjs)
+
+
+### Copyright
 
 Licensed under the [MIT LICENSE](LICENSE)
