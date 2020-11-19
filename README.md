@@ -14,7 +14,7 @@
 
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/43115551/99625343-0c7ced80-2a56-11eb-8791-01fb8bfe1d76.png" >
+    <img src="https://user-images.githubusercontent.com/43115551/99625343-0c7ced80-2a56-11eb-8791-01fb8bfe1d76.png">
 </p>
 
 ### Features
@@ -43,7 +43,7 @@
 ### Dark and light mode
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/43115551/99628484-494be300-2a5c-11eb-8071-f969b6cfb774.jpg">
+    <img src="https://user-images.githubusercontent.com/43115551/99629257-b14ef900-2a5d-11eb-8bdc-8797f32eb593.jpg">
     <img src="https://user-images.githubusercontent.com/43115551/99628646-9334c900-2a5c-11eb-8239-5cebefa66b89.jpg">
 </p>
 
