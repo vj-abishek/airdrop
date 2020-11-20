@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 /* @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); */
 
+:root{
+   --color-primary: #061e23;
+    --color-secondary: #004552;
+    --color-accent: #00b2d2;
+    --color-white: #f4f4f9;
+    --color-light: #187a8c;
+    --color-gray: #f1f1f2a1;
+    --other-color:#172729;
+}
+
 @media (prefers-color-scheme: light) {
   body {
     --color-primary:#d3ebef;
