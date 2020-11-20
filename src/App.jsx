@@ -90,12 +90,16 @@ function App({
       socket.emit('authenticated', obj);
     }
 
-    // listen for change event
-    document.addEventListener('visibilitychange', function () {
+    const handleChange = () => {
       if (document.visibilityState === 'visible' && loginState.authenticated) {
         socket.emit('authenticated', obj);
       }
-    });
+    };
+
+    // listen for change event
+    document.addEventListener('visibilitychange', handleChange);
+
+    window.addEventListener('online', handleChange);
   }, [loginState, reciveFiles]);
 
   // pull-to-refresh
