@@ -23,6 +23,7 @@
 - [x] Push notifications
 - [x] Can see online status and typing status
 - [x] Messages works offline
+- [x] Supports markdown
 - [x] File transfering 
 - [x] Voice call
 - [x] Dark and light mode
@@ -39,6 +40,8 @@
 - When you are in the same network (i.e. Your Laptop or mobile connected to your mobile hotspot) file transfer works without using mobile data. So you can save your internet. 
 - Not in the same network, no worries. It works, but standard data charges will apply
 - There is no limit in file transfer.
+
+- Supports markdown, which means you can send rich text like fancy scrolling text, embedded images etc. 
 
 ### Dark and light mode
 
