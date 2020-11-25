@@ -103,11 +103,9 @@ function Conversation({
       >
         <ScrollToBottom
           scrollToEnd={{ behavior: 'smooth' }}
-          className={`${Styles.Chat} pb-1`}
+          className={`${Styles.Chat} pb-2`}
           followButtonClassName={Styles.bottomButton}
         >
-          <div style={{ flex: '1 1 auto', minHeight: '12px' }} />
-
           <div>
             {message.get(channelId)?.messages &&
               message.get(channelId)?.messages.map((data, i, arr) => {
