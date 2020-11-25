@@ -51,7 +51,7 @@
 .Chat > div {
   overflow-x: hidden;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   box-sizing: border-box;
 }
 
@@ -223,6 +223,25 @@
   transform: scaleX(1) scaleY(1);
   opacity: 1;
   visibility: visible;
+}
+
+.bottomButton{  
+  background-image: url('../assets/bottomArrow.svg') !important;
+  position: absolute;
+  border-radius: 50% !important;
+  bottom: 17px !important;
+  right: 11px !important;
+  background-position: center !important; 
+  background-repeat: no-repeat !important; 
+  background-size: 19px 20px !important;
+  z-index: 200 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  background-color: #262d31 !important;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.06),0 2px 5px 0 rgba(0,0,0,.2) !important;
 }
 
 ::-webkit-scrollbar-thumb {

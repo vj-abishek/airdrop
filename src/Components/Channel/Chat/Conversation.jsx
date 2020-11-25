@@ -103,7 +103,8 @@ function Conversation({
       >
         <ScrollToBottom
           scrollToEnd={{ behavior: 'smooth' }}
-          className={`${Styles.Chat} pb-2`}
+          className={`${Styles.Chat} pb-1`}
+          followButtonClassName={Styles.bottomButton}
         >
           <div style={{ flex: '1 1 auto', minHeight: '12px' }} />
 
