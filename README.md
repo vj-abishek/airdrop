@@ -50,6 +50,40 @@
     <img src="https://user-images.githubusercontent.com/43115551/99628646-9334c900-2a5c-11eb-8239-5cebefa66b89.jpg">
 </p>
 
+### Example markdown:
+
+``` 
+![](https://i.imgur.com/Uo11eIG.jpg)
+
+Here is my source code
+```
+![image](https://user-images.githubusercontent.com/43115551/100191160-af7dad80-2f15-11eb-8d44-ab146ea4c431.png)
+   
+```
+~~The world is flat.~~
+```
+![image](https://user-images.githubusercontent.com/43115551/100191478-32066d00-2f16-11eb-9cca-5d94387d2f8c.png)
+
+```
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+```
+![image](https://user-images.githubusercontent.com/43115551/100191597-6ed26400-2f16-11eb-94c9-0a5241cd4120.png)
+
+```
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+```
+![image](https://user-images.githubusercontent.com/43115551/100191691-97f2f480-2f16-11eb-9270-3f984ed17b28.png)
+
+```
+<marquee>This is scrolling text
+```
+
 ### old safeShare repo:
 [old Safeshare Repo](https://github.com/vj-abishek/airdrop/tree/old)
 
