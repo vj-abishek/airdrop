@@ -5,7 +5,7 @@ export default function Build() {
   return (
     <Main>
       <div className="text-base">Build version</div>
-      <div className="text-light text-sm">v1.0.0</div>
+      <div className="text-light text-sm">v1.0.1</div>
     </Main>
   );
 }
