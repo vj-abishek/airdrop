@@ -10,6 +10,8 @@ import App from './App';
 import history from './history';
 import reducer from './Store/reducers/rootReducers';
 import * as serviceWorker from './serviceWorker';
+import 'fawn-components/lib/fn-pwa-banner';
+import 'fawn-components/lib/fn-pwa-status';
 
 // for crash report using sentry
 if (process.env.NODE_ENV === 'production') {

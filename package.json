@@ -1,13 +1,13 @@
 {
   "name": "relp",
-  "description":"Relp - a web messenger. Enjoy free text chat, voice call and file sharing",
+  "description": "Relp - a web messenger. Enjoy free text chat, voice call and file sharing",
   "version": "1.0.0",
   "private": true,
   "author": "Abishek",
   "main": "public/electron.js",
   "build": {
     "appId": "sh.now.relp",
-    "productName":"Relp",
+    "productName": "Relp",
     "files": [
       "build/**/*",
       "node_modules/**/*"
@@ -15,8 +15,8 @@
     "directories": {
       "buildResources": "assets"
     },
-    "win":{
-      "icon":"icon.png"
+    "win": {
+      "icon": "icon.png"
     },
     "publish": {
       "provider": "github",
@@ -35,6 +35,7 @@
     "dompurify": "^2.0.15",
     "electron-is-dev": "^1.2.0",
     "emoji-mart": "^3.0.0",
+    "fawn-components": "^0.0.5",
     "firebase": "^7.16.1",
     "framer-motion": "^2.9.4",
     "immer": "^7.0.9",
