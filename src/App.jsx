@@ -159,11 +159,7 @@ function App({
       </ToastProvider>
 
       {/* Custom components  */}
-      <fn-pwa-banner
-        className="z-50"
-        background="#187a8c"
-        title="Install relp"
-      ></fn-pwa-banner>
+      <fn-pwa-banner background="#187a8c" title="Install relp"></fn-pwa-banner>
       <fn-pwa-status background="#187a8c"></fn-pwa-status>
 
       {callStatus && <CallStatus callStatus={callStatus} />}

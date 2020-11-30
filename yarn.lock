@@ -6543,10 +6543,10 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-fawn-components@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/fawn-components/-/fawn-components-0.0.5.tgz#0dd1755a26c0c3d972e2a4180ee52ba9f8ec3930"
-  integrity sha512-qWdLHK8QfZW/lvgV7YC7koh5MSlnK8m99JQJEVI7UQgrujJr44LR+NhQEieaFx5SScNPlMfq47W1wKoqMttz3Q==
+fawn-components@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/fawn-components/-/fawn-components-0.0.6.tgz#8d124ed9ed9b27a8140b091f07012531329ffcdd"
+  integrity sha512-IQyoYtT+rMbznt59OEIulakhTJwKVKPpkIimRze3kwo+4No3s9D3OjzMutagEb7OMVVo5t4qeGgQFBOvbcthYQ==
   dependencies:
     lit-element "^2.3.1"
 
