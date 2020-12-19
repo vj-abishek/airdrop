@@ -125,6 +125,10 @@ export default produce((draft, { type, payload }) => {
       if (hasInMap) {
         draft.messageCount.delete(payload.channel);
       }
+      // Clear the badge
+      navigator.clearAppBadge().catch((error) => {
+        console.log(error);
+      });
 
       return draft;
     }

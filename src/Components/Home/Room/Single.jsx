@@ -102,6 +102,12 @@ const Single = ({
         messagecount = Count.get(snapShot.channelId).messageCount;
       }
 
+      if(size > 0){
+        navigator.setAppBadge(size).catch((error) => {
+          console.log('error:', error);
+        });
+      }
+
       return (
         <Link
           to={`/r/${snapShot.channelId}/${
