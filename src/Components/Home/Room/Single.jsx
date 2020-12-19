@@ -102,8 +102,8 @@ const Single = ({
         messagecount = Count.get(snapShot.channelId).messageCount;
       }
 
-      if(size > 0){
-        navigator?.setAppBadge(size).catch((error) => {
+      if(size > 0 && 'setAppBadge' in navigator){
+        navigator.setAppBadge(size).catch((error) => {
           console.log('error:', error);
         });
       }
