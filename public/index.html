@@ -1,54 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <meta name="theme-color" content="#061e23" />
-  <meta name="description" content="Relp, a messenger for the web. " />
-  <meta name="keywords"
-    content="SafeShare,on share,SafeShare now ,SafeShare file,file transfer, peer to peer communication, " />
-  <meta name="author" content="Abishek" />
-  <meta name="ROBOTS" content="INDEX, FOLLOW" />
-  <meta property="og:title" content="relp.now.sh - Online file Sharing" />
-  <meta property="og:url" content="https://relp.now.sh" />
-  <meta property="og:description" content="relp.now.sh  is a online file sharing service. SafeShare is a real time
+  <head>
+    <meta charset="utf-8" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="%PUBLIC_URL%/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#061e23" />
+    <meta name="description" content="Relp, a messenger for the web. " />
+    <meta
+      name="keywords"
+      content="SafeShare,on share,SafeShare now ,SafeShare file,file transfer, peer to peer communication, "
+    />
+    <meta name="author" content="Abishek" />
+    <meta name="ROBOTS" content="INDEX, FOLLOW" />
+    <meta property="og:title" content="relp.now.sh - Online file Sharing" />
+    <meta property="og:url" content="https://relp.now.sh" />
+    <meta
+      property="og:description"
+      content="relp.now.sh  is a online file sharing service. SafeShare is a real time
     peer to peer communication system. The files you shared won't be uploaded to our
-    server. This is a peer to peer file sharing website." />
+    server. This is a peer to peer file sharing website."
+    />
 
-  <meta property="og:image" content="%PUBLIC_URL%/HomeScreen.PNG" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="400" />
-  <meta property="og:image:height" content="300" />
-  <meta property="og:image:alt" content="relp.now.sh - messenger for the web" />
+    <meta property="og:image" content="%PUBLIC_URL%/HomeScreen.PNG" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+    <meta
+      property="og:image:alt"
+      content="relp.now.sh - messenger for the web"
+    />
 
-  <link rel="canonical" href="https://relp.now.sh" />
-  <link rel="preconnect" href="https://relp-server.herokuapp.com/">
-  <link rel="dns-prefetch" href="https://relp-server.herokuapp.com/">
-  <title>Relp (alpha)</title>
-  <style>
-    #root{
-      background-color: var(--color-primary);
-    }
-  </style>
-</head>
+    <link rel="canonical" href="https://relp.now.sh" />
+    <link rel="preconnect" href="https://relp-server.herokuapp.com/" />
+    <link rel="dns-prefetch" href="https://relp-server.herokuapp.com/" />
+    <title>Relp (alpha)</title>
+    <style>
+      #root {
+        background-color: var(--color-primary);
+      }
+    </style>
+  </head>
 
-<body>
-  <noscript>You need to enable JavaScript to share files to anyone.</noscript>
-  <div id="root"></div>
-  <div id="popup"></div>
-  <div id="img"></div>
-  <audio id="message-tone"> 
-    <source src="tones/message-tone.mp3" type="audio/mpeg">
-    <source src="tones/message-tone.ogg" type="audio/ogg">
-  </audio>
+  <body>
+    <noscript>You need to enable JavaScript to share files to anyone.</noscript>
+    <div id="root"></div>
+    <div id="popup"></div>
+    <div id="img"></div>
+    <audio id="message-tone">
+      <source src="tones/message-tone.mp3" type="audio/mpeg" />
+      <source src="tones/message-tone.ogg" type="audio/ogg" />
+    </audio>
 
-  <!--
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -58,9 +82,15 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
+  </body>
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
 
-<!-- <script>
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+  </script>
+
+  <!-- <script>
   if('serviceWorker' in navigator){
     navigator.serviceWorker.onmessage = (e) => {
       const localFile = e.data.file;
@@ -79,5 +109,4 @@
     };
   }
 </script> -->
-
 </html>
