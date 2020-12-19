@@ -126,7 +126,7 @@ export default produce((draft, { type, payload }) => {
         draft.messageCount.delete(payload.channel);
       }
       // Clear the badge
-      navigator.clearAppBadge().catch((error) => {
+      navigator?.clearAppBadge().catch((error) => {
         console.log(error);
       });
 

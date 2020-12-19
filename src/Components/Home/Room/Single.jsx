@@ -103,7 +103,7 @@ const Single = ({
       }
 
       if(size > 0){
-        navigator.setAppBadge(size).catch((error) => {
+        navigator?.setAppBadge(size).catch((error) => {
           console.log('error:', error);
         });
       }
