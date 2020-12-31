@@ -20,7 +20,7 @@ Open the above link and scan the `Qrcode`
 
 ### `How to use`
 
-![How to use](https://github.com/vj-abishek/airdrop/blob/master/img/ezgif.com-gif-maker.gif)
+![How to use](img/ezgif.com-gif-maker.gif)
 
 ### `Server Repo`
 
