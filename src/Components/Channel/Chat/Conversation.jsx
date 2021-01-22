@@ -42,7 +42,7 @@ function Conversation({
   const height = use100vh();
 
   useEffect(() => {
-    setMinHeight(height ? height - 120 : '');
+    setMinHeight(height ? height - 120 : '95vh');
   }, [height]);
 
   useEffect(() => {
