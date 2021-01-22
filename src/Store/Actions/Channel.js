@@ -48,7 +48,6 @@ export const Fetch = () => (dispatch, getState) => {
 
   db.collection('channel')
     .where('both', 'array-contains', uid)
-    .limit(5)
     .get()
     .then((data) => {
       if (data.empty) {
