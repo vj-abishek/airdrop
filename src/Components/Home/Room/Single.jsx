@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
@@ -139,8 +139,13 @@ const Single = ({
         });
       }
 
+      let lastMessagetime = null;
       const hasLastMessage = lastMessage.has(snapShot.channelId);
 
+      if (hasLastMessage) {
+        const message = lastMessage.get(snapShot.channelId);
+        lastMessagetime = message.message?.time;
+      }
       return (
         <Link
           to={`/r/${snapShot.channelId}/${
@@ -195,9 +200,18 @@ const Single = ({
                 !cond && Styles.borderBorder
               }`}
             >
-              <div className={`text-white text-lg ${Styles.overFLow}`}>
-                <span>{snapShot.pro.data().isAnonymous && '~ '}</span>
-                <span>{snapShot.pro.data().displayName}</span>
+              <div
+                className={`text-white text-lg ${Styles.overFLow} flex justify-between`}
+              >
+                <div className={Styles.overFLow}>
+                  <span>{snapShot.pro.data().isAnonymous && '~ '}</span>
+                  <span>{snapShot.pro.data().displayName}</span>
+                </div>
+                <div className={`${Styles.gray1} text-xs`}>
+                  {(hasLastMessage &&
+                    format(new Date(lastMessagetime), 'hh:mm a')) ||
+                    ''}
+                </div>
               </div>
               <div
                 style={{

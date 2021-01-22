@@ -105,24 +105,22 @@ function Conversation({
       {isCall && <VoiceCallUI />}
       <div
         id="ChatBox"
-        style={{ maxWidth: `${window.innerWidth}px` }}
+        style={{ maxWidth: `${window.innerWidth}px`, height: minHeight }}
         ref={ChatBox}
         onScroll={handleScroll}
       >
-        <div style={{ height: minHeight }}>
-          <ScrollToBottom
-            scrollToEnd={{ behavior: 'smooth' }}
-            className={`${Styles.Chat} pb-2`}
-            followButtonClassName={Styles.bottomButton}
-          >
-            <div>
-              {message.get(channelId)?.messages &&
-                message.get(channelId)?.messages.map((data, i, arr) => {
-                  return <Chat data={data} key={data.messageId} uid={uid} />;
-                })}
-            </div>
-          </ScrollToBottom>
-        </div>
+        <ScrollToBottom
+          scrollToEnd={{ behavior: 'smooth' }}
+          className={`${Styles.Chat} pb-2`}
+          followButtonClassName={Styles.bottomButton}
+        >
+          <div>
+            {message.get(channelId)?.messages &&
+              message.get(channelId)?.messages.map((data, i, arr) => {
+                return <Chat data={data} key={data.messageId} uid={uid} />;
+              })}
+          </div>
+        </ScrollToBottom>
       </div>
       <Fotter channelId={channelId} />
     </div>
