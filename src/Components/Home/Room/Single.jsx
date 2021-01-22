@@ -22,14 +22,21 @@ const MessageCount = ({ children, messageCount }) => (
   </div>
 );
 
-const Utils = ({ TypingIndication, snapShot, status, count }) => {
+const Utils = ({
+  TypingIndication,
+  snapShot,
+  status,
+  count,
+  hasLastMessage,
+  lastMessage,
+}) => {
   const [typing, setTyping] = useState('NO_CONTENT');
 
   useEffect(() => {
     setTyping(TypingIndication.get(snapShot.channelId)?.other);
   }, [TypingIndication, snapShot]);
 
-  if (typing === 'CONTENT')
+  if (typing === 'CONTENT') {
     return (
       <MessageCount messageCount={count}>
         <span style={{ fontSize: '13px' }} className="text-accent">
@@ -37,19 +44,39 @@ const Utils = ({ TypingIndication, snapShot, status, count }) => {
         </span>
       </MessageCount>
     );
-  else if (status?.status.includes('Online'))
-    return <MessageCount messageCount={count}>Active now</MessageCount>;
-  else {
-    if (status?.LastSeen)
+  }
+
+  if (hasLastMessage && !(typing === 'CONTENT')) {
+    const getLastMessage = lastMessage.get(snapShot.channelId);
+
+    console.log(getLastMessage);
+
+    if (getLastMessage.message?.message !== undefined) {
       return (
         <MessageCount messageCount={count}>
-          {`Active ${formatDistanceToNow(status.LastSeen, {
-            addSuffix: true,
-          })}`}
+          {getLastMessage.message?.message || 'Tap to chat'}
         </MessageCount>
       );
-    else return 'Tap to chat';
+    } else {
+      return <MessageCount messageCount={count}>Active now</MessageCount>;
+    }
   }
+
+  if (status?.status.includes('Online')) {
+    return <MessageCount messageCount={count}>Active now</MessageCount>;
+  }
+
+  if (status?.LastSeen) {
+    return (
+      <MessageCount messageCount={count}>
+        {`Active ${formatDistanceToNow(status.LastSeen, {
+          addSuffix: true,
+        })}`}
+      </MessageCount>
+    );
+  }
+
+  return 'Tap to chat';
 };
 
 const Single = ({
@@ -61,6 +88,7 @@ const Single = ({
   TypingIndication,
   uid,
   Count,
+  lastMessage,
 }) => {
   const { id } = useParams();
 
@@ -102,11 +130,13 @@ const Single = ({
         messagecount = Count.get(snapShot.channelId).messageCount;
       }
 
-      if(size > 0 && 'setAppBadge' in navigator){
+      if (size > 0 && 'setAppBadge' in navigator) {
         navigator.setAppBadge(size).catch((error) => {
           console.log('error:', error);
         });
       }
+
+      const hasLastMessage = lastMessage.has(snapShot.channelId);
 
       return (
         <Link
@@ -166,12 +196,19 @@ const Single = ({
                 <span>{snapShot.pro.data().isAnonymous && '~ '}</span>
                 <span>{snapShot.pro.data().displayName}</span>
               </div>
-              <div className={`${Styles.gray1} text-xs`}>
+              <div
+                style={{
+                  fontSize: '14px',
+                }}
+                className={Styles.gray1}
+              >
                 <Utils
                   snapShot={snapShot}
                   TypingIndication={TypingIndication}
                   status={status}
                   count={messagecount}
+                  lastMessage={lastMessage}
+                  hasLastMessage={hasLastMessage}
                 />
               </div>
             </div>
@@ -186,13 +223,12 @@ const mapDispatchToProps = (dispatch) => ({
   update: (id) => dispatch(UpdateChannel(id)),
 });
 
-const mapStateToProps = (state) => {
-  return {
-    hashTable: state.channelReducer.visited,
-    TypingIndication: state.messageReducer.data,
-    uid: state.authReducer.user.uid,
-    Count: state.messageReducer.messageCount,
-  };
-};
+const mapStateToProps = (state) => ({
+  hashTable: state.channelReducer.visited,
+  TypingIndication: state.messageReducer.data,
+  uid: state.authReducer.user.uid,
+  Count: state.messageReducer.messageCount,
+  lastMessage: state.messageReducer.lastMessage,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Single);

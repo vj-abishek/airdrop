@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import history from './history';
 import reducer from './Store/reducers/rootReducers';
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 const rootElement = document.getElementById('root');
 render(
