@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
 import Chat from './Utils/Chat';
@@ -36,6 +37,13 @@ function Conversation({
   const [iteration, setIteration] = useState(0);
   const [currentTo, setTo] = useState(null);
   const [currentRoom, setCurrentRoom] = useState('');
+  const [minHeight, setMinHeight] = useState('');
+
+  const height = use100vh();
+
+  useEffect(() => {
+    setMinHeight(height ? height - 120 : '');
+  }, [height]);
 
   useEffect(() => {
     channel(channelId, uid, false);
@@ -101,18 +109,20 @@ function Conversation({
         ref={ChatBox}
         onScroll={handleScroll}
       >
-        <ScrollToBottom
-          scrollToEnd={{ behavior: 'smooth' }}
-          className={`${Styles.Chat} pb-2`}
-          followButtonClassName={Styles.bottomButton}
-        >
-          <div>
-            {message.get(channelId)?.messages &&
-              message.get(channelId)?.messages.map((data, i, arr) => {
-                return <Chat data={data} key={data.messageId} uid={uid} />;
-              })}
-          </div>
-        </ScrollToBottom>
+        <div style={{ height: minHeight }}>
+          <ScrollToBottom
+            scrollToEnd={{ behavior: 'smooth' }}
+            className={`${Styles.Chat} pb-2`}
+            followButtonClassName={Styles.bottomButton}
+          >
+            <div>
+              {message.get(channelId)?.messages &&
+                message.get(channelId)?.messages.map((data, i, arr) => {
+                  return <Chat data={data} key={data.messageId} uid={uid} />;
+                })}
+            </div>
+          </ScrollToBottom>
+        </div>
       </div>
       <Fotter channelId={channelId} />
     </div>
