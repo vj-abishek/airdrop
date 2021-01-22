@@ -7,9 +7,12 @@ import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
 
-const MessageCount = ({ children, messageCount }) => (
+const MessageCount = ({ children, messageCount, title }) => (
   <div className="flex flex-row justify-between">
-    <div className={`${messageCount > 0 && 'text-white'} ${Styles.overFLow}`}>
+    <div
+      className={`${messageCount > 0 && 'text-white'} ${Styles.overFLow}`}
+      title={title && title}
+    >
       {children}
     </div>
     <div
@@ -48,12 +51,12 @@ const Utils = ({
 
   if (hasLastMessage && !(typing === 'CONTENT')) {
     const getLastMessage = lastMessage.get(snapShot.channelId);
-
-    console.log(getLastMessage);
-
     if (getLastMessage.message?.message !== undefined) {
       return (
-        <MessageCount messageCount={count}>
+        <MessageCount
+          messageCount={count}
+          title={getLastMessage.message?.message}
+        >
           {getLastMessage.message?.message || 'Tap to chat'}
         </MessageCount>
       );
