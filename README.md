@@ -101,6 +101,16 @@ Issues and PR's are welcome.
 - [react-spinners-css](https://github.com/JoshK2/react-spinners-css)
 - [pulltorefreshjs](https://www.npmjs.com/package/pulltorefreshjs)
 
+### FAQ
+<details>
+    <summary>Why file transfer not working?</summary>
+ As of now both user needs to be in online and they need to be chatting or in the same room to enable this feature. If you have any idea raise an issue
+</details>
+<details>
+    <summary>How can I find that file transfer is enabled?</summary>
+ You can find a purple color dot near the profile of the user. When it is blue, it means file tranfer is not working. 
+</details>
+
 
 ### Copyright
 
