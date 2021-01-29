@@ -31,7 +31,7 @@
 
 ### Why
 
-- Most of the time you need to send important  messages or  tranfer files between your pc and mobile
+- Most of the time you need to send important  messages or  transfer files between your pc and mobile
 - You don't need to have an extra phone number or email address to transfer files or messages
 
 - Messages work even when the app is not opened, which means, You can transfer important messages from your phone to pc or vice versa at any time. And later you can get those messages
