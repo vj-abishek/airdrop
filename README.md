@@ -36,12 +36,12 @@
 
 - Messages work even when the app is not opened, which means, You can transfer important messages from your phone to pc or vice versa at any time. And later you can get those messages
   
-- You don't need to spend your mobile data to transfer file between your pc. 
+- You don't need to spend your mobile data to transfer files between your pc. 
 - When you are in the same network (i.e. Your Laptop or mobile connected to your mobile hotspot) file transfer works without using mobile data. So you can save your internet. 
 - Not in the same network, no worries. It works, but standard data charges will apply
 - There is no limit in file transfer.
 
-- Supports markdown, which means you can send rich text like fancy scrolling text, embedded images etc. 
+- Supports markdown, which means you can send rich text like fancy scrolling text, embedded images, etc. 
 
 ### Dark and light mode
 
