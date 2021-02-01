@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow, isDate } from 'date-fns';
 import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
@@ -146,6 +146,9 @@ const Single = ({
         const message = lastMessage.get(snapShot.channelId);
         lastMessagetime = message.message?.time;
       }
+        
+       const checkDate = isDate(lastMessagetime) && (new Date(lastMessagetime) !== 'Invalid Date') 
+        
       return (
         <Link
           to={`/r/${snapShot.channelId}/${
@@ -208,7 +211,7 @@ const Single = ({
                   <span>{snapShot.pro.data().displayName}</span>
                 </div>
                 <div className={`${Styles.gray1} text-xs`}>
-                  {(hasLastMessage &&
+                  {(hasLastMessage && checkDate &&
                     format(new Date(lastMessagetime), 'hh:mm a')) ||
                     ''}
                 </div>
