@@ -147,7 +147,7 @@ const Single = ({
         lastMessagetime = message.message?.time;
       }
         
-       const checkDate = isDate(lastMessagetime) && (new Date(lastMessagetime) !=== 'Invalid Date') 
+       const checkDate = isDate(lastMessagetime) && (new Date(lastMessagetime) !== 'Invalid Date') 
         
       return (
         <Link
