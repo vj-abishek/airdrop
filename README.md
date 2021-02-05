@@ -108,7 +108,7 @@ Issues and PR's are welcome.
 </details>
 <details>
     <summary>How can I find that file transfer is enabled?</summary>
- You can find a purple color dot near the profile of the user. When it is blue, it means file tranfer is not working. 
+ You can find a purple color dot near the profile of the user. When it is blue, it means file tranfer is not enabled. Wait sometime to turn blue dot to purple dot. It usually takes few seconds to turn into purple. 
 </details>
 
 
