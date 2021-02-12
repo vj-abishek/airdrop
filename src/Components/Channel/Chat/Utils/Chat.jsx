@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { format, isToday, isYesterday } from 'date-fns';
+import { isToday, isYesterday } from 'date-fns';
 import DOMPurify from 'dompurify';
 import { Circle } from 'rc-progress';
 import marked from 'marked';
@@ -90,8 +90,12 @@ const Utils = ({ data, openTab, uid, status }) => {
           <span className={Styles.hwx} />
         </div>
         <div className={Styles.meta}>
-          <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
-            {format(new Date(data.time), 'hh:mm a') || NaN}
+          <span className={`${Styles.gray1} text-xs`}>
+            {new Date(data.time) !== 'Invalid Date' &&
+              new Date(data.time).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
           </span>
         </div>
       </>
@@ -139,8 +143,12 @@ const Utils = ({ data, openTab, uid, status }) => {
           <span className={Styles.hwx} />
         </div>
         <div style={{ alignSelf: 'flex-end' }} className={`${Styles.meta}`}>
-          <span style={{ fontSize: '10.5px' }} className={Styles.gray1}>
-            {format(new Date(data.time), 'hh:mm a') || NaN}
+          <span className={`${Styles.gray1} text-xs`}>
+            {new Date(data.time) !== 'Invalid Date' &&
+              new Date(data.time).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
           </span>
         </div>
       </>
