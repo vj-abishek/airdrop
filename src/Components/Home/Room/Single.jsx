@@ -146,9 +146,13 @@ const Single = ({
         const message = lastMessage.get(snapShot.channelId);
         lastMessagetime = message.message?.time;
       }
-        
-       const checkDate = isDate(lastMessagetime) && (new Date(lastMessagetime) !== 'Invalid Date') 
-        
+
+      const isdate = isDate(new Date(lastMessagetime));
+      const date = new Date(lastMessagetime);
+
+      const checkDate =
+        lastMessagetime !== undefined && isdate && date !== 'Invalid Date';
+
       return (
         <Link
           to={`/r/${snapShot.channelId}/${
@@ -211,7 +215,9 @@ const Single = ({
                   <span>{snapShot.pro.data().displayName}</span>
                 </div>
                 <div className={`${Styles.gray1} text-xs`}>
-                  {(hasLastMessage && checkDate &&
+                  {(hasLastMessage &&
+                    checkDate &&
+                    isdate &&
                     format(new Date(lastMessagetime), 'hh:mm a')) ||
                     ''}
                 </div>
