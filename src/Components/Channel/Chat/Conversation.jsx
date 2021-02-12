@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import { use100vh } from 'react-div-100vh';
+// import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
 import Chat from './Utils/Chat';
@@ -37,13 +37,13 @@ function Conversation({
   const [iteration, setIteration] = useState(0);
   const [currentTo, setTo] = useState(null);
   const [currentRoom, setCurrentRoom] = useState('');
-  const [minHeight, setMinHeight] = useState('');
+  // const [minHeight, setMinHeight] = useState('');
 
-  const height = use100vh();
+  // const height = use100vh();
 
-  useEffect(() => {
-    setMinHeight(height ? height - 120 : '95vh');
-  }, [height]);
+  // useEffect(() => {
+  //   setMinHeight(height ? height - 120 : '95vh');
+  // }, [height]);
 
   useEffect(() => {
     channel(channelId, uid, false);
@@ -105,7 +105,7 @@ function Conversation({
       {isCall && <VoiceCallUI />}
       <div
         id="ChatBox"
-        style={{ maxWidth: `${window.innerWidth}px`, height: minHeight }}
+        style={{ maxWidth: `${window.innerWidth}px` }}
         ref={ChatBox}
         onScroll={handleScroll}
       >
