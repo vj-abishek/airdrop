@@ -10,7 +10,6 @@
   --color-gray: #f1f1f2a1;
   --other-color: #172729;
   --color-href: #73eaff;
-  --color-accent-text: #00b2d2;
 }
 
 @media (prefers-color-scheme: light) {
@@ -23,7 +22,6 @@
     --color-gray: #555;
     --other-color: #f4f4f9;
     --color-href: #067285;
-    --color-accent-text: #004450;
     background-color: var(--color-primary) !important;
   }
 
