@@ -62,8 +62,6 @@ const Utils = ({
           {getLastMessage.message?.message || 'Tap to chat'}
         </MessageCount>
       );
-    } else {
-      return <MessageCount messageCount={count}>Active now</MessageCount>;
     }
   }
 
