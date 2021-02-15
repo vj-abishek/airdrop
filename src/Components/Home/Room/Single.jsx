@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { formatDistanceToNow, isDate } from 'date-fns';
+import { isDate } from 'date-fns';
 import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
+import LastSeen from '../../Utils/LastSeen';
 
 const MessageCount = ({ children, messageCount, title }) => (
   <div className="flex flex-row justify-between">
@@ -72,9 +73,9 @@ const Utils = ({
   if (status?.LastSeen) {
     return (
       <MessageCount messageCount={count}>
-        {`Active ${formatDistanceToNow(status.LastSeen, {
-          addSuffix: true,
-        })}`}
+        <div className={Styles.overFLow}>
+          {LastSeen(new Date(status?.LastSeen))}
+        </div>
       </MessageCount>
     );
   }

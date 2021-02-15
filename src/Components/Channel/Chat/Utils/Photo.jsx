@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Styles from '../../../../Styles/responsive.module.css';
 import { useParams } from 'react-router-dom';
-import { formatDistanceToNow } from 'date-fns';
+import LastSeen from '../../../Utils/LastSeen';
 
 const Utils = ({ TypingIndication, id, status }) => {
   const [typing, setTyping] = useState('NO_CONTENT');
@@ -12,19 +12,15 @@ const Utils = ({ TypingIndication, id, status }) => {
   }, [TypingIndication, id]);
 
   if (typing === 'CONTENT') return 'typing...';
-  else if (status?.status.includes('Online')) return 'Active now';
-  else {
-    if (status?.LastSeen)
-      return (
-        <div className={Styles.overFLow}>{`Active ${formatDistanceToNow(
-          status.LastSeen,
-          {
-            addSuffix: true,
-          },
-        )}`}</div>
-      );
-    else return '';
-  }
+  if (status?.status.includes('Online')) return 'Active now';
+  if (status?.LastSeen)
+    return (
+      <div className={Styles.overFLow}>
+        {LastSeen(new Date(status?.LastSeen))}
+      </div>
+    );
+
+  return '';
 };
 
 const Photo = ({ user, Ustatus, TypingIndication, peerStatus }) => {
