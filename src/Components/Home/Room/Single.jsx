@@ -214,7 +214,10 @@ const Single = ({
                   <span>{snapShot.pro.data().isAnonymous && '~ '}</span>
                   <span>{snapShot.pro.data().displayName}</span>
                 </div>
-                <div className={`${Styles.gray1} text-xs`}>
+                <div
+                  className={`${Styles.gray1} text-xs `}
+                  style={{ color: 'var(--color-accent-text)' }}
+                >
                   {(hasLastMessage &&
                     checkDate &&
                     isdate &&

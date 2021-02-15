@@ -198,7 +198,7 @@
   min-width: 20px;
   min-height: 20px;
   text-align: center;
-  background-color: var(--color-accent);
+  background-color: var(--color-accent-text);
   border-radius: 1.1em;
   color: rgb(19 28 33);
   font-weight: 600;
