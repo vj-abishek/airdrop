@@ -12,5 +12,5 @@ export default function ConversationTime(date) {
         return 'Yesterday';
     }
 
-    return format(date, 'MM/dd/yy');
+    return format(date, 'dd/MM/yy');
 }
