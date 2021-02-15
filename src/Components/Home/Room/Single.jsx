@@ -7,6 +7,7 @@ import E2E from '../../Utils/EndToEnd';
 import Styles from '../../../Styles/responsive.module.css';
 import { UpdateChannel } from '../../../Store/Actions/Channel';
 import LastSeen from '../../Utils/LastSeen';
+import ConversationTime from '../../Utils/ConversationTime';
 
 const MessageCount = ({ children, messageCount, title }) => (
   <div className="flex flex-row justify-between">
@@ -219,10 +220,7 @@ const Single = ({
                   {(hasLastMessage &&
                     checkDate &&
                     isdate &&
-                    new Date(lastMessagetime).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })) ||
+                    ConversationTime(new Date(lastMessagetime))) ||
                     ''}
                 </div>
               </div>
