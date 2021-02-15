@@ -1,40 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 /* @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); */
 
-:root{
-   --color-primary: #061e23;
-    --color-secondary: #004552;
-    --color-accent: #00b2d2;
-    --color-white: #f4f4f9;
-    --color-light: #187a8c;
-    --color-gray: #f1f1f2a1;
-    --other-color:#172729;
+:root {
+  --color-primary: #061e23;
+  --color-secondary: #004552;
+  --color-accent: #00b2d2;
+  --color-white: #f4f4f9;
+  --color-light: #187a8c;
+  --color-gray: #f1f1f2a1;
+  --other-color: #172729;
+  --color-href: #73eaff;
 }
 
 @media (prefers-color-scheme: light) {
   body {
-    --color-primary:#d3ebef;
+    --color-primary: #d3ebef;
     --color-secondary: #91d6e3;
     --color-accent: #00b2d2;
     --color-white: #061e23;
     --color-light: #187a8c;
     --color-gray: #555;
     --other-color: #f4f4f9;
+    --color-href: #067285;
     background-color: var(--color-primary) !important;
   }
-  
-  .bg-primary{
+
+  .bg-primary {
     background-color: var(--color-primary) !important;
   }
   .bg-secondary {
     background-color: var(--color-secondary) !important;
   }
 
-  .text-white{
+  .text-white {
     color: var(--color-white) !important;
   }
-  .text-light{
-    color:#061e23 !important;
+  .text-light {
+    color: #061e23 !important;
   }
 }
 
@@ -46,14 +48,15 @@
     --color-white: #f4f4f9;
     --color-light: #187a8c;
     --color-gray: #f1f1f2a1;
-    --other-color:#172729;
+    --other-color: #172729;
+    --color-href: #73eaff;
   }
 }
 
 html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -ms-text-size-adjust: 100%;
@@ -63,12 +66,12 @@ html {
   outline: none;
 }
 code {
-  font-family: source-code-pro,'Fira Code',  Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, 'Fira Code', Menlo, Monaco, Consolas,
+    'Courier New', monospace;
 }
 
-
 p > a {
-  color: #73eaff;
+  color: var(--color-href);
 }
 p > a:hover {
   text-decoration: underline;
@@ -93,10 +96,10 @@ p > a:hover {
 .width-login {
   width: calc(100vw - 385px);
 }
-.ptr--icon{
+.ptr--icon {
   color: var(--color-gray) !important;
 }
-.ptr--text{  
+.ptr--text {
   color: var(--color-gray) !important;
 }
 
