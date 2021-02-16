@@ -90,16 +90,9 @@ Here is my source code
 ### How to contribute
 Issues and PR's are welcome.
 
-### Thanks
-- [react](https://github.com/facebook/react)
-- [redux](https://github.com/reduxjs/redux)
-- [simple-peer](https://github.com/feross/simple-peer)
-- [simple-peer-files](https://github.com/subins2000/simple-peer-files)
-- [StreamSaver](https://github.com/jimmywarting/StreamSaver.js)
-- [react-switch](https://github.com/markusenglund/react-switch)
-- [react-scroll-to-bottom](https://github.com/compulim/react-scroll-to-bottom)
-- [react-spinners-css](https://github.com/JoshK2/react-spinners-css)
-- [pulltorefreshjs](https://www.npmjs.com/package/pulltorefreshjs)
+### Download
+- This is just a website, so you can go to [webrelp.me](https://webrelp.me)
+- To download desktop app [go here](https://github.com/vj-abishek/airdrop/releases/tag/v1.0.4)
 
 ### FAQ
 <details>
