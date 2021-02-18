@@ -167,7 +167,7 @@ function Conversation({
             // style={{ display: 'flex', flexDirection: 'column-reverse' }}
             loader={<Loader />}
             scrollableTarget="ChatBox"
-            // scrollThreshold="200px"
+            scrollThreshold="200px"
           >
             {message.get(channelId)?.messages.map((data, i, arr) => {
               return <Chat data={data} key={data.messageId} uid={uid} />;
