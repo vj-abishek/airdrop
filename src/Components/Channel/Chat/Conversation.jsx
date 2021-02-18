@@ -19,7 +19,7 @@ import {
 const Loader = () => (
   <div className="flex flex-row justify-center items-center ">
     <div
-      class="bg-secondary p-2 rounded-full shadow-md"
+      className="bg-secondary p-2 rounded-full shadow-md"
       title="loading messages…"
     >
       <svg
@@ -43,7 +43,7 @@ const Loader = () => (
           cy="23"
           r="20"
           fill="none"
-          stroke-width="6"
+          strokeWidth="6"
         ></circle>
       </svg>
     </div>
@@ -165,7 +165,7 @@ function Conversation({
             inverse={true}
             hasMore={message.get(channelId)?.next < 0 ? false : true}
             // style={{ display: 'flex', flexDirection: 'column-reverse' }}
-            loader={Loader}
+            loader={<Loader />}
             scrollableTarget="ChatBox"
             // scrollThreshold="200px"
           >
