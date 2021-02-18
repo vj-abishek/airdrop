@@ -83,7 +83,6 @@ function Conversation({
     if (message.get(channelId)?.messages.length && autoScroll) {
       ChatBox.current.scrollIntoView({ behavior: 'smooth' });
     }
-    console.log('calling here ', autoScroll);
   }, [message, channelId, autoScroll]);
 
   useEffect(() => {
@@ -205,7 +204,6 @@ function Conversation({
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     message: state.messageReducer.data,
     uid: state.authReducer.user.uid,
