@@ -20,9 +20,10 @@ export const sendmessage = (message, details) => async (dispatch, getState) => {
   const hasInMap = lastMessageMap.has(details.channel);
   const getInMap = lastMessageMap.get(details.channel);
 
-  if (hasInMap
-    && typeof getInMap.message !== 'undefined'
-    && !isToday(getInMap.message.time)
+  if (
+    hasInMap &&
+    typeof getInMap.message !== 'undefined' &&
+    !isToday(getInMap.message.time)
   ) {
     lastMessageObj = {
       showDateInfo: true,
@@ -96,7 +97,10 @@ export const SyncMessages = (channelId) => async (dispatch, getState) => {
     dispatch({
       type: 'ON_MESSAGE',
       payload: {
-        channel: channelId, messages: fetch, next: c - 20, needFetch: false,
+        channel: channelId,
+        messages: fetch,
+        next: c - 20,
+        needFetch: false,
       },
     });
     dispatch({
@@ -118,6 +122,12 @@ export const Pagnination = (channelId) => async (dispatch, getState) => {
   const { next } = data.get(channelId);
   if (next <= 0) return;
   try {
+    // const length = await db.message
+    //   .where('channel')
+    //   .equals(channelId)
+    //   .toArray();
+
+    // console.log(length.length);
     const fetch = await db.message
       .where('channel')
       .equals(channelId)
@@ -126,7 +136,11 @@ export const Pagnination = (channelId) => async (dispatch, getState) => {
     dispatch({
       type: 'SET_MESSAGE_PAGINATION',
       payload: {
-        channel: channelId, messages: fetch, next: next - 20, needFetch: false, fromDb: true,
+        channel: channelId,
+        messages: fetch,
+        next: next - 20,
+        needFetch: false,
+        fromDb: true,
       },
     });
     dispatch({
@@ -185,19 +199,35 @@ export const RecieveMessage = () => (dispatch) => {
               const notificationOptions = {
                 body: parsed.message,
                 icon: message.photoURL,
-                vibrate: [500, 110, 500,
-                  110, 450, 110,
-                  200, 110, 170,
-                  40, 450, 110,
-                  200, 110, 170,
-                  40, 500],
+                vibrate: [
+                  500,
+                  110,
+                  500,
+                  110,
+                  450,
+                  110,
+                  200,
+                  110,
+                  170,
+                  40,
+                  450,
+                  110,
+                  200,
+                  110,
+                  170,
+                  40,
+                  500,
+                ],
                 actions: [{ action: 'open_url', title: 'Read Message' }],
                 click_action: `https://relp.now.sh/r/${message.channel}`,
                 tag: parsed.channel,
                 renotify: true,
                 requireInteraction: true,
               };
-              registration.showNotification(notificationTitle, notificationOptions);
+              registration.showNotification(
+                notificationTitle,
+                notificationOptions,
+              );
             });
           } catch (err) {
             console.log(err);
@@ -213,7 +243,10 @@ export const RecieveMessage = () => (dispatch) => {
             outsideRoom: true,
           },
         });
-        dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
+        dispatch({
+          type: 'SET_MESSAGE_COUNT',
+          payload: { channel: message.channel },
+        });
       }
       if (locatioHref.includes(message.channel)) {
         dispatch({
@@ -228,7 +261,10 @@ export const RecieveMessage = () => (dispatch) => {
         });
 
         if (!document.hasFocus()) {
-          dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: message.channel } });
+          dispatch({
+            type: 'SET_MESSAGE_COUNT',
+            payload: { channel: message.channel },
+          });
           messageTone.play();
         }
       }
@@ -261,10 +297,17 @@ export const RecieveMessage = () => (dispatch) => {
         if (locatioHref.includes(msg.channel)) {
           dispatch({
             type: 'MESSAGE_FROM_DISK',
-            payload: { channel: msg.channel, messages: final, fromMongoDb: true },
+            payload: {
+              channel: msg.channel,
+              messages: final,
+              fromMongoDb: true,
+            },
           });
         } else {
-          dispatch({ type: 'SET_MESSAGE_COUNT', payload: { channel: msg.channel } });
+          dispatch({
+            type: 'SET_MESSAGE_COUNT',
+            payload: { channel: msg.channel },
+          });
         }
 
         await db.message.add(final);
@@ -326,42 +369,41 @@ export const RecieveMessage = () => (dispatch) => {
     });
   });
 
-  socket.on('recieve public key', async ({
-    from, to, fromuID, touID, Publickey, ...rest
-  }) => {
-    const publickey = e2e.generateSharedSecret(Publickey);
-    const obj = {
-      from: fromuID,
-      to: touID,
-      time: Date.now(),
-      both: [fromuID, touID],
-      generated: true,
-      joinedBy: 'qrcode',
-    };
+  socket.on(
+    'recieve public key',
+    async ({ from, to, fromuID, touID, Publickey, ...rest }) => {
+      const publickey = e2e.generateSharedSecret(Publickey);
+      const obj = {
+        from: fromuID,
+        to: touID,
+        time: Date.now(),
+        both: [fromuID, touID],
+        generated: true,
+        joinedBy: 'qrcode',
+      };
 
-    try {
-      const channelId = await firestoreDb.collection('channel').add(obj);
-      e2e.setChannel(channelId.id);
-      socket.emit('send other public key', {
-        to,
-        from,
-        publickey,
-        channelId: channelId.id,
-        ...rest,
-      });
-    } catch (err) {
-      console.lor(err);
-    }
-  });
+      try {
+        const channelId = await firestoreDb.collection('channel').add(obj);
+        e2e.setChannel(channelId.id);
+        socket.emit('send other public key', {
+          to,
+          from,
+          publickey,
+          channelId: channelId.id,
+          ...rest,
+        });
+      } catch (err) {
+        console.lor(err);
+      }
+    },
+  );
 
   socket.on('now refresh', () => {
     dispatch({ type: 'REFRESH' });
     history.push('/');
   });
 
-  socket.on('recieve other key', ({
-    publickey, channelId, to, ...rest
-  }) => {
+  socket.on('recieve other key', ({ publickey, channelId, to, ...rest }) => {
     e2e.produceSharedSecret(publickey);
     e2e.setChannel(channelId);
 

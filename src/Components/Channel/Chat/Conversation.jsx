@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import ScrollToBottom from 'react-scroll-to-bottom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 // import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
@@ -16,11 +16,45 @@ import {
   RecieveFile,
 } from '../../../Store/Actions/Peer';
 
+const Loader = () => (
+  <div className="flex flex-row justify-center items-center ">
+    <div
+      class="bg-secondary p-2 rounded-full shadow-md"
+      title="loading messages…"
+    >
+      <svg
+        style={{
+          animation: 'rotate 2s linear infinite',
+        }}
+        width="24"
+        height="24"
+        viewBox="0 0 46 46"
+        role="status"
+      >
+        <circle
+          style={{
+            stroke: 'var(--color-accent)',
+            strokeDasharray: '1,150',
+            strokeDashoffset: 0,
+            strokeLinecap: 'round',
+            animation: 'stroke 1.5s ease-in-out infinite',
+          }}
+          cx="23"
+          cy="23"
+          r="20"
+          fill="none"
+          stroke-width="6"
+        ></circle>
+      </svg>
+    </div>
+  </div>
+);
+
 function Conversation({
   message,
   uid,
   channelId,
-  next,
+  nextM,
   channel,
   channelReducer,
   current,
@@ -34,7 +68,7 @@ function Conversation({
   clearMessage,
 }) {
   const ChatBox = useRef(null);
-  const [iteration, setIteration] = useState(0);
+  const [autoScroll, setAutoScroll] = useState(true);
   const [currentTo, setTo] = useState(null);
   const [currentRoom, setCurrentRoom] = useState('');
   // const [minHeight, setMinHeight] = useState('');
@@ -44,6 +78,13 @@ function Conversation({
   // useEffect(() => {
   //   setMinHeight(height ? height - 120 : '95vh');
   // }, [height]);
+
+  useEffect(() => {
+    if (message.get(channelId)?.messages.length && autoScroll) {
+      ChatBox.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    console.log('calling here ', autoScroll);
+  }, [message, channelId, autoScroll]);
 
   useEffect(() => {
     channel(channelId, uid, false);
@@ -92,53 +133,92 @@ function Conversation({
     }
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
-  const handleScroll = (e) => {
-    if (e.target.scrollTop < 100 && iteration > 0) {
-      next(channelId);
+  const handleScroll = useCallback((e) => {
+    if (e.target.scrollTop >= -36) {
+      setAutoScroll(true);
+    } else {
+      setAutoScroll(false);
     }
-    setIteration((i) => i + 1);
+  }, []);
+
+  const handleClick = () => {
+    ChatBox.current.scrollTo(0, 0);
   };
 
   return (
     <div className={`${Styles.conversation} relative `}>
       <Header />
       {isCall && <VoiceCallUI />}
-      <div
-        id="ChatBox"
-        style={{ maxWidth: `${window.innerWidth}px` }}
-        ref={ChatBox}
-        onScroll={handleScroll}
-      >
-        <ScrollToBottom
-          scrollToEnd={{ behavior: 'smooth' }}
-          className={`${Styles.Chat} pb-2`}
-          followButtonClassName={Styles.bottomButton}
+
+      {message.get(channelId)?.messages.length ? (
+        <div
+          className={Styles.reverse}
+          style={{
+            maxWidth: `${window.innerWidth}px`,
+          }}
+          ref={ChatBox}
+          onScroll={handleScroll}
+          id="ChatBox"
         >
-          <div>
-            {message.get(channelId)?.messages &&
-              message.get(channelId)?.messages.map((data, i, arr) => {
-                return <Chat data={data} key={data.messageId} uid={uid} />;
-              })}
-          </div>
-        </ScrollToBottom>
-      </div>
+          <InfiniteScroll
+            dataLength={message.get(channelId)?.messages.length}
+            next={() => nextM(channelId)}
+            inverse={true}
+            hasMore={message.get(channelId)?.next < 0 ? false : true}
+            // style={{ display: 'flex', flexDirection: 'column-reverse' }}
+            loader={Loader}
+            scrollableTarget="ChatBox"
+            // scrollThreshold="200px"
+          >
+            {message.get(channelId)?.messages.map((data, i, arr) => {
+              return <Chat data={data} key={data.messageId} uid={uid} />;
+            })}
+          </InfiniteScroll>
+        </div>
+      ) : (
+        <div
+          className={`${Styles.chatBoxHeight} text-base flex flex-col items-center justify-center`}
+        >
+          {message.get(channelId)?.messages.length === 0 && (
+            <div
+              className="px-3 py-1"
+              style={{
+                backgroundColor: 'var(--color-secondary)',
+                color: 'var(--color-white)',
+                borderRadius: '15px',
+                boxShadow: '3px 5px 6px rgba(0,0,0,0.1)',
+              }}
+            >
+              No messages here yet...
+            </div>
+          )}
+        </div>
+      )}
+      {/* Follow button */}
+      {!autoScroll && (
+        <button onClick={handleClick} className={Styles.bottomButton}></button>
+      )}
+
       <Fotter channelId={channelId} />
     </div>
   );
 }
 
-const mapStateToProps = (state) => ({
-  message: state.messageReducer.data,
-  uid: state.authReducer.user.uid,
-  channelReducer: state.channelReducer.channels,
-  currentChannel: state.peerReducer.current,
-  currentStatus: state.messageReducer.userStatus,
-  peerStatus: state.peerReducer.connected,
-  isCall: state.peerReducer.isCall,
-});
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    message: state.messageReducer.data,
+    uid: state.authReducer.user.uid,
+    channelReducer: state.channelReducer.channels,
+    currentChannel: state.peerReducer.current,
+    currentStatus: state.messageReducer.userStatus,
+    peerStatus: state.peerReducer.connected,
+    isCall: state.peerReducer.isCall,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  next: (channelId) => dispatch(Pagnination(channelId)),
+  nextM: (channelId) => dispatch(Pagnination(channelId)),
   channel: (channelID, uid, status) =>
     dispatch(IndicateChannel(channelID, uid, status)),
   current: (to) => dispatch(getCurrentChannel(to)),

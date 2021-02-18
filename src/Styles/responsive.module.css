@@ -40,6 +40,7 @@
 .conversation {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  overflow: hidden;
 }
 .Chat {
   height: calc(100vh - 120px);
@@ -48,9 +49,15 @@
   bottom: 0px;
   overflow-y: auto;
 }
-.Chat > div {
+
+.chatBoxHeight {
+  height: calc(100vh - 120px);
+}
+
+.reverse {
   overflow-x: hidden;
   display: flex;
+  height: calc(100vh - 120px);
   flex-direction: column-reverse;
   box-sizing: border-box;
 }
@@ -223,7 +230,7 @@
   background-image: url('../assets/bottomArrow.svg') !important;
   position: absolute;
   border-radius: 50% !important;
-  bottom: 17px !important;
+  bottom: 70px !important;
   right: 11px !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
