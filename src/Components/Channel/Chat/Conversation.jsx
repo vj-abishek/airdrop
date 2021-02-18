@@ -133,6 +133,7 @@ function Conversation({
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
   const handleScroll = useCallback((e) => {
+    console.log(e.target.scrollTop);
     if (e.target.scrollTop >= -36) {
       setAutoScroll(true);
     } else {
