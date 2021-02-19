@@ -17,7 +17,7 @@ import {
 } from '../../../Store/Actions/Peer';
 
 const Loader = () => (
-  <div className="flex flex-row justify-center items-center ">
+  <div className="flex flex-row justify-center items-center p-2 ">
     <div
       className="bg-secondary p-2 rounded-full shadow-md"
       title="loading messages…"
