@@ -152,9 +152,12 @@ function Conversation({
 
       {message.get(channelId)?.messages.length ? (
         <div
-          className={Styles.reverse}
+          className={`${Styles.ChatBox}`}
           style={{
             maxWidth: `${window.innerWidth}px`,
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column-reverse',
           }}
           ref={ChatBox}
           onScroll={handleScroll}
@@ -165,14 +168,16 @@ function Conversation({
             next={() => nextM(channelId)}
             inverse={true}
             hasMore={message.get(channelId)?.next < 0 ? false : true}
-            // style={{ display: 'flex', flexDirection: 'column-reverse' }}
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
             loader={<Loader />}
             scrollableTarget="ChatBox"
             scrollThreshold="200px"
           >
-            {message.get(channelId)?.messages.map((data, i, arr) => {
-              return <Chat data={data} key={data.messageId} uid={uid} />;
-            })}
+            <div>
+              {message.get(channelId)?.messages.map((data, i, arr) => {
+                return <Chat data={data} key={data.messageId} uid={uid} />;
+              })}
+            </div>
           </InfiniteScroll>
         </div>
       ) : (
@@ -181,12 +186,10 @@ function Conversation({
         >
           {message.get(channelId)?.messages.length === 0 && (
             <div
-              className="px-3 py-1"
+              className="px-3 py-1 rounded-full shadow-md"
               style={{
                 backgroundColor: 'var(--color-secondary)',
                 color: 'var(--color-white)',
-                borderRadius: '15px',
-                boxShadow: '3px 5px 6px rgba(0,0,0,0.1)',
               }}
             >
               No messages here yet...

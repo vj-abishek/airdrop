@@ -40,7 +40,6 @@
 .conversation {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  overflow: hidden;
 }
 .Chat {
   height: calc(100vh - 120px);
@@ -54,12 +53,12 @@
   height: calc(100vh - 120px);
 }
 
-.reverse {
+.ChatBox {
   overflow-x: hidden;
-  display: flex;
+  position: relative;
+  bottom: 0px;
+  overflow-y: auto;
   height: calc(100vh - 120px);
-  flex-direction: column-reverse;
-  box-sizing: border-box;
 }
 
 .input {
