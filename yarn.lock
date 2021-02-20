@@ -3139,6 +3139,13 @@ abab@^2.0.0:
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
   integrity sha512-tsFzPpcttalNjFBCFMqsKYQcWxxen1pgJR56by//QwvJc4/OUS3kPOOttx2tSIfjsylB0pYu7f5D3K1RCxUnUg==
 
+abigo@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/abigo/-/abigo-6.0.1.tgz#c2247082f2ad50cbf5bcab102ba4aca6ddf12fe0"
+  integrity sha512-0lDjoFqpQqGX0AICKWM1HtxHm4h9s781Gy4iGtu/6iF0Tl6RfkMCoVm9CNxYpQONcDpkUKteQVOf/5AHaApw6w==
+  dependencies:
+    throttle-debounce "^2.1.0"
+
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
@@ -11533,12 +11540,6 @@ react-helmet@^6.0.0:
     prop-types "^15.7.2"
     react-fast-compare "^2.0.4"
     react-side-effect "^2.1.0"
-
-react-infinite-scroll-component@vj-abishek/react-infinite-scroll-component#mobile:
-  version "6.0.0"
-  resolved "https://codeload.github.com/vj-abishek/react-infinite-scroll-component/tar.gz/bae49645a8d39b5989a176164d821d5c36a7b239"
-  dependencies:
-    throttle-debounce "^2.1.0"
 
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.1"
