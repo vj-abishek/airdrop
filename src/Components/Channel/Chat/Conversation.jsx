@@ -111,7 +111,15 @@ function Conversation({
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
   const handleScroll = useCallback((e) => {
-    console.log(e.target.scrollTop);
+    console.log(
+      e.target.scrollTop <=
+        0.8 / 100 + e.target.clientHeight - e.target.scrollHeight + 1,
+    );
+    console.log(
+      e.target.scrollTop <=
+        (0.8 * 100) / 100 + e.target.clientHeight - e.target.scrollHeight + 1,
+    );
+
     if (e.target.scrollTop >= -36) {
       setAutoScroll(true);
     } else {
@@ -149,7 +157,7 @@ function Conversation({
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
             loader={<Loader />}
             scrollableTarget="ChatBox"
-            scrollThreshold="200px"
+            // scrollThreshold="200px"
           >
             <div>
               {message.get(channelId)?.messages.map((data, i, arr) => {
