@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from './index.es';
 // import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
 import Chat from './Utils/Chat';
 import Fotter from './Utils/Fotter';
 import VoiceCallUI from './Utils/VoiceCall';
+import Circle from '../../Animation/Circle';
 import { Pagnination } from '../../../Store/Actions/Message';
 import {
   getCurrentChannel,
@@ -22,30 +23,7 @@ const Loader = () => (
       className="bg-secondary p-2 rounded-full shadow-md"
       title="loading messages…"
     >
-      <svg
-        style={{
-          animation: 'rotate 2s linear infinite',
-        }}
-        width="24"
-        height="24"
-        viewBox="0 0 46 46"
-        role="status"
-      >
-        <circle
-          style={{
-            stroke: 'var(--color-accent)',
-            strokeDasharray: '1,150',
-            strokeDashoffset: 0,
-            strokeLinecap: 'round',
-            animation: 'stroke 1.5s ease-in-out infinite',
-          }}
-          cx="23"
-          cy="23"
-          r="20"
-          fill="none"
-          strokeWidth="6"
-        ></circle>
-      </svg>
+      <Circle />
     </div>
   </div>
 );
