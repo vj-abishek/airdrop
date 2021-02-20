@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import InfiniteScroll from 'abigo';
+import InfiniteScroll from 'react-infinite-scroll-component';
 // import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
