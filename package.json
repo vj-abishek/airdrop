@@ -29,7 +29,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "abigo": "^6.0.1",
+    "abigo": "^6.0.2",
     "autosize": "^4.0.2",
     "date-fns": "^2.15.0",
     "dexie": "^3.0.2",
