@@ -157,7 +157,7 @@ function Conversation({
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
             loader={<Loader />}
             scrollableTarget="ChatBox"
-            // scrollThreshold="200px"
+            scrollThreshold="200px"
           >
             <div>
               {message.get(channelId)?.messages.map((data, i, arr) => {
