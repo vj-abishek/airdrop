@@ -16,6 +16,7 @@ import {
   InitSignal,
   RecieveFile,
 } from '../../../Store/Actions/Peer';
+import { isMobile } from '../../Utils/helper';
 
 const Loader = () => (
   <div className="flex flex-row justify-center items-center p-2 ">
@@ -52,7 +53,9 @@ function Conversation({
 
   const height = use100vh();
 
-  const calcHeight = height ? height - 120 : window.innerHeight - 120 + 'px';
+  const calcHeight = height
+    ? height - 120 + 'px'
+    : window.innerHeight - 120 + 'px';
 
   useEffect(() => {
     if (message.get(channelId)?.messages.length && autoScroll) {
@@ -108,11 +111,20 @@ function Conversation({
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
   const handleScroll = useCallback((e) => {
-    if (e.target.scrollTop >= -36) {
-      setAutoScroll(true);
-    } else {
-      setAutoScroll(false);
+    const { target } = e;
+
+    if (
+      isMobile &&
+      target.scrollTop === target.scrollHeight - target.clientHeight
+    ) {
+      return setAutoScroll(true);
     }
+
+    if (target.scrollTop >= -36) {
+      return setAutoScroll(true);
+    }
+
+    return setAutoScroll(false);
   }, []);
 
   const handleClick = () => {
