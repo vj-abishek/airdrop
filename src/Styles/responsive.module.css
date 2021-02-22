@@ -58,7 +58,7 @@
   position: relative;
   bottom: 0px;
   overflow-y: auto;
-  height: calc(100vh - 120px);
+  /* height: calc(100vh - 120px); */
 }
 
 .input {

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'abigo';
-// import { use100vh } from 'react-div-100vh';
+import { use100vh } from 'react-div-100vh';
 import Header from './Utils/Header';
 import Styles from '../../../Styles/responsive.module.css';
 import Chat from './Utils/Chat';
@@ -49,13 +49,10 @@ function Conversation({
   const [autoScroll, setAutoScroll] = useState(true);
   const [currentTo, setTo] = useState(null);
   const [currentRoom, setCurrentRoom] = useState('');
-  // const [minHeight, setMinHeight] = useState('');
 
-  // const height = use100vh();
+  const height = use100vh();
 
-  // useEffect(() => {
-  //   setMinHeight(height ? height - 120 : '95vh');
-  // }, [height]);
+  const calcHeight = height ? height - 120 : '95vh';
 
   useEffect(() => {
     if (message.get(channelId)?.messages.length && autoScroll) {
@@ -111,15 +108,6 @@ function Conversation({
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
   const handleScroll = useCallback((e) => {
-    console.log(
-      e.target.scrollTop <=
-        0.8 / 100 + e.target.clientHeight - e.target.scrollHeight + 1,
-    );
-    console.log(
-      e.target.scrollTop <=
-        (0.8 * 100) / 100 + e.target.clientHeight - e.target.scrollHeight + 1,
-    );
-
     if (e.target.scrollTop >= -36) {
       setAutoScroll(true);
     } else {
@@ -142,6 +130,7 @@ function Conversation({
           style={{
             maxWidth: `${window.innerWidth}px`,
             overflow: 'auto',
+            height: calcHeight,
             display: 'flex',
             flexDirection: 'column-reverse',
           }}
