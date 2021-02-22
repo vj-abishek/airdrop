@@ -52,7 +52,7 @@ function Conversation({
 
   const height = use100vh();
 
-  const calcHeight = height ? height - 120 : '95vh';
+  const calcHeight = height ? height - 120 : window.innerHeight - 120 + 'px';
 
   useEffect(() => {
     if (message.get(channelId)?.messages.length && autoScroll) {
