@@ -58,7 +58,7 @@ function Conversation({
     : window.innerHeight - 120 + 'px';
 
   useEffect(() => {
-    if (message.get(channelId)?.messages.length && autoScroll) {
+    if (message.get(channelId)?.messages?.length && autoScroll) {
       ChatBox.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [message, channelId, autoScroll]);
@@ -115,7 +115,7 @@ function Conversation({
 
     if (
       isMobile &&
-      target.scrollTop === target.scrollHeight - target.clientHeight
+      target.scrollTop + 50 >= target.scrollHeight - target.clientHeight
     ) {
       return setAutoScroll(true);
     }

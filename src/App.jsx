@@ -9,7 +9,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PullToRefresh from 'pulltorefreshjs';
 import { ErrorBoundary } from 'react-error-boundary';
-import { userState } from './Store/Actions/Login';
+import { sentNotification, userState } from './Store/Actions/Login';
 import Loading from './Components/Animation/Loading';
 import { ToastProvider } from 'react-toast-notifications';
 import Content from './Components/Animation/Content';
@@ -46,8 +46,12 @@ function App({
   recieveMessage,
   iChannel,
   callStatus,
+  nuser,
+  noti,
+  sent: updateStatus,
 }) {
   const [redirectTo, setRedirectTo] = useState();
+  const [newUser, setNewUser] = useState(false);
 
   useEffect(() => {
     init();
@@ -117,6 +121,16 @@ function App({
     return () => PullToRefresh.destroyAll();
   }, []);
 
+  useEffect(() => {
+    // Check if it is new user and is the user is notified
+    if (nuser && !noti) {
+      setNewUser(true);
+
+      // update that the user is notified
+      updateStatus();
+    }
+  }, [newUser, nuser, noti, updateStatus]);
+
   const { pathname: path, search } = window.location;
   const slug = path.split('/')[2];
 
@@ -158,9 +172,16 @@ function App({
         <Toast />
       </ToastProvider>
 
-      {/* Custom components  */}
-      <fn-pwa-banner background="#187a8c" title="Install relp"></fn-pwa-banner>
+      {/* <Custom components>  */}
+      {newUser && (
+        <fn-pwa-banner
+          background="#187a8c"
+          title="Install relp"
+        ></fn-pwa-banner>
+      )}
+      {/* Offline indicator component */}
       <fn-pwa-status background="#187a8c"></fn-pwa-status>
+      {/* </Custom components>  */}
 
       {callStatus && <CallStatus callStatus={callStatus} />}
 
@@ -191,6 +212,8 @@ function App({
 const mapStateToProps = (state) => ({
   loginState: state.authReducer,
   callStatus: state.peerReducer.callStatus,
+  nuser: state.authReducer.isnewUser,
+  noti: state.authReducer.notified,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -198,6 +221,7 @@ const mapDispatchToProps = (dispatch) => ({
   recieveMessage: () => dispatch(RecieveMessage()),
   iChannel: (channel, uid, status) =>
     dispatch(IndicateChannel(channel, uid, status)),
+  sent: () => dispatch(sentNotification()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
