@@ -190,6 +190,7 @@ function Conversation({
         </div>
       )}
       {/* Follow button */}
+      {console.log('debug', autoScroll)}
       {!autoScroll && (
         <button onClick={handleClick} className={Styles.bottomButton}></button>
       )}
