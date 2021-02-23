@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { use100vh } from 'react-div-100vh';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -113,15 +113,24 @@ function Conversation({
   const handleScroll = (e) => {
     const { target } = e;
 
+    console.log(
+      isMobile &&
+        target.scrollTop + 50 >= target.scrollHeight - target.clientHeight,
+    );
+    console.log(isMobile);
+
     if (
       isMobile &&
       target.scrollTop + 50 >= target.scrollHeight - target.clientHeight
     ) {
-      return setAutoScroll(true);
+      console.log('debug');
+      setAutoScroll(true);
+      return;
     }
 
     if (target.scrollTop >= -36) {
-      return setAutoScroll(true);
+      setAutoScroll(true);
+      return;
     }
 
     return setAutoScroll(false);
