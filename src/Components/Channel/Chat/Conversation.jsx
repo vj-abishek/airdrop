@@ -110,13 +110,8 @@ function Conversation({
     }
   }, [currentChannel, currentStatus, currentTo, currentRoom, channelId]);
 
-  const handleScroll = useCallback((e) => {
+  const handleScroll = (e) => {
     const { target } = e;
-
-    console.log(
-      target.scrollTop + 50 >= target.scrollHeight - target.clientHeight,
-    );
-    console.log(target.scrollTop, target.scrollHeight, target.clientHeight);
 
     if (
       isMobile &&
@@ -130,7 +125,7 @@ function Conversation({
     }
 
     return setAutoScroll(false);
-  }, []);
+  };
 
   const handleClick = () => {
     ChatBox.current.scrollTo(0, 0);
@@ -190,7 +185,6 @@ function Conversation({
         </div>
       )}
       {/* Follow button */}
-      {console.log('debug', autoScroll)}
       {!autoScroll && (
         <button onClick={handleClick} className={Styles.bottomButton}></button>
       )}
