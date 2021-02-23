@@ -47,8 +47,6 @@ function App({
   iChannel,
   callStatus,
   nuser,
-  noti,
-  sent: updateStatus,
 }) {
   const [redirectTo, setRedirectTo] = useState();
   const [newUser, setNewUser] = useState(false);
