@@ -44,6 +44,7 @@
     "pattern.css": "^1.0.0",
     "prop-types": "^15.7.2",
     "pulltorefreshjs": "^0.1.20",
+    "pygmentize-bundled": "^2.3.0",
     "qr-creator": "^1.0.0",
     "qrcode.react": "^1.0.0",
     "rc-progress": "^3.1.1",

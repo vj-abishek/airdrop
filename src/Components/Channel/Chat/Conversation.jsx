@@ -124,7 +124,9 @@ function Conversation({
       target.scrollTop + 50 >= target.scrollHeight - target.clientHeight
     ) {
       console.log('debug');
-      setAutoScroll(true);
+      setAutoScroll((a) => {
+        a = true;
+      });
       return;
     }
 

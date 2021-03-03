@@ -4,7 +4,17 @@ import DOMPurify from 'dompurify';
 import { Circle } from 'rc-progress';
 import marked from 'marked';
 import { connect } from 'react-redux';
+import pygmentize from 'pygmentize-bundled';
 import Styles from '../../../../Styles/responsive.module.css';
+
+// Async highlighting with pygmentize-bundled
+marked.setOptions({
+  highlight(code, lang, callback) {
+    pygmentize({ lang, format: 'html' }, code, (err, result) => {
+      callback(err, result.toString());
+    });
+  },
+});
 
 // marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
