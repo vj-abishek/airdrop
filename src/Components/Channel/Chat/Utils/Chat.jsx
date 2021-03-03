@@ -4,19 +4,17 @@ import DOMPurify from 'dompurify';
 import { Circle } from 'rc-progress';
 import marked from 'marked';
 import { connect } from 'react-redux';
-import pygmentize from 'pygmentize-bundled';
+import highlight from 'highlight.js';
+import 'highlight.js/styles/atelier-forest-dark.css';
 import Styles from '../../../../Styles/responsive.module.css';
 
-// Async highlighting with pygmentize-bundled
+// marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
+// Synchronous highlighting with highlight.js
 marked.setOptions({
-  highlight(code, lang, callback) {
-    pygmentize({ lang, format: 'html' }, code, (err, result) => {
-      callback(err, result.toString());
-    });
+  highlight(code) {
+    return highlight.highlightAuto(code).value;
   },
 });
-
-// marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 
 function sanitize(text) {
   return marked(
@@ -137,22 +135,23 @@ const Utils = ({ data, openTab, uid, status }) => {
   if (data.type === 'text/plain') {
     return (
       <>
-        <div className="flex">
-          <div
-            style={{
-              fontSize: '14.2px',
-            }}
-            onClick={openTab}
-            role="presentation"
-            onKeyPress={(e) => console.log(e)}
-            className={`${Styles.text_wrapper_sanitize} ${
-              !(data.from === uid) && 'otherStyle'
-            }`}
-            dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
-          />
-          <span className={Styles.hwx} />
-        </div>
-        <div style={{ alignSelf: 'flex-end' }} className={`${Styles.meta}`}>
+        <div
+          style={{
+            fontSize: '14.2px',
+            float: 'left',
+          }}
+          onClick={openTab}
+          role="presentation"
+          onKeyPress={(e) => console.log(e)}
+          className={`${Styles.text_wrapper_sanitize} ${
+            !(data.from === uid) && 'otherStyle'
+          }`}
+          dangerouslySetInnerHTML={{ __html: sanitize(data.message) }}
+        />
+        <div
+          style={{ bottom: '-6px' }}
+          className={`${Styles.meta} inline-block float-right relative`}
+        >
           <span className={`${Styles.gray1} text-xs`}>
             {new Date(data.time) !== 'Invalid Date' &&
               new Date(data.time).toLocaleTimeString([], {

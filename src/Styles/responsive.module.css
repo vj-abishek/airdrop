@@ -106,7 +106,8 @@
   height: 12px/16px;
   white-space: nowrap;
   float: right;
-  margin: -10px 0 -5px 4px;
+  /* margin: -10px 0 -5px 4px; */
+  margin-left: 6px;
   position: relative;
 }
 .meta span {
