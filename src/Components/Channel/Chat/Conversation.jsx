@@ -113,17 +113,15 @@ function Conversation({
   const handleScroll = (e) => {
     const { target } = e;
 
+    console.log(target.scrollTop, target.scrollHeight - target.clientHeight);
     console.log(
-      isMobile &&
-        target.scrollTop + 50 >= target.scrollHeight - target.clientHeight,
+      target.scrollTop + 50 >= target.scrollHeight - target.clientHeight,
     );
-    console.log(isMobile);
 
     if (
       isMobile &&
-      target.scrollTop + 50 >= target.scrollHeight - target.clientHeight
+      !(target.scrollTop + 50 >= target.scrollHeight - target.clientHeight)
     ) {
-      console.log('debug');
       setAutoScroll((a) => {
         a = true;
       });
