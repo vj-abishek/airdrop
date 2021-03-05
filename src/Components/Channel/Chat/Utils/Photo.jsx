@@ -81,6 +81,7 @@ const Photo = ({ user, Ustatus, TypingIndication, peerStatus }) => {
       <div
         style={{
           maxWidth: `${window.innerWidth - 170}px`,
+          transition: 'all 0.25s ease',
         }}
         className={`pl-3 text-white text-base justify-center font-bold flex flex-col ${Styles.overFLow}`}
       >
