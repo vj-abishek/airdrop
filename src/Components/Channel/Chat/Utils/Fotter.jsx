@@ -8,7 +8,7 @@ import { SendFile, SendFiles } from '../../../../Store/Actions/Peer';
 import Styles from '../../../../Styles/responsive.module.css';
 import Input from './Input';
 
-function Fotter({ indicateFull, channelId, sendInfo, sendFile }) {
+function Fotter({ indicateFull, sendFile }) {
   const file = useRef(null);
   const [showEmoji, setShowEmoji] = useState(false);
   const [emoji, setEmoji] = useState('');

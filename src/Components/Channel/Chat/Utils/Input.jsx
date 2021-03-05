@@ -123,6 +123,12 @@ function Input({
     if (e.ctrlKey && e.charCode === 13) {
       Textarea.current.value = `${Textarea.current.value} \n`;
       autosize.update(Textarea.current);
+      Textarea.current.scrollTop = Textarea.current.scrollHeight;
+    }
+    if (e.shiftKey && e.charCode === 13) {
+      Textarea.current.value = `${Textarea.current.value} \n`;
+      autosize.update(Textarea.current);
+      Textarea.current.scrollTop = Textarea.current.scrollHeight;
     }
   };
 
