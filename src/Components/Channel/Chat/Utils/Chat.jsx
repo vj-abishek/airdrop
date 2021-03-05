@@ -4,15 +4,21 @@ import DOMPurify from 'dompurify';
 import { Circle } from 'rc-progress';
 import marked from 'marked';
 import { connect } from 'react-redux';
-import highlight from 'highlight.js';
-import 'highlight.js/styles/atelier-forest-dark.css';
+import Prism from 'prismjs';
+// import 'prismjs/themes/prism-okaidia.css';
+// import 'prismjs/themes/prism-tomorrow.css';
+// import 'prismjs/themes/prism-solarizedlight.css';
 import Styles from '../../../../Styles/responsive.module.css';
 
 // marked.Renderer.prototype.paragraph = (text) => `${text}\n`;
 // Synchronous highlighting with highlight.js
 marked.setOptions({
-  highlight(code) {
-    return highlight.highlightAuto(code).value;
+  highlight(code, lang) {
+    try {
+      return Prism.highlight(code, Prism.languages[lang], lang);
+    } catch (_) {
+      return code;
+    }
   },
 });
 
