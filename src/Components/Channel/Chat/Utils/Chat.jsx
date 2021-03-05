@@ -248,7 +248,7 @@ function Chat({ data, uid, status }) {
         <div
           className={`${Styles.message} ${
             !(data.from === uid) && Styles.other
-          }`}
+          } overflow-x-auto`}
         >
           <Utils data={data} openTab={openTab} uid={uid} status={status} />
         </div>

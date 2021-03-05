@@ -113,11 +113,6 @@ function Conversation({
   const handleScroll = (e) => {
     const { target } = e;
 
-    console.log(target.scrollTop, target.scrollHeight - target.clientHeight);
-    console.log(
-      target.scrollTop + 50 >= target.scrollHeight - target.clientHeight,
-    );
-
     if (
       isMobile &&
       !(target.scrollTop + 50 >= target.scrollHeight - target.clientHeight)

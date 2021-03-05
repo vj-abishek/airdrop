@@ -70,6 +70,12 @@ code {
     'Courier New', monospace;
 }
 
+code {
+  background: var(--color-primary);
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+
 p > a {
   color: var(--color-href);
 }

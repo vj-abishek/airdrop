@@ -98,6 +98,10 @@
   line-height: 19px;
 }
 
+.message::-webkit-scrollbar {
+  display: none;
+}
+
 .other {
   background-color: var(--other-color);
   color: var(--color-white);
@@ -107,7 +111,7 @@
   white-space: nowrap;
   float: right;
   /* margin: -10px 0 -5px 4px; */
-  margin-left: 6px;
+  margin-left: 8px;
   position: relative;
 }
 .meta span {
@@ -121,8 +125,7 @@
 }
 
 .text_wrapper_sanitize > p {
-  word-break: break-all;
-  word-wrap: break-word;
+  word-break: break-word;
   white-space: pre-wrap;
 }
 
