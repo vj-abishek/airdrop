@@ -132,6 +132,11 @@ function Conversation({
   };
 
   const handleClick = () => {
+    if (isMobile) {
+      console.log('Inside', ChatBox.current.scrollHeight);
+      ChatBox.current.scrollTo(0, ChatBox.current.scrollHeight);
+      return;
+    }
     ChatBox.current.scrollTo(0, 0);
   };
 
