@@ -4,7 +4,7 @@ import './Header.css';
 
 export default function Header() {
   return (
-    <header className="col-span-1 fixed bottom-0 lg:sticky lg:top-0">
+    <header className="col-span-1 z-40 fixed bottom-0 lg:sticky lg:top-0">
       <div
         style={{
           border: '0px',

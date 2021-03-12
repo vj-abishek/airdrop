@@ -21,6 +21,7 @@ const Home = ({ em, lo }) => {
           {!em && !lo && <Search />}
 
           <Room />
+          <div style={{ paddingBottom: '150px' }}></div>
 
           {em && (
             <div
