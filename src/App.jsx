@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PullToRefresh from 'pulltorefreshjs';
+// import PullToRefresh from 'pulltorefreshjs';
 import { ErrorBoundary } from 'react-error-boundary';
 import { userState } from './Store/Actions/Login';
 import Loading from './Components/Animation/Loading';
@@ -105,19 +105,22 @@ function App({
   }, [loginState, reciveFiles]);
 
   // pull-to-refresh
-  useEffect(() => {
-    PullToRefresh.init({
-      mainElement: 'body',
-      onRefresh() {
-        window.location.reload();
-      },
-      shouldPullToRefresh() {
-        return !window.location.pathname.includes('/r');
-      },
-    });
+  // useEffect(() => {
+  //   PullToRefresh.init({
+  //     mainElement: 'body',
+  //     onRefresh() {
+  //       window.location.reload();
+  //     },
+  //     shouldPullToRefresh() {
+  //       return (
+  //         !window.location.pathname.includes('/r') ||
+  //         !window.location.pathname === '/'
+  //       );
+  //     },
+  //   });
 
-    return () => PullToRefresh.destroyAll();
-  }, []);
+  //   return () => PullToRefresh.destroyAll();
+  // }, []);
 
   useEffect(() => {
     // Check if it is new user and is the user is notified
