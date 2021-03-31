@@ -92,6 +92,7 @@ const Single = ({
   uid,
   Count,
   lastMessage,
+  sidebar,
 }) => {
   const { id } = useParams();
 
@@ -172,9 +173,10 @@ const Single = ({
           <div
             className={`grid ${
               Styles.grid7
-            } gap-1 cursor-pointer pr-4 hover:bg-secondary focus:bg-primary ${
-              id === snapShot.channelId && 'bg-secondary'
-            }`}
+            } gap-1 cursor-pointer pr-4 hover:bg-dark focus:bg-primary ${
+              id === snapShot.channelId && 'bg-dark'
+            }
+            `}
           >
             <div className="px-3 flex items-center ">
               <div className="bg-secondary rounded-full relative">

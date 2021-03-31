@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Ring } from 'react-spinners-css';
 import { nanoid } from 'nanoid';
 import Single from './Single';
-import { Fetch } from '../../../Store/Actions/Channel';
 import Styles from '../../../Styles/responsive.module.css';
+import { Fetch } from '../../../Store/Actions/Channel';
 
 function Container({
   f,
@@ -30,7 +30,24 @@ function Container({
       <Ring color="#00b2d2" />
     </div>
   ) : (
-    <div className={sidebar && `${Styles.borderLeft} hidden lg:block`}>
+    <div
+      className={sidebar && 'hidden lg:block bg-secondary m-5'}
+      style={
+        sidebar && {
+          borderRadius: '16px',
+          overflow: 'hidden',
+          maxWidth: '500px',
+        }
+      }
+    >
+      {sidebar && (
+        <header
+          className={`${Styles.borderBorder} w-full px-4 py-3 uppercase font-bold space-y-1`}
+          style={{ background: '#00313A' }}
+        >
+          Chats
+        </header>
+      )}
       <Single key={id} data={data} user={user} userStatus={userStatus} />
     </div>
   );

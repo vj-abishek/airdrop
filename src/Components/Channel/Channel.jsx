@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import Content from '../Animation/Content';
-import Header from '../Utils/Header';
 import Conversation from './Chat/Conversation';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -25,7 +24,6 @@ const Channel = ({ sync }) => {
           style={{ border: '0px', borderLeft: '1px solid rgb(56, 68, 77)' }}
           className="w-full"
         >
-          {window.innerWidth >= 768 && <Header home={false}>Chat</Header>}
           <Rooms sidebar={true} />
         </div>
       </main>

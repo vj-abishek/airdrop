@@ -10,6 +10,7 @@
   --color-gray: #f1f1f2a1;
   --other-color: #172729;
   --color-href: #73eaff;
+  --color-accent-dark: #00313a;
 }
 
 @media (prefers-color-scheme: light) {

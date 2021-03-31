@@ -22,6 +22,7 @@ module.exports = {
         white: '#F4F4F9',
         accent: '#00B2D2',
         light: '#f1f1f2a1',
+        dark: '#00313A',
       },
       screens: {
         light: { raw: '(prefers-color-scheme: light)' },
