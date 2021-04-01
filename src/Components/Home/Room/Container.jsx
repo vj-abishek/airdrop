@@ -37,6 +37,7 @@ function Container({
           borderRadius: '16px',
           overflow: 'hidden',
           maxWidth: '500px',
+          overflowY: 'auto',
         }
       }
     >
