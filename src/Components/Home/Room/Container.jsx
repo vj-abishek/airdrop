@@ -48,7 +48,7 @@ function Container({
           >
             Chats
           </header>
-          <div style={{ overflow: 'hidden auto', height: 'calc(500px - 50px)' }}>
+          <div style={{ overflow: 'hidden auto', maxHeight: 'calc(500px - 50px)' }}>
             <Single key={id} data={data} user={user} userStatus={userStatus} />
           </div>
         </>
