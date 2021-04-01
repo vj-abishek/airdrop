@@ -36,19 +36,25 @@ function Container({
         sidebar && {
           borderRadius: '16px',
           overflow: 'hidden',
-          maxWidth: '500px',
+          maxHeight: '500px',
         }
       }
     >
-      {sidebar && (
+      {sidebar ? (
+        <>
         <header
-          className={`${Styles.borderBorder} w-full px-4 py-3 uppercase font-bold space-y-1`}
+          className={`${Styles.borderBorder} sticky top-0 z-50 w-full px-4 py-3 uppercase font-bold space-y-1`}
           style={{ background: '#00313A' }}
         >
           Chats
         </header>
+        <div style={{overflow:'hidden auto', height:'inherit'}}>
+          <Single key={id} data={data} user={user} userStatus={userStatus} />
+        </div>
+        </>
+      ):(
+         <Single key={id} data={data} user={user} userStatus={userStatus} />
       )}
-      <Single key={id} data={data} user={user} userStatus={userStatus} />
     </div>
   );
 }
