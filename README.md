@@ -97,7 +97,7 @@ Issues and PR's are welcome.
 ### FAQ
 <details>
     <summary>Why file transfer not working?</summary>
- As of now both user needs to be in online and they need to be chatting or in the same room to enable this feature. If you have any idea raise an issue
+ As of now both user needs to be in online and they need to be chatting or in the same room to enable this feature. <a href="https://github.com/vj-abishek/airdrop/issues/39#issuecomment-802627426">Check this issue</a>
 </details>
 <details>
     <summary>How can I find that file transfer is enabled?</summary>
