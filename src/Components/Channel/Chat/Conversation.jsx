@@ -16,7 +16,7 @@ import {
   InitSignal,
   RecieveFile,
 } from '../../../Store/Actions/Peer';
-import { isMobile } from '../../Utils/helper';
+import { isMobile, getChromeVersion } from '../../Utils/helper';
 
 const Loader = () => (
   <div className="flex flex-row justify-center items-center p-2 ">
@@ -114,7 +114,7 @@ function Conversation({
     const { target } = e;
 
     if (
-      isMobile &&
+      isMobile && (getChromeVersion() <= 80) &&
       !(target.scrollTop + 50 >= target.scrollHeight - target.clientHeight)
     ) {
       setAutoScroll((a) => {
@@ -132,7 +132,10 @@ function Conversation({
   };
 
   const handleClick = () => {
-    if (isMobile) {
+    
+    const isOldMobileBrowser = isMobile && (getChromeVersion() <= 80);
+    console.log(getChromeVersion() <= 80)
+    if (isOldMobileBrowser) {
       console.log('Inside', ChatBox.current.scrollHeight);
       ChatBox.current.scrollTo(0, ChatBox.current.scrollHeight);
       return;
