@@ -112,7 +112,6 @@ function Conversation({
 
   const handleScroll = (e) => {
     const { target } = e;
-    console.log(target.scrollTop)
     if (
       isMobile && (getChromeVersion() <= 80) &&
       !(target.scrollTop + 50 >= target.scrollHeight - target.clientHeight)
@@ -134,10 +133,8 @@ function Conversation({
   const handleClick = () => {
     
     const isOldMobileBrowser = isMobile && (getChromeVersion() <= 80);
-    console.log(getChromeVersion() <= 80)
-    console.log(getChromeVersion())
+    console.log("version",getChromeVersion())
     if (isOldMobileBrowser) {
-      console.log('Inside', ChatBox.current.scrollHeight);
       ChatBox.current.scrollTo(0, ChatBox.current.scrollHeight);
       return;
     }
@@ -171,7 +168,7 @@ function Conversation({
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
             loader={<Loader />}
             scrollableTarget="ChatBox"
-            scrollThreshold="200px"
+            // scrollThreshold={"200px"}
           >
             <div>
               {message.get(channelId)?.messages.map((data, i, arr) => {
