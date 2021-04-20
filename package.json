@@ -4,26 +4,6 @@
   "version": "1.0.0",
   "private": true,
   "author": "Abishek",
-  "main": "public/electron.js",
-  "build": {
-    "appId": "sh.now.relp",
-    "productName": "Relp",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "win": {
-      "icon": "icon.png"
-    },
-    "publish": {
-      "provider": "github",
-      "repo": "airdrop",
-      "owner": "vj-abishek"
-    }
-  },
   "dependencies": {
     "@sentry/browser": "^5.15.5",
     "@testing-library/jest-dom": "^4.2.4",
