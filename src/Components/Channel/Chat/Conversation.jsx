@@ -112,7 +112,7 @@ function Conversation({
 
   const handleScroll = (e) => {
     const { target } = e;
-
+    console.log(target.scrollTop)
     if (
       isMobile && (getChromeVersion() <= 80) &&
       !(target.scrollTop + 50 >= target.scrollHeight - target.clientHeight)
@@ -135,6 +135,7 @@ function Conversation({
     
     const isOldMobileBrowser = isMobile && (getChromeVersion() <= 80);
     console.log(getChromeVersion() <= 80)
+    console.log(getChromeVersion())
     if (isOldMobileBrowser) {
       console.log('Inside', ChatBox.current.scrollHeight);
       ChatBox.current.scrollTo(0, ChatBox.current.scrollHeight);
