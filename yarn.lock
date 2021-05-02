@@ -2198,6 +2198,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@headlessui/react@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.1.1.tgz#71ecb3444eb21947ceefe768a25efaba4f8eceb0"
+  integrity sha512-fxNKxRrjNXdNYNMhAVrv1nz0gIMX3JhFizTA9lNrEC8+aY3JR00GZTPhuG785RZGvnHXCdYCGHeAhqw9uRNRrA==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

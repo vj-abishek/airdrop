@@ -5,10 +5,11 @@ import 'firebase/auth';
 const photo1 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/1cbd08c76f8af6dddce02c5138971129.png?alt=media&token=6d549fa7-4e5a-457b-9f0e-09773b3bd634';
 const photh2 = 'https://firebasestorage.googleapis.com/v0/b/abigo-share.appspot.com/o/322c936a8c8be1b803cd94861bdfa868.png?alt=media&token=81205467-68f1-4140-8796-e302adee78c8';
 
+const db = firebase.firestore();
+
 // Check and add to the Database
 
 const check = (user, object, dispatch, guest) => {
-  const db = firebase.firestore();
   db.collection('users')
     .doc(user.uid)
     .get()
@@ -157,6 +158,24 @@ const logout = () => (dispatch) => {
     });
 };
 
+const updateProfile = (data, uid) => async (dispatch) => {
+  console.log(uid);
+  try {
+    const user = await db.collection('users').doc(uid.uid).get();
+    if (user.exists) {
+      await db.collection('users').doc(uid.uid).update(data);
+      await firebase.auth().currentUser.updateProfile({
+        displayName: data.displayName,
+        photoURL: data.photoURL,
+      });
+    }
+    dispatch({ type: 'UPDATE_SUCCESS' });
+  } catch (err) {
+    console.log(err);
+    dispatch({ type: 'UPDATE_FAILED', err });
+  }
+};
+
 export {
-  google, github, facebook, guest, userState, logout, sentNotification,
+  google, github, facebook, guest, userState, logout, sentNotification, updateProfile,
 };

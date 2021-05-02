@@ -8,6 +8,7 @@ const init = {
   error: null,
   waiting: false,
   user: null,
+  updated_error: null,
 };
 
 const authReducer = (state = init, action) => {
@@ -86,6 +87,12 @@ const authReducer = (state = init, action) => {
       return {
         ...state,
         error: action.error,
+      };
+
+    case 'UPDATE_FAILED':
+      return {
+        ...state,
+        updated_error: action.err,
       };
     default:
       return state;
