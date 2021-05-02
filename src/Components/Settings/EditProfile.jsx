@@ -45,7 +45,7 @@ function MyDialog({
           className="flex items-center justify-center min-h-screen"
         >
 
-          <div className="bg-primary mr-0 ml-2 w-11/12 md:m-0 lg:w-2/5 p-5 rounded-lg absolute z-50">
+          <div className="bg-primary ml-0 mr-2 w-11/12 md:m-0 lg:w-2/5 p-5 rounded-lg absolute z-50">
 
             <Dialog.Title className="flex mb-2 font-bold justify-between">
               <div className="text-xl">Edit profile</div>
