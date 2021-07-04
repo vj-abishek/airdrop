@@ -7,7 +7,11 @@ import db from '../../Components/Utils/Message.model';
 
 const e2e = new E2E();
 const messageTone = document.querySelector('#message-tone');
-const notificationPermission = Notification.permission;
+let notificationPermission = null;
+
+if('Notification' in window){
+  notificationPermission = Notification.permission;
+}
 const firestoreDb = firebase.firestore();
 
 export const sendmessage = (message, details) => async (dispatch, getState) => {
