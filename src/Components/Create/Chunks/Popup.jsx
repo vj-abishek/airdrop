@@ -92,7 +92,7 @@ function Popup({ onClicks, show, add, slug, generated }) {
                   ref={copyTextref}
                   className="flex-1 text-white overflow-hidden"
                 >
-                  {generated ? `https://onlink.tk/${slug}` : slug}
+                  {generated ? `https://linlp.vercel.app/${slug}` : slug}
                 </div>
                 <div
                   onClick={copyText}
