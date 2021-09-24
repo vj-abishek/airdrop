@@ -6,7 +6,7 @@
 
 # Relp ✨
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f0eed0d1-f99e-462c-9d52-5bc84e642701/deploy-status)](https://app.netlify.com/sites/airdrop/deploys) ![GitHub stars](https://img.shields.io/github/stars/vj-abishek/airdrop) ![GitHub contributors](https://img.shields.io/github/contributors/vj-abishek/airdrop) ![GitHub issues](https://img.shields.io/github/issues/vj-abishek/airdrop) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/vj-abishek/airdrop/graphs/commit-activity) [![GitHub license](https://img.shields.io/github/license/vj-abishek/airdrop)](https://github.com/vj-abishek/airdrop/blob/master/LICENSE)
+![GitHub stars](https://img.shields.io/github/stars/vj-abishek/airdrop) ![GitHub contributors](https://img.shields.io/github/contributors/vj-abishek/airdrop) ![GitHub issues](https://img.shields.io/github/issues/vj-abishek/airdrop)  [![GitHub license](https://img.shields.io/github/license/vj-abishek/airdrop)](https://github.com/vj-abishek/airdrop/blob/master/LICENSE)
 
 Relp - a web messenger. Enjoy free text chat, voice call, file sharing. 
 
