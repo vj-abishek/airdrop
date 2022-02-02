@@ -20,7 +20,7 @@
     "firebase": "^7.16.1",
     "framer-motion": "^2.9.4",
     "immer": "^9.0.6",
-    "marked": "^2.0.0",
+    "marked": "^4.0.10",
     "nanoid": "^3.1.31",
     "pattern.css": "^1.0.0",
     "prismjs": "^1.25.0",
