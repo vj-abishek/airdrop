@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "autosize": "^4.0.2",
     "date-fns": "^2.15.0",
-    "dexie": "^3.0.2",
+    "dexie": "^3.2.2",
     "dompurify": "^2.0.15",
     "electron-is-dev": "^1.2.0",
     "emoji-mart": "^3.0.0",
